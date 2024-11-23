@@ -1,5 +1,5 @@
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-const elem_id = "demo";
+// const elem_id = "demo";
 
 
 function generateString(length) {
@@ -12,13 +12,13 @@ function generateString(length) {
     return result;
 }
 
-function typeText(text, where, len_error){
+function typeText(text, where, len_error, elem_id, speed=125, delay=500){
     let i = 0;
     let j = 0;
     let total = 0;
     let randomCharIndex = 0;
-    let speed = 125;
-    let delay = 500;
+    // let speed = 125;
+    // let delay = 500;
     let randomGenerated = false;
     let fixing = false;
     let beforeFixTotal = 0;

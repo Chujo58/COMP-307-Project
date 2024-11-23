@@ -1,0 +1,66 @@
+:root {
+    --text: hsl(0 0 0);
+    --title-text: hsl(358 71% 51%);
+    --title-text-gradient: hsl(358 71% 37%);
+    --background: hsl(358 15% 90%);
+    --accent: hsl(358 22% 25%);
+    --hyperlink: hsl(0 19% 50%);
+    --text-highlight: hsl(2 47% 74%);
+    --box-highlight: hsl(358 22% 25% / 50%);
+    --box-background: hsl(358 71% 51% / 5%);
+}
+
+.box-holder {
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 1000px){
+    .box-holder {
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+}
+
+.box {
+    background-color: var(--box-background);
+    border-radius: 10px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    position: relative;
+    padding: 2em;
+    margin: 1%;
+}
+
+.heading-highlight {
+    text-align: center;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    
+    z-index: 5;
+}
+
+.heading-highlight::before {
+    content: "";
+    align-self: center;
+    height: 50%;
+    width: 100%;
+    display: block;
+    z-index: -5;
+
+    position: absolute;
+    transition: all .3s ease;
+    background: linear-gradient(180deg, transparent 50%, var(--box-highlight) 50%);
+}
+
+.box:hover > .heading-highlight::before {
+    transition: all .3s ease;
+    height: 100%;
+}

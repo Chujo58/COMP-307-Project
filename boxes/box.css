@@ -32,6 +32,7 @@
     align-items: center;
 
     position: relative;
+    width: 100%;
     padding: 2em;
     margin: 1%;
 }
@@ -63,4 +64,17 @@
 .box:hover > .heading-highlight::before {
     transition: all .3s ease;
     height: 100%;
+}
+
+.box > h2 {
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-optical-sizing: auto;
+}
+.box {
+    font-family: 'Parkinsans', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-optical-sizing: auto;
 }

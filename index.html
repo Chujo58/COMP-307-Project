@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="boxes/box.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Figtree:ital,wght@0,300..900;1,300..900&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script> 
+    </head>
+    <body ng-app="myApp">
+        <div class="navbar">
+            Temporary navbar cuz idk wut to put
+            <a href="#/!">Home</a>
+            <a href="#!login">Login</a>
+            <a href="#!signup">Sign Up</a>
+        </div>
+        <div ng-view></div>
+        <script>
+            var app = angular.module("myApp",["ngRoute"]);
+            app.config(function($routeProvider){
+                $routeProvider
+                .when("/",{
+                    templateUrl: "./matter/main.htm"
+                })
+                .when("/login",{
+                    templateUrl: "./matter/login.htm"
+                })
+                .when("/signup",{
+                    templateUrl: "./matter/signup.htm"
+                })
+            });
+        </script>
+
+        <!-- <script>
+            var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+  $routeProvider
+  .when("/", {
+    template : "<h1>Main</h1><p>Click on the links to change this content</p>"
+  })
+  .when("/banana", {
+    template : "<h1>Banana</h1><p>Bananas contain around 75% water.</p>"
+  })
+  .when("/tomato", {
+    template : "<h1>Tomato</h1><p>Tomatoes contain around 95% water.</p>"
+  });
+});
+        </script> -->
+    </body>
+</html>

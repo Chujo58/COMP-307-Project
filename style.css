@@ -183,7 +183,7 @@ body {
     width: 20vw;
     background: linear-gradient(90deg, var(--title-text), var(--title-text-gradient));
     padding: var(--title-padding) 0;
-    top: calc(var(--title-padding) * -1 / 2);
+    top: calc(var(--title-padding) * -1 / 2 - 10%);
     
     z-index: -1;
 }

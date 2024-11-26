@@ -1,0 +1,143 @@
+/* Colors */
+:root {
+    --text: hsl(0 0 0);
+    --title-text: hsl(358 71% 51%);
+    --title-text-gradient: hsl(358 71% 37%);
+    --background: hsl(358 15% 90%);
+    --accent: hsl(358 22% 25%);
+    --hyperlink: hsl(0 19% 50%);
+    --text-highlight: hsl(2 47% 74%);
+    --box-highlight: hsl(358 22% 25% / 50%);
+    --box-background: hsl(358 71% 51% / 5%);
+}
+
+/* Boxes */
+.box-holder {
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 1000px){
+    .box-holder {
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+}
+
+.box {
+    background-color: var(--box-background);
+    border-radius: 10px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    position: relative;
+    width: 100%;
+    padding: 2em;
+    margin: 1%;
+}
+
+.heading-highlight {
+    text-align: center;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    
+    z-index: 5;
+}
+
+.heading-highlight::before {
+    content: "";
+    align-self: center;
+    height: 50%;
+    width: 100%;
+    display: block;
+    z-index: -5;
+
+    position: absolute;
+    transition: all .3s ease;
+    background: linear-gradient(180deg, transparent 50%, var(--box-highlight) 50%);
+}
+
+.box:hover > .heading-highlight::before {
+    transition: all .3s ease;
+    height: 100%;
+}
+
+.box > h2 {
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-optical-sizing: auto;
+}
+
+.box {
+    font-family: 'Parkinsans', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-optical-sizing: auto;
+}
+
+body {
+    margin: 0;
+    font-family: 'Parkinsans', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-optical-sizing: auto;
+}
+
+/* Navigation bar */
+.navbar {
+    height: 10vh;
+    background-color: gray;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+}
+
+.nav-item {
+    text-align: center;
+    position: relative;
+    padding: 1% 0;
+    margin: 1%;
+    font-weight: bold;
+
+    display: flex;
+    
+    flex-direction: column;
+    justify-content: flex-end;
+    
+    z-index: 5;
+    text-decoration: none;
+    color: var(--text);
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.nav-item::before {
+    content: "";
+    align-self: center;
+    height: 50%;
+    width: 100%;
+    display: block;
+    z-index: 0;
+
+    position: absolute;
+    transition: all .3s ease;
+    background: linear-gradient(180deg, transparent 50%, var(--box-highlight) 50%);
+}
+
+.nav-item:hover::before {
+    transition: all .3s ease;
+    height: 100%;
+}
+
+.push {
+    margin-left: auto;
+}

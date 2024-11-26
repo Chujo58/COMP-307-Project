@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="boxes/box.css">
+        <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Figtree:ital,wght@0,300..900;1,300..900&family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
@@ -11,10 +11,9 @@
     </head>
     <body ng-app="myApp">
         <div class="navbar">
-            Temporary navbar cuz idk wut to put
-            <a href="#/!">Home</a>
-            <a href="#!login">Login</a>
-            <a href="#!signup">Sign Up</a>
+            <a class="site-navbar nav-item" href="#/!">Home</a>
+            <a class="utility-navbar nav-item push" href="#!signup">Sign Up</a>
+            <a class="utility-navbar nav-item" href="#!login">Login</a>
         </div>
         <div ng-view></div>
         <script>

@@ -9,7 +9,7 @@
     --text-highlight: hsl(2 47% 74%);
     --box-highlight: hsl(358 22% 25% / 50%);
     --box-background: hsl(358 71% 51% / 5%);
-    --active-nav: hsl(0 0 100 / 50%);
+    --active-nav: hsl(358 42% 35% / 50%);
 }
 
 /* Boxes */
@@ -145,5 +145,5 @@ body {
 
 .active.nav-item::before {
     background: linear-gradient(180deg, transparent 50%, var(--active-nav) 50%);   
-    /* color: white; */
+    z-index: 0;
 }

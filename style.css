@@ -3,6 +3,9 @@
     --text: hsl(0 0 0);
     --title-text: hsl(358 71% 51%);
     --title-text-gradient: hsl(358 71% 37%);
+    --title-text-covered: 10vw;
+    --title-padding: 4vh;
+
     --background: hsl(358 15% 90%);
     --accent: hsl(358 22% 25%);
     --hyperlink: hsl(0 19% 50%);
@@ -88,7 +91,6 @@ body {
     font-family: 'Parkinsans', sans-serif;
     font-weight: 300;
     font-style: normal;
-    font-optical-sizing: auto;
 }
 
 /* Navigation bar */
@@ -118,7 +120,7 @@ body {
     color: var(--text);
     font-family: "DM Serif Text", serif;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 2.5vh;
 }
 
 .nav-item::before {
@@ -146,4 +148,42 @@ body {
 .active.nav-item::before {
     background: linear-gradient(180deg, transparent 50%, var(--active-nav) 50%);   
     z-index: 0;
+}
+
+/* Title box */
+.page-title {
+    position: relative;
+    left: 65%;
+    top: 50%;
+    width: 30%;    
+    height: 15%;  
+
+    text-align: left;
+    align-content: center;
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-size: 4vh;
+    z-index: 5;
+}
+
+.page-title::before{
+    position: absolute;
+    content: attr(data-text);
+
+    color: var(--title-text);
+    clip: rect(0 var(--title-text-covered) auto 0);
+}
+
+.page-title::after {
+    position: absolute;
+    content: ".";
+    color: var(--title-text);
+
+    left: var(--title-text-covered);
+    width: 20vw;
+    background: linear-gradient(90deg, var(--title-text), var(--title-text-gradient));
+    padding: var(--title-padding) 0;
+    top: calc(var(--title-padding) * -1 / 2);
+    
+    z-index: -1;
 }

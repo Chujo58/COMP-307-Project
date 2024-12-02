@@ -1,0 +1,6 @@
+@import './constants.css';
+/* DIVIDER */
+.divider {
+    background-color: black;
+    height: 0.5vh;
+}

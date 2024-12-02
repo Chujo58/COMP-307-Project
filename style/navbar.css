@@ -1,0 +1,57 @@
+@import './constants.css';
+/* NAVIGATION BAR */
+.navbar {
+    height: 10vh;
+    background-color: gray;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+}
+
+.nav-item {
+    text-align: center;
+    position: relative;
+    padding: 1% 0;
+    margin: 1%;
+    font-weight: bold;
+
+    display: flex;
+    
+    flex-direction: column;
+    justify-content: flex-end;
+    
+    z-index: 5;
+    text-decoration: none;
+    color: var(--text);
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-size: 2.5vh;
+}
+
+.nav-item::before {
+    content: "";
+    align-self: center;
+    height: 50%;
+    width: 100%;
+    display: block;
+    z-index: 0;
+
+    position: absolute;
+    transition: all .3s ease;
+    background: linear-gradient(180deg, transparent 50%, var(--box-highlight) 50%);
+}
+
+.nav-item:hover::before {
+    transition: all .3s ease;
+    height: 100%;
+}
+
+.push {
+    margin-left: auto;
+}
+
+.active.nav-item::before {
+    background: linear-gradient(180deg, transparent 50%, var(--active-nav) 50%);   
+    z-index: 0;
+}

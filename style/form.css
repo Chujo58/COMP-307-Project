@@ -1,0 +1,10 @@
+@import './constants.css';
+/* FORM STYLE */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form > h1 {
+    
+}

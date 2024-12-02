@@ -1,0 +1,38 @@
+@import './constants.css';
+/* TITLE BOX */
+.page-title {
+    position: relative;
+    left: 65%;
+    top: 50%;
+    width: 30%;    
+    height: 15%;  
+
+    text-align: left;
+    align-content: center;
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-size: 4vh;
+    z-index: 5;
+}
+
+.page-title::before{
+    position: absolute;
+    content: attr(data-text);
+
+    color: var(--title-text);
+    clip: rect(0 var(--title-text-covered) auto 0);
+}
+
+.page-title::after {
+    position: absolute;
+    content: ".";
+    color: var(--title-text);
+
+    left: var(--title-text-covered);
+    width: 20vw;
+    background: linear-gradient(90deg, var(--title-text), var(--title-text-gradient));
+    padding: var(--title-padding) 0;
+    top: calc(var(--title-padding) * -1 / 2 - 10%);
+    
+    z-index: -1;
+}

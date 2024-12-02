@@ -1,0 +1,32 @@
+/* COLORS */
+:root {
+    --text: hsl(0 0 0);
+    --title-text: hsl(358 71% 51%);
+    --title-text-private: hsl(216 67 57);
+    --title-text-gradient: hsl(358 71% 37%);
+    --title-text-gradient-private: hsl(216 67 37);
+
+    --title-text-covered: 10vw;
+    --title-padding: 4vh;
+
+    --background: hsl(358 15% 90%);
+    --background-private: hsl(216 15 90);
+
+    --accent: hsl(358 22% 25%);
+    --accent-private: hsl(216 18 25);
+
+    --hyperlink: hsl(0 19% 50%);
+    --hyperlink-private: hsl(220 17 51);
+
+    --text-highlight: hsl(2 47% 74%);
+    --text-highlight-private: hsl(223 51 77);
+
+    --box-highlight: hsl(358 22% 25% / 50%);
+    --box-highlight-private: hsl(216 18 25 / 50%);
+
+    --box-background: hsl(358 71% 51% / 5%);
+    --box-background-private: hsl(216 67 57 / 5%);
+
+    --active-nav: hsl(358 42% 35% / 50%);
+    --active-nav-private: hsl(216 42 35 / 50%);
+}

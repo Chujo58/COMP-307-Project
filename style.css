@@ -187,3 +187,8 @@ body {
     
     z-index: -1;
 }
+
+.divider {
+    background-color: black;
+    height: 0.5vh;
+}

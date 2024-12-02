@@ -1,4 +1,4 @@
-/* Colors */
+/* COLORS */
 :root {
     --text: hsl(0 0 0);
     --title-text: hsl(358 71% 51%);
@@ -31,7 +31,7 @@
     --active-nav-private: hsl(216 42 35 / 50%);
 }
 
-/* Boxes */
+/* BOXES */
 .box-holder {
     display: flex;
     flex-direction: row;
@@ -109,7 +109,7 @@ body {
     font-style: normal;
 }
 
-/* Navigation bar */
+/* NAVIGATION BAR */
 .navbar {
     height: 10vh;
     background-color: gray;
@@ -166,7 +166,7 @@ body {
     z-index: 0;
 }
 
-/* Title box */
+/* TITLE BOX */
 .page-title {
     position: relative;
     left: 65%;
@@ -204,7 +204,41 @@ body {
     z-index: -1;
 }
 
+/* DIVIDER */
 .divider {
     background-color: black;
     height: 0.5vh;
 }
+
+/* POPUP */
+.popup {
+    position: absolute;
+    top: 5vh;
+    left: 25vw;
+    z-index: -1;
+    text-align: center;
+
+    /* margin: auto; */
+    width: 50vw;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.popup.active {
+    z-index: 10;
+    background-color: white;
+}
+
+.popup-inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup > img#close {
+    float: right;
+    width: 5%;
+    height: 5%;
+    cursor: pointer;
+}
+
+/* FORM STYLE */

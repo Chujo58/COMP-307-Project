@@ -12,9 +12,9 @@
     </head>
     <body ng-app="myApp">
         <div class="navbar">
-            <a class="site-navbar nav-item active" href="#/!" id="home" onclick="toggleActive('home',['home','signup','login'])">Home</a>
-            <a class="utility-navbar nav-item push" href="#!signup" id="signup" onclick="toggleActive('signup',['home','signup','login'])">Sign Up</a>
-            <a class="utility-navbar nav-item" href="#!login" id="login" onclick="toggleActive('login',['home','signup','login'])">Login</a>
+            <a class="site-navbar nav-item active" href="#/!" id="home" onclick="navbarClick('home');">Home</a>
+            <a class="utility-navbar nav-item push"  id="signup" onclick="navbarClick('signup');">Sign Up</a>
+            <a class="utility-navbar nav-item"  id="login" onclick="navbarClick('login');">Login</a>
         </div>
         <div ng-view></div>
         <script>
@@ -23,12 +23,6 @@
                 $routeProvider
                 .when("/",{
                     templateUrl: "./matter/main.htm"
-                })
-                .when("/login",{
-                    templateUrl: "./matter/login.htm"
-                })
-                .when("/signup",{
-                    templateUrl: "./matter/signup.htm"
                 })
             });
         </script>

@@ -1,3 +1,23 @@
+//NAVBAR FUNCTIONS
+function navbarClick(id){
+    if (id == 'login' || id == 'signup'){
+        var elem = document.getElementById('popup');
+        elem.className += ' active';
+        
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange= function(){
+            if (this.readyState == 4 && this.status == 200){
+                document.getElementById('popup').innerHTML += this.responseText;
+            }
+        };
+        
+        xhttp.open("POST", "load_form.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send('type='+id);
+    }
+    toggleActive(id,['home','signup','login']);
+}
+//TOGGLE OF ACTIVE PAGE IN NAVBAR
 function toggleActive(id, ids){
     var elemToActivate = document.getElementById(id).classList;    
     if (!elemToActivate.contains("active")) { //If the active class tag isn't present, add it. We only remove
@@ -16,9 +36,14 @@ function toggleActive(id, ids){
     });
 }
 
-const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-// const elem_id = "demo";
+function closePopup(){
+    var elem = document.getElementById('popup');
+    elem.className = 'popup';
+    elem.innerHTML = '<img src="icons\icons8-close-50.png" id="close" onclick="closePopup();">';
+}
 
+//TYPING ANIMATION FUNCTIONS
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 function generateString(length) {
     let result = '';

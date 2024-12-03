@@ -28,3 +28,20 @@ form > input {
 
     border-radius: 5px;
 }
+
+.missing, .missing:visited {
+    border-color: red;
+}
+
+div.missing {
+    color: red;
+    font-size: small;
+}
+
+.invalid {
+    border-color: red;
+}
+.invalid::after{
+    content: "Invalid " + attr(data-text);
+    color: red;
+}

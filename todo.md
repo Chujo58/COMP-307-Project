@@ -21,9 +21,12 @@
 | Course            |                       |
 | Booking & Confirm |                       |
 
+> All `.css` files are located in the `style/` folder. All `.php` forms are for now in the `php/` folder.
+
 ## Required forms
 * [ ] Login form
 * [ ] Sign up form
+* [ ] Booking form
 
 ## Required database tables
 * [ ] Login database with username, id and passwords to confirm login.

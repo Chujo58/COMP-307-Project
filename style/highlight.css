@@ -1,0 +1,24 @@
+@import './constants.css';
+.heading-highlight {
+    text-align: center;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    
+    z-index: 5;
+}
+
+.heading-highlight::before {
+    content: "";
+    align-self: center;
+    height: 50%;
+    width: 100%;
+    display: block;
+    z-index: -5;
+
+    position: absolute;
+    transition: all .3s ease;
+    background: linear-gradient(180deg, transparent 50%, var(--box-highlight) 50%);
+}

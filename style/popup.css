@@ -1,4 +1,5 @@
 @import './constants.css';
+@import './highlight.css';
 /* POPUP */
 .popup {
     position: absolute;
@@ -7,7 +8,9 @@
     z-index: -1;
     text-align: center;
 
-    /* margin: auto; */
+    display: flex;
+    flex-direction: column;
+
     width: 50vw;
     padding: 1%;
     border-radius: 5px;
@@ -16,16 +19,18 @@
 .popup.active {
     z-index: 10;
     background-color: white;
+    border: solid black;
 }
 
-.popup-inner {
-    display: flex;
-    flex-direction: column;
-}
-
-.popup > img#close {
-    float: right;
-    width: 5%;
-    height: 5%;
+img#close {
+    top: 0;
+    margin-left: auto;
+    width: 5vh;
+    height: 5vh;
     cursor: pointer;
 }
+
+.popup:hover > form > .heading-highlight::before {
+    transition: all .3s ease;
+    height: 100%;
+} 

@@ -1,4 +1,6 @@
 //NAVBAR FUNCTIONS
+var popup_default_inner = '';
+var navbarIds = ['home','signup','login'];
 function navbarClick(id){
     if (id == 'login' || id == 'signup'){
         var elem = document.getElementById('popup');
@@ -7,7 +9,7 @@ function navbarClick(id){
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange= function(){
             if (this.readyState == 4 && this.status == 200){
-                document.getElementById('popup').innerHTML += this.responseText;
+                document.getElementById('popup').innerHTML = popup_default_inner + this.responseText;
             }
         };
         
@@ -15,7 +17,7 @@ function navbarClick(id){
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send('type='+id);
     }
-    toggleActive(id,['home','signup','login']);
+    toggleActive(id, navbarIds);
 }
 //TOGGLE OF ACTIVE PAGE IN NAVBAR
 function toggleActive(id, ids){
@@ -39,7 +41,8 @@ function toggleActive(id, ids){
 function closePopup(){
     var elem = document.getElementById('popup');
     elem.className = 'popup';
-    elem.innerHTML = '<img src="icons\icons8-close-50.png" id="close" onclick="closePopup();">';
+    elem.innerHTML = popup_default_inner;
+    toggleActive('home',navbarIds);
 }
 
 //TYPING ANIMATION FUNCTIONS

@@ -10,15 +10,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script> 
         <script src="script.js"></script>
         <script src="login_signup_script.js"></script>
+        <script src="on_page_load.js"></script>
 
         <title>SOCS Booking Tool</title>
         <link rel="icon" type="image/x-icon" href="icons/307logo_fixed.svg"></link>
     </head>
     <body ng-app="myApp">
-        <div class="navbar">
-            <a class="site-navbar nav-item active" href="#/!" id="home" onclick="navbarClick('home');">Home</a>
-            <a class="utility-navbar nav-item push"  id="signup" onclick="navbarClick('signup');">Sign Up</a>
-            <a class="utility-navbar nav-item"  id="login" onclick="navbarClick('login');">Login</a>
+        <div class="navbar" id="navbar">
+            <div id="site-navbar"></div>
+            <div id="utility-navbar"></div>
         </div>
         <div ng-view></div>
         <script>
@@ -27,6 +27,9 @@
                 $routeProvider
                 .when("/",{
                     templateUrl: "./matter/main.htm"
+                })
+                .when("/dashboard",{
+                    templateUrl: "./matter/dashboard.htm"
                 })
             });
         </script>

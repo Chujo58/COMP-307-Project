@@ -47,7 +47,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     }
 
     //Validate the login
-    // echo "User logged in";
     $query_ticket = "SELECT ticket_id FROM valid_users WHERE user='" . $_POST["username"] . "' AND pass='" . $_POST["password"] . "'";
     $ticket_res = $conn->query($query_ticket);
     if ($ticket_res->num_rows == 0){

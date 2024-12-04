@@ -75,12 +75,22 @@ function onSignUpKeyPress(){
 	return [user, pass, c_pass];
 }
 
-function onLoginClick(){
+//CHANGE IF YOU WANT
+function encrypt(message, key){
+	return CryptoJS.AES.encrypt(message,key);
+}
+
+function decrypt(message, key){
+	return CryptoJS.AES.decrypt(message, key).toString(CryptoJS.enc.Utf8);
+}
+
+function sendLoginRequest(){
 	var user = "";
 	var pass = "";
 	data = onLoginKeyPress();
 	user = data[0];
 	pass = data[1];
+	// pass = encrypt(pass, Storage.key);
 
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
@@ -94,7 +104,7 @@ function onLoginClick(){
 	xhttp.send(`username=${user}&password=${pass}`);
 }
 
-function onSignUpClick(){
+function sendSignUpRequest(){
 	var user = "";
 	var pass = "";
 	var c_pass = "";

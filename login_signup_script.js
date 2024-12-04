@@ -2,14 +2,6 @@ function getValue(id){
     return document.getElementById(id).value ?? '';
 }
 
-function addMissing(id, text){
-    var elem = document.getElementById(id);
-    elem.classList.add('missing');
-    if (id.includes("_div")) {
-        elem.innerHTML = "Missing " + text;
-    }
-}
-
 function addClass(id, text, class_text){
     var elem = document.getElementById(id);
     elem.classList.add(class_text);
@@ -22,14 +14,6 @@ function removeClass(id, class_text){
     var elem = document.getElementById(id);
     if (elem.classList.contains(class_text)) elem.classList.remove(class_text);
     if (id.includes("_div")){
-        elem.innerHTML = "";
-    }
-}
-
-function removeMissing(id){
-    var elem = document.getElementById(id);
-    if (elem.classList.contains('missing')) elem.classList.remove('missing');
-    if (id.includes("_div")) {
         elem.innerHTML = "";
     }
 }
@@ -56,6 +40,8 @@ function onLoginKeyPress(){
     }
     return [user, pass];
 }
+
+
 
 function onLoginClick(){
     var user = "";

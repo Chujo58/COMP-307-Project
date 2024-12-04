@@ -1,6 +1,6 @@
 //NAVBAR FUNCTIONS
 var popup_default_inner = '';
-var navbarIds = ['home','signup','login'];
+var navbarIds = ['home','signup','login','dashboard'];
 function navbarClick(id){
     if (id == 'login' || id == 'signup'){
         var elem = document.getElementById('popup');
@@ -33,8 +33,10 @@ function toggleActive(id, ids){
             return;
         }
         var elemToDeactivate = document.getElementById(element).classList;
-        elemToDeactivate.remove("active");
-        document.getElementById(element).classList = elemToDeactivate;
+        if (elemToDeactivate != null){   
+            elemToDeactivate.remove("active");
+            document.getElementById(element).classList = elemToDeactivate;
+        }
     });
 }
 

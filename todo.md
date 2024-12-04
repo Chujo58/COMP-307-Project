@@ -16,7 +16,7 @@
 | Landing (Main)    | matter/main.htm       |
 | Log in            | matter/login.htm      |
 | Sign up           | matter/signup.htm     |
-| Dashboard         |                       |
+| Dashboard         | matter/dashboard.htm  |
 | Availability      |                       |
 | Course            |                       |
 | Booking & Confirm |                       |
@@ -33,3 +33,6 @@ The above is also known as `SECURITY` or pain in the ass.
 ## Required database tables
 * [ ] Login database with username, id and passwords to confirm login.
 * [ ] Availability database with user id and available time slots.
+
+# THINGS TO FIX (ASAP IF POSSIBLE)
+* [ ] Line 49 in `php/login.php` might not need the extra SQL query to "revalidate" the user.

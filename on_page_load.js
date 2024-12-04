@@ -1,4 +1,5 @@
 const home = `<a class="site-navbar nav-item active" href="#/!" id="home" onclick="navbarClick('home');">Home</a>`
+const dashboard = `<a class="site-navbar nav-item active" href="#/dashboard" id="dashboard" onclick="navbarClick('dashboard');">Dashboard</a>`
 const signup = `<a class="utility-navbar nav-item"  id="signup" onclick="navbarClick('signup');">Sign Up</a>`
 const login = `<a class="utility-navbar nav-item"  id="login" onclick="navbarClick('login');">Login</a>`
 

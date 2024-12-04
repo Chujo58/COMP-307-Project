@@ -50,7 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $query_ticket = "SELECT ticket_id FROM valid_users WHERE user='" . $_POST["username"] . "' AND pass='" . $_POST["password"] . "'";
     $ticket_res = $conn->query($query_ticket);
     if ($ticket_res->num_rows == 0){
-        print("Not valid");
+        print("Invalid user");
     }
     else if (empty($ticket_res->fetch_assoc()["ticket_id"])){
         $user_id = $conn->query("SELECT user_id FROM valid_users WHERE user='" . $_POST["username"] . "' AND pass='" . $_POST["password"] . "'");

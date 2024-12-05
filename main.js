@@ -1,3 +1,60 @@
+//NAVBAR FUNCTIONS
+var popup_default_inner = '';
+var navbarIds = ['home','signup','login','dashboard'];
+function navbarClick(id){
+    if (id == 'login' || id == 'signup'){
+        var elem = document.getElementById('popup');
+        elem.className += ' active';
+        
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange= function(){
+            if (this.readyState == 4 && this.status == 200){
+                document.getElementById('popup').innerHTML = popup_default_inner + this.responseText;
+            }
+        };
+        
+        xhttp.open("POST", "load_form.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send('type='+id);
+    }
+    toggleActive(id, navbarIds);
+}
+//TOGGLE OF ACTIVE PAGE IN NAVBAR
+function toggleActive(id, ids){
+    var elemToActivate = document.getElementById(id).classList;    
+    if (!elemToActivate.contains("active")) { //If the active class tag isn't present, add it. We only remove
+        elemToActivate.add("active");
+    }
+
+    document.getElementById(id).classList = elemToActivate;
+
+    ids.forEach(element => {
+        if (element == id){
+            return;
+        }
+        var elemToDeactivate = document.getElementById(element).classList;
+        if (elemToDeactivate != null){   
+            elemToDeactivate.remove("active");
+            document.getElementById(element).classList = elemToDeactivate;
+        }
+    });
+}
+
+function closePopup(){
+    var elem = document.getElementById('popup');
+    elem.className = 'popup';
+    elem.innerHTML = popup_default_inner;
+    toggleActive('home',navbarIds);
+}
+
+
+
+// FUNCTIONS FOR THE LOGIN AND SIGNUP FORMS
+import { setCookie } from "./js/cookies";
+
+let default_exp_cookie = 10;
+let redirect_delay = 1500;
+
 function getValue(id){
 	return document.getElementById(id).value ?? '';
 }
@@ -84,6 +141,10 @@ function decrypt(message, key){
 	return CryptoJS.AES.decrypt(message, key).toString(CryptoJS.enc.Utf8);
 }
 
+function redirect(page){
+	window.location = `./index.php?Page=${page}`;
+}
+
 function sendLoginRequest(){
 	var user = "";
 	var pass = "";
@@ -95,9 +156,10 @@ function sendLoginRequest(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200){
-			// document.getElementById('test').innerHTML = this.responseText;
 			if (!this.responseText.includes("Invalid")){
-					
+				document.getElementById('test').innerHTML = "Logged in!";
+				setCookie("user",user,default_exp_cookie);
+				setTimeout(function() {redirect("Dashboard");}, redirect_delay);
 			}
 		}
 	}
@@ -116,10 +178,16 @@ function sendSignUpRequest(){
 	pass = data[1];
 	c_pass = data[2];
 
+	// pass = encrypt(pass, Storage.key);
+	// c_pass = encrypt(c_pass, Storage.key);
+
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200){
-			document.getElementById('test').innerHTML = this.responseText;
+			if (!this.responseText.includes("Invalid")){
+				document.getElementById('test').innerHTML = "Signed up!";
+				setTimeout(function(){navbarClick("login")}, redirect_delay);
+			}
 		}
 	}
 

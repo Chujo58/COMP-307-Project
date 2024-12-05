@@ -36,3 +36,4 @@ The above is also known as `SECURITY` or pain in the ass.
 
 # THINGS TO FIX (ASAP IF POSSIBLE)
 * [ ] Line 49 in `php/login.php` might not need the extra SQL query to "revalidate" the user.
+* [ ] Fix the encryption... one day.

@@ -21,8 +21,6 @@
 | Course            |                       |
 | Booking & Confirm |                       |
 
-> All `.css` files are located in the `style/` folder. All `.php` forms are for now in the `php/` folder.
-
 ## Required forms
 > Fix the injection of data directly from `$_POST` in the login and signup scripts.
 The above is also known as `SECURITY` or pain in the ass.

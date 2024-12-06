@@ -1,0 +1,48 @@
+body {
+    background-color: pink;
+    font-family: 'Figtree';
+}
+
+.wrapper {
+    width: 25%;
+    background-color: white;
+    /* border-radius: 10px; */
+}
+
+.wrapper header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .icons span {
+    cursor: pointer;
+    text-align: center;
+}
+
+/* .icons span:last-child {
+    margin-left: -10px;
+} */
+
+/* .calendar {
+    padding: 5%;
+} */
+
+.calendar ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+}
+
+.calendar li {
+    color: #333;
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+}
+
+.calendar .weekday li{
+    font-weight: 500;
+    cursor: default;
+}
+

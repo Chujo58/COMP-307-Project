@@ -49,14 +49,14 @@ function closePopup(){
 
 
 // COOKIES!!!!!!!!!
-export function setCookie(cname, cvalue, exp_days){
+function setCookie(cname, cvalue, exp_days){
 	const d = new Date();
 	d.setTime(d.getTime() + exp_days*24*60*60*1000);
 	let expires = `expires=${d.toUTCString()}`;
 	document.cookie = `${cname}=${cvalue};${expires};path=/`;
 }
 
-export function getCookie(cname){
+function getCookie(cname){
 	let name = `${cname}=`;
 	let decodedCookie = decodeURIComponent(document.cookie);
 	let ca = decodedCookie.split(';');

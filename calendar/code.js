@@ -25,7 +25,6 @@ function renderCalender(){
         liTags += `<li class='inactive'>${i - lastDay + 1}</li>`;
     }
 
-    // currentDate.innerHTML = `${months[currMonth]} ${currYear}`;
     document.getElementById("current-month").innerHTML = `${months[currMonth]} ${currYear}`;
     document.getElementById("days").innerHTML = liTags;
 }

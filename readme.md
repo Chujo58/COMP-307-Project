@@ -81,6 +81,7 @@
 ### Code specific to dos
 
 * [ ] Line 49 in `php/login.php` might not require the extra SQL query to revalidate the user.
+* [ ] Encryption not working.
 
 ## Repository Analytics
 

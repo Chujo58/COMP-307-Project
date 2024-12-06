@@ -29,4 +29,23 @@ function renderCalender(){
     document.getElementById("days").innerHTML = liTags;
 }
 
-window.addEventListener('load', renderCalender);
+function onLoad(){
+    prevNextIcons = document.querySelectorAll(".icons span");
+    prevNextIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+            if (currMonth < 0 || currMonth > 11){
+                date = new Date(currYear, currMonth, new Date().getDate());
+                currYear = date.getFullYear();
+                currMonth = date.getMonth();
+            } else {
+                date = new Date();
+            }
+            renderCalender();
+        });
+    });
+    renderCalender();
+}
+
+window.addEventListener('load', onLoad);
+

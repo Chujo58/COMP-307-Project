@@ -1,3 +1,8 @@
+:root {
+    --box:hsl(358 22% 25% / 50%);
+    --curent-date: hsl(358 22% 25%);
+    --sidebar-width: 12.5%;
+}
 body {
     background-color: pink;
     font-family: 'Figtree';
@@ -8,12 +13,90 @@ body {
     padding: 0;
 }
 
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-width);
+}
+
+.heading-highlight {
+    text-align: center;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    
+    z-index: 5;
+}
+
+.heading-highlight::before {
+    content: "";
+    align-self: center;
+    height: 50%;
+    width: 100%;
+    display: block;
+    z-index: -5;
+
+    position: absolute;
+    transition: all .3s ease;
+    background: linear-gradient(180deg, transparent 50%, var(--box) 50%);
+}
+
+.heading-highlight:hover::before{
+    transition: all .3s ease;
+    height: 100%;
+}
+
+.sidebar > div:not(.wrapper) {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 2vh;
+}
+
+.sep {
+    position: relative;
+    background-color: black !important;
+    height: 1px;
+    padding: 0 !important;
+    margin: 2vh;
+    margin-top: 0;
+    margin-bottom: 0;
+    z-index: 5;
+}
+
+.sep::before{
+    position: absolute;
+    display: block;
+    height: 1px;
+    z-index: -5;
+    content: "";
+    padding: 0 !important;
+    background-color: white;
+    margin: 0 !important;
+    width: calc(var(--sidebar-width) + 4vh);
+}
+
+/* ALL CALENDAR STUFF BELLOW */
 .wrapper {
-    width: 15%;
+    width: 100%;
     background-color: white;
     /* border-radius: 10px; */
-    font-size: 16px;
+    font-size: 2.5vh;
     padding: 2vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* .wrapper:hover > header p.heading-highlight::before{ */
+header:hover > p.heading-highlight::before {
+    transition: all .3s ease;
+    height: 100%;
 }
 
 .wrapper header {
@@ -91,9 +174,16 @@ header .current-month {
 }
 
 .days li.active::before{
-    background: #9B59B6;
+    background: var(--curent-date);
+    opacity: 50%;
+}
+
+.days li.active:hover::before{
+    opacity: 75%;
+    transition: all .3s ease;
 }
 
 .days li:not(.active):hover::before{
     background: #f2f2f2;
+    transition: all .3s ease;
 }

@@ -29,4 +29,8 @@
 
     --active-nav: hsl(358 42% 35% / 50%);
     --active-nav-private: hsl(216 42 35 / 50%);
+
+
+    --navbar-color: grey;
+    --scroll-color: rgba(0, 0, 0, 0.5);
 }

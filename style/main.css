@@ -5,6 +5,10 @@
 @import './popup.css';
 @import './form.css';
 
+html {
+    scrollbar-color: var(--scroll-color) var(--navbar-color);
+}
+
 body {
     margin: 0;
     font-family: 'Parkinsans', sans-serif;

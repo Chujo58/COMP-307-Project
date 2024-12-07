@@ -1,4 +1,7 @@
 @import './constants.css';
+:root {
+    --title-img-height: 50vh;
+}
 /* TITLE BOX */
 .page-title {
     position: relative;
@@ -35,4 +38,22 @@
     top: calc(var(--title-padding) * -1 / 2 - 10%);
     
     z-index: -1;
+}
+
+.holder {
+    background-color: lightgray; 
+    height: var(--title-img-height); 
+    text-align: center;
+    vertical-align: middle;
+}
+
+#hero-img {
+    object-fit: cover; 
+    height: var(--title-img-height); 
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+    transform: translate(-50%, 0%);
+    filter: grayscale(100%);
+    object-position: 50% 25%;
 }

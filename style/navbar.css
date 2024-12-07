@@ -2,7 +2,7 @@
 /* NAVIGATION BAR */
 .navbar {
     height: 10vh;
-    background-color: gray;
+    background-color: var(--navbar-color);
     /* overflow: hidden; */
     display: flex;
     flex-direction: row;
@@ -47,6 +47,11 @@
     height: 100%;
 }
 
+#site-navbar {
+    display: flex;
+    flex-direction: row;
+}
+
 #utility-navbar {
     display: flex;
     flex-direction: row;
@@ -57,4 +62,15 @@
 .active.nav-item::before {
     background: linear-gradient(180deg, transparent 50%, var(--active-nav) 50%);   
     z-index: 0;
+}
+
+#logo {
+    display: flex;
+    width: 7.5vh;
+    height: 7.5vh;
+    text-align: center;
+    
+    flex-direction: column;
+    /* justify-content: flex-end; */
+    /* vertical-align: middle; */
 }

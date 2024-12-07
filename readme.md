@@ -83,6 +83,9 @@
 * [ ] Line 49 in `php/login.php` might not require the extra SQL query to revalidate the user.
 * [ ] Encryption not working.
 
+## Notes
+The navigation bar isn't hard coded in the `top.htm`, but rather is loaded with JS in `on_page_load.js`. This is to change the navigation bar and allow other items to be added.
+
 ## Repository Analytics
 
 ![Alt](https://repobeats.axiom.co/api/embed/cc50e34da53c299fd9a5fc0523f897c5b004073c.svg "Repobeats analytics image")

@@ -9,6 +9,10 @@ html {
     scrollbar-color: var(--scroll-color) var(--navbar-color);
 }
 
+*::selection{
+    background: var(--text-highlight);
+}
+
 body {
     margin: 0;
     font-family: 'Parkinsans', sans-serif;

@@ -1,11 +1,15 @@
 :root {
     --box:hsl(358 22% 25% / 50%);
-    --curent-date: hsl(358 22% 25%);
-    --sidebar-width: 12.5%;
+    --curent-date: hsl(358 22% 25% / 50%);
+    --sidebar-width: 15%;
+    --calendar-spacing: 2vh;
 }
 body {
     background-color: pink;
-    font-family: 'Figtree';
+    font-family: 'Parkinsans', sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-optical-sizing: auto;
 }
 
 * {
@@ -17,6 +21,7 @@ body {
     display: flex;
     flex-direction: column;
     width: var(--sidebar-width);
+    font-size: 2.5vh;
 }
 
 .heading-highlight {
@@ -28,6 +33,9 @@ body {
     justify-content: flex-end;
     
     z-index: 5;
+    font-size: 0.75em;
+    font-weight: 500;
+    align-self: flex-start;
 }
 
 .heading-highlight::before {
@@ -175,7 +183,6 @@ header .current-month {
 
 .days li.active::before{
     background: var(--curent-date);
-    opacity: 50%;
 }
 
 .days li.active:hover::before{

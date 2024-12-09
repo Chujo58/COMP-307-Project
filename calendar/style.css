@@ -3,11 +3,15 @@
     --curent-date: hsl(358 22% 25% / 50%);
     --selected-date: color-mix(in srgb, var(--curent-date) 75%, black 15%) !important;
     --sidebar-width: 200px;
+    --height-topbar: 7vh;
     --calendar-spacing: 2vh;
+    --calendar-color: lightgray;
     --main-background: white;
+    --time-width: 50px;
+    --time-padding: 4vh;
 }
 body {
-    background-color: pink;
+    background-color: var(--main-background);
     font-family: 'Parkinsans', sans-serif;
     font-weight: 300;
     font-style: normal;
@@ -28,6 +32,7 @@ body {
 #topbar {
     background-color: var(--main-background); 
     font-size: 3vh;
+    height: var(--height-topbar);
 }
 
 #topbar > a {
@@ -43,12 +48,24 @@ body {
     padding-right: calc(var(--calendar-spacing)*2);
     font-size: 0.75em;
     cursor: pointer;
+    align-self: center;
 }
 
 #week_btns {
     font-size: 1.25em;
     display: flex;
     align-items: center;
+}
+
+#current-week {
+    align-self: center;
+    margin-left: 2%;
+    font-size: 1em;
+}
+
+#topbar:hover >  #current-week::before{
+    transition: all .3s ease;
+    height: 100%;
 }
 
 /* Sidebar code */
@@ -58,6 +75,8 @@ body {
     width: var(--sidebar-width);
     font-size: 2.5vh;
     background-color: var(--main-background);
+
+    height: calc(100vh - var(--height-topbar));
 }
 
 .heading-highlight {
@@ -172,10 +191,11 @@ header .current-month {
 }
 
 #weekly-calendar {
-    background-color: lightgray;
+    background-color: var(--calendar-color);
     width: calc(100% - var(--sidebar-width));
     padding: 2vh;
     font-size: 4vh;
+    border-radius: 30px;
 }
 
 #weekly-days {
@@ -270,4 +290,41 @@ header .current-month {
 .days li:not(.active, .selected):hover::before{
     background: #f2f2f2;
     transition: all .3s ease;
+}
+
+/* Weekly view */
+#weekly-calendar-label, #weekly-days {
+    margin-left: var(--time-width);
+}
+
+.timetable-wrapper {
+    display: block;
+    overflow: hidden;
+    height: 75vh;
+}
+
+.timetable {
+    height: 100%;
+    display: block;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    white-space: nowrap;
+    scrollbar-color: var(--calendar-color) var(--calendar-color);
+    transition: all .5s ease-in-out;
+}
+
+.timetable:hover{
+    scrollbar-color: grey var(--calendar-color);
+}
+
+.times {
+    display: flex;
+    flex-direction: column;
+    width: var(--time-width);
+}
+
+.times li {
+    width: 100%;
+    padding-top: var(--time-padding);
+    padding-bottom: var(--time-padding);
 }

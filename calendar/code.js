@@ -5,6 +5,7 @@ currMonth = date.getMonth();
 let selectedDate = date;
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const short_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function getWeek(array, id){
     for (let i = 0; i < array.length; i+=7){
@@ -35,6 +36,9 @@ function clickDate(id){
     let weekDays = document.getElementById("weekly-days");
     weekDays.innerHTML = '';
     var index = 0;
+
+    var contains_other_month = false;
+    var before = false;
     currentWeekDays.forEach(day => {
         var labels = document.getElementById('weekly-calendar-label').getElementsByTagName("li");
         if (day.classList.contains('active')){
@@ -49,6 +53,8 @@ function clickDate(id){
         var copy = day.cloneNode(true);
         if (copy.classList.contains('inactive')){
             copy.classList.remove('inactive');
+            contains_other_month = true;
+            before = index == 0;
         }
         weekDays.appendChild(copy);
         index++;
@@ -56,6 +62,18 @@ function clickDate(id){
 
     var day = id.split('_')[1];
     selectedDate = new Date(currYear, currMonth, day);
+    var str = "";
+    if (contains_other_month){
+        var month = before ? currMonth - 1 : currMonth + 1;
+        var year = month < 0 || month > 11 ? new Date(currYear, month).getFullYear() : currYear;
+        var month = month < 0 || month > 11 ? new Date(currYear, month).getMonth() : month;
+
+        str = before ? `${short_months[month]} ${year} - ${short_months[currMonth]} ${currYear}` : `${short_months[currMonth]} ${currYear} - ${short_months[month]} ${year}`;
+    }
+    else {
+        str = `${months[currMonth]} ${currYear}`;
+    }
+    document.getElementById("current-week").innerHTML = str;
 }
 
 function renderCalender(){
@@ -91,6 +109,17 @@ function toToday(){
     clickDate(`curr_${date.getDate()}`);
 }
 
+function renderTimes(){
+    var times = document.getElementById("timestamps");
+    times.innerHTML += `<li style='color:var(--calendar-color);'>.</li>`;
+    for (let i = 1; i <= 12; i++){
+        times.innerHTML += `<li>${i} AM</li>`;
+    }
+    for (let i = 1; i < 12; i++){
+        times.innerHTML += `<li>${i} PM</li>`
+    }
+}
+
 function onLoad(){
     prevNextIcons = document.querySelectorAll(".icons span");
     prevNextIcons.forEach(icon => {
@@ -122,6 +151,7 @@ function onLoad(){
     });
     renderCalender();
     clickDate(`curr_${date.getDate()}`);
+    renderTimes();
 }
 
 window.addEventListener('load', onLoad);

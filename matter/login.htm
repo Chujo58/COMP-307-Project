@@ -1,9 +1,9 @@
 <img src="icons/icons8-close.svg" id="close" onclick="closePopup();">
 <form action="php/login.php" method="post">
     <h2 class="heading-highlight form-heading">Login</h2>
-    <input type="text" name="username" id="username" placeholder="Username" onkeydown="onLoginKeyPress();">
+    <input type="text" name="username" id="username" placeholder="Username" onfocusout="isFieldEmpty('username')">
     <div id="username_div"></div>
-    <input type="password" name="password" id="password" placeholder="Password" onkeydown="onLoginKeyPress();">
+    <input type="password" name="password" id="password" placeholder="Password" onfocusout="isFieldEmpty('password')">
     <div id="password_div"></div>
     <input type="button" value="Login" onclick="sendLoginRequest();">
 </form>

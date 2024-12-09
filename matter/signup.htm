@@ -1,11 +1,11 @@
 <img src="icons/icons8-close.svg" id="close" onclick="closePopup();">
 <form action="php/signup.php" method="post">
     <h2 class="heading-highlight form-heading">Sign Up</h2>
-    <input type="text" name="username" id="username" placeholder="Username" onkeydown="onSignUpKeyPress();">
+    <input type="text" name="username" id="username" placeholder="Username" onfocusout="isFieldEmpty('username')">
     <div id="username_div"></div>
-    <input type="password" name="password" id="password" placeholder="Password" onkeydown="onSignUpKeyPress();">
+    <input type="password" name="password" id="password" placeholder="Password" onfocusout="isFieldEmpty('password')">
     <div id="password_div"></div>
-    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" onkeydown="onSignUpKeyPress();">
+    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" onfocusout="isFieldEmpty('confirm_password')">
     <div id="confirm_password_div"></div>
     <input type="button" value="Sign Up" onclick="sendSignUpRequest();">
 </form>

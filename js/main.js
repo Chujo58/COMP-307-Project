@@ -96,61 +96,25 @@ function removeClass(id, class_text){
 	}
 }
 
-function onLoginKeyPress(){
-	var user = getValue('username');
-	var pass = getValue('password');
+// Logic for empty and non empty field
+function isFieldEmpty(id) {
+	const field = document.getElementById(id);
+	const error = field.nextElementSibling;
 
-	if (user.length == 0){
-		addClass('username','username','missing');
-		addClass('username_div','username','missing');
-	}
-	if (pass.length == 0){
-		addClass('password','password','missing');
-		addClass('password_div','password','missing');
-	}
+	if (field.value === '') {
+		field.classList.add('missing');
+		error.classList.add('missing');
+		error.innerText = "Required";
 
-	if (user.length != 0) {
-		removeClass('username', 'missing');
-		removeClass('username_div','missing');
-	}
-	if (pass.length != 0) {
-		removeClass('password', 'missing');
-		removeClass('password_div','missing');
-	}
-	return [user, pass];
-}
+		return true;
 
-function onSignUpKeyPress(){
-	var user = getValue('username');
-	var pass = getValue('password');
-	var c_pass = getValue('confirm_password');
+	} else {
+		field.classList.remove('missing');
+		error.classList.remove('missing');
+		error.innerText = "";
 
-	if (user.length == 0){
-		addClass('username','username','missing');
-		addClass('username_div','username','missing');
+		return false;
 	}
-	if (pass.length == 0){
-		addClass('password','password','missing');
-		addClass('password_div','password','missing');
-	}
-	if (c_pass.length == 0){
-		addClass('confirm_password','password','missing');
-		addClass('confirm_password_div','password','missing');
-	}
-
-	if (user.length != 0) {
-		removeClass('username', 'missing');
-		removeClass('username_div','missing');
-	}
-	if (pass.length != 0) {
-		removeClass('password', 'missing');
-		removeClass('password_div','missing');
-	}
-	if (c_pass.length != 0){
-		removeClass('confirm_password', 'missing');
-		removeClass('confirm_password_div','missing');
-	}
-	return [user, pass, c_pass];
 }
 
 //CHANGE IF YOU WANT
@@ -167,11 +131,16 @@ function redirect(page){
 }
 
 function sendLoginRequest(){
-	var user = "";
-	var pass = "";
-	data = onLoginKeyPress();
-	user = data[0];
-	pass = data[1];
+	let empty = isFieldEmpty('username');
+	empty = isFieldEmpty('password') || empty;
+
+	if (empty) {
+		return;
+	}
+
+	var user = getValue('username');
+	var pass = getValue('password');
+
 	// pass = encrypt(pass, Storage.key);
 
 	var xhttp = new XMLHttpRequest();
@@ -191,21 +160,29 @@ function sendLoginRequest(){
 }
 
 function sendSignUpRequest(){
-	var user = "";
-	var pass = "";
-	var c_pass = "";
-	data = onSignUpKeyPress();
-	user = data[0];
-	pass = data[1];
-	c_pass = data[2];
+	// Make sure user cannot sign up with empty fields
+	let empty = isFieldEmpty('username');
+	empty = isFieldEmpty('password') || empty;
+	empty = isFieldEmpty('confirm_password') || empty;
+
+	if (empty) {
+		return
+	}
+
+	var user = getValue('username');
+	var pass = getValue('password');
+	var c_pass = getValue('confirm_password');
 
 	// pass = encrypt(pass, Storage.key);
 	// c_pass = encrypt(c_pass, Storage.key);
 
-	// Make sure user cannot sign up with empty fields
-	if (!(user && pass && c_pass)) {
-		return
-	}  
+	// Check if both passwords match
+	if (pass !== c_pass) {
+		addClass('confirm_password','password','missing');
+		addClass('confirm_password_div','password','missing');
+		document.getElementById("confirm_password_div").innerText = "Passwords Must Match";
+		return;
+	}
 
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){

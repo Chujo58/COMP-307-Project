@@ -1,8 +1,10 @@
 :root {
     --box:hsl(358 22% 25% / 50%);
     --curent-date: hsl(358 22% 25% / 50%);
-    --sidebar-width: 15%;
+    --selected-date: color-mix(in srgb, var(--curent-date) 75%, black 15%) !important;
+    --sidebar-width: 200px;
     --calendar-spacing: 2vh;
+    --main-background: white;
 }
 body {
     background-color: pink;
@@ -17,14 +19,49 @@ body {
     padding: 0;
 }
 
+.holder {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Topbar code */
+#topbar {
+    background-color: var(--main-background); 
+    font-size: 3vh;
+}
+
+#topbar > a {
+    text-decoration: none;
+    color: black;
+    margin: calc(var(--calendar-spacing)/2);
+    padding: calc(var(--calendar-spacing)/2);
+    font-family: "DM Serif Text", serif;
+    margin-left: var(--sidebar-width);
+    border: solid black 1px;
+    border-radius: 30px;
+    padding-left: calc(var(--calendar-spacing)*2);
+    padding-right: calc(var(--calendar-spacing)*2);
+    font-size: 0.75em;
+    cursor: pointer;
+}
+
+#week_btns {
+    font-size: 1.25em;
+    display: flex;
+    align-items: center;
+}
+
+/* Sidebar code */
 .sidebar {
     display: flex;
     flex-direction: column;
     width: var(--sidebar-width);
     font-size: 2.5vh;
+    background-color: var(--main-background);
 }
 
 .heading-highlight {
+    font-family: "DM Serif Text", serif;
     text-align: center;
     position: relative;
 
@@ -57,11 +94,10 @@ body {
 }
 
 .sidebar > div:not(.wrapper) {
-    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    /* width: 100%; */
     padding: 2vh;
 }
 
@@ -83,15 +119,15 @@ body {
     z-index: -5;
     content: "";
     padding: 0 !important;
-    background-color: white;
+    background-color: var(--main-background);
     margin: 0 !important;
     width: calc(var(--sidebar-width) + 4vh);
 }
 
 /* ALL CALENDAR STUFF BELLOW */
 .wrapper {
-    width: 100%;
-    background-color: white;
+    width: fit-content;
+    background-color: var(--main-background);
     /* border-radius: 10px; */
     font-size: 2.5vh;
     padding: 2vh;
@@ -117,15 +153,15 @@ header p {
     margin-left: 2%;
 }
 
-header .icons span {
+.icons span {
     cursor: pointer;
     text-align: center;
     border-radius: 50%;
-    background-color: white;
+    background-color: var(--main-background);
     font-size: 1em;
 }
 
-header .icons span:hover {
+.icons span:hover {
     background-color: #f2f2f2;
     transition: all .3s ease;
 }
@@ -133,6 +169,34 @@ header .icons span:hover {
 header .current-month {
     font-size: 0.75em;
     font-weight: 500;
+}
+
+#weekly-calendar {
+    background-color: lightgray;
+    width: calc(100% - var(--sidebar-width));
+    padding: 2vh;
+    font-size: 4vh;
+}
+
+#weekly-days {
+    transform: translateY(-2.5vh);
+}
+
+#weekly-days li {
+    font-size: 3vh;
+}
+
+#weekly-days li::before {
+    height: 5vh;
+    width: 5vh;
+}
+
+#weekly-calendar-label .active{
+    color: var(--curent-date);
+}
+
+#weekly-calendar-label .selected{
+    color: var(--selected-date);
 }
 
 .calendar ul {
@@ -167,6 +231,14 @@ header .current-month {
     color: #fff;
 }
 
+.days li.selected {
+    color: #fff;
+}
+
+.days li.selected::before {
+    background: var(--selected-date);
+}
+
 .days li::before {
     position: relative;
     display: block;
@@ -190,7 +262,12 @@ header .current-month {
     transition: all .3s ease;
 }
 
-.days li:not(.active):hover::before{
+.days li.selected:hover::before{
+    opacity: 75%;
+    transition: all .3s ease;
+}
+
+.days li:not(.active, .selected):hover::before{
     background: #f2f2f2;
     transition: all .3s ease;
 }

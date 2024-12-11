@@ -20,7 +20,16 @@ function gen_uuid($len=8) {
 function generateTicket($conn, $user_id){
     $ticket_id = gen_uuid(30);
     $conn->query("UPDATE valid_users SET ticket_id='" . $ticket_id . "' WHERE user_id='" . $user_id . "'");   
-    $conn->query("INSERT INTO `tickets` (`user_id`, `ticket_id`, `exp_date`) VALUE ('" . $user_id . "','" . $ticket_id . "','"); //ADD 2 days to current time;
+
+    $date = new DateTime();  // Get the current date and time
+    $date->modify('+2 days');
+    $formatted = $date->format('Y-m-d H\:i\:s');
+
+    $stmt = $conn->prepare("INSERT INTO `tickets` (`user_id`, `ticket_id`, `exp_date`) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $user_id, $ticket_id, $formatted);
+    $stmt->execute();
+    $stmt->close();    
+
     return $ticket_id;
 }
 
@@ -32,32 +41,38 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         die("Internal Server Error: " . $conn->connect_error);
     }
 
-    //Verify if user is valid
-    $verify_user = "SELECT user FROM valid_users WHERE user='" . $_POST["username"] . "'";
-    if ($conn->query($verify_user)->num_rows == 0){
+    // Sanitize input
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // Verify if user exists and get hashed password + user_id
+    $stmt = $conn->prepare("SELECT user, pass, user_id, ticket_id FROM valid_users WHERE user = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 0) {
         echo "Invalid user";
         exit();
     }
-    
-    //If user is valid verify password
-    $verify_pass = "SELECT pass FROM valid_users WHERE user='" . $_POST["username"] . "'";
-    if ($conn->query($verify_pass)->fetch_assoc()["pass"] != $_POST["password"]) {
+
+    $user_data = $result->fetch_assoc();
+
+    // Verify password
+    if (!password_verify($password, $user_data["pass"])) {
         echo "Invalid password";
         exit();
     }
 
-    //Validate the login
-    $query_ticket = "SELECT ticket_id FROM valid_users WHERE user='" . $_POST["username"] . "' AND pass='" . $_POST["password"] . "'";
-    $ticket_res = $conn->query($query_ticket);
-    if ($ticket_res->num_rows == 0){
-        print("Invalid user");
+    // Check if the user already has a ticket
+    if (empty($user_data["ticket_id"])) {
+        $ticket_id = generateTicket($conn, $user_data["user_id"]);
+        echo $ticket_id;
+    } else {
+        echo $user_data["ticket_id"];
     }
-    else if (empty($ticket_res->fetch_assoc()["ticket_id"])){
-        $user_id = $conn->query("SELECT user_id FROM valid_users WHERE user='" . $_POST["username"] . "' AND pass='" . $_POST["password"] . "'");
-        print($ticket_id);
-    }
-    else {
-        print($ticket_res->fetch_assoc()["ticket_id"]);
-    }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>

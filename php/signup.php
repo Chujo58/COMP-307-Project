@@ -25,25 +25,44 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         die("Internal Server Error: " . $conn->connect_error);
     }
 
-    //Verify is user exists
-    $verify_user = "SELECT user FROM valid_users WHERE user='" . $_POST["username"] . "'";
-    if ($conn->query($verify_user)->num_rows > 0){
-        echo "User already exists";
+    $username = $conn->real_escape_string($_POST['username']);
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    //Check if it is the same
+    if ($password !== $confirm_password) {
+        echo "Passwords do not match";
         exit();
     }
 
-    //If user does not exist, check that the password is equal in the two form fields:
-    if ($_POST["password"] != $_POST["confirm_password"]){
-        echo "Passwords not matching";
+    //Verify is user exists
+    $verify_user = $conn->prepare("SELECT user FROM valid_users WHERE user = ?");
+    $verify_user->bind_param("s", $username);
+    $verify_user->execute();
+    $verify_user->store_result();
+    if ($verify_user->num_rows > 0) {
+        echo "User already exists.";
+        $verify_user->close();
         exit();
     }
+    $verify_user->close();
+
+    //Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     $user_id = gen_uuid(10);
 
     //Validate the sign up
-    $insert_user = "INSERT INTO `valid_users` (`user`, `pass`, `user_id`) VALUES ('" . $_POST['username'] . "','" . $_POST["password"] . "','" . $user_id . "')";
-    $conn->query($insert_user);
-    echo "User added";
+    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id) VALUES (?, ?, ?)");
+    $insert_user->bind_param("sss", $username, $hashed_password, $user_id);
+    if ($insert_user->execute()) {
+        echo "User added";
+    } else {
+        echo "Failed";
+    }
+    $insert_user->close();
+
+    $conn->close();
 }
 
 ?>

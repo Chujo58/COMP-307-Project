@@ -1,6 +1,15 @@
 //NAVBAR FUNCTIONS
 var popup_default_inner = '';
-var navbarIds = ['home','signup','login','dashboard', 'logout'];
+var navbarIds = ['home','signup','login', 'logout'];
+
+
+function arrayRemove(array, elem){
+	var index = array.indexOf(elem);
+	if (index > -1) {
+		array.splice(index, 1);
+	}
+}
+
 function navbarClick(id){
     if (id == 'login' || id == 'signup'){
         var elem = document.getElementById('popup');
@@ -105,9 +114,10 @@ function sendLogoutRequest() {
 			console.log(this.responseText);
 			if (this.status == 200){
 				if (this.responseText === "Log Out Successful"){
+					arrayRemove(navbarIds, 'dashboard');
 					//redirects to home and update the navbar
-					redirect("Home");
 					utility_navbar.innerHTML = signup + login;
+					redirect("Home");
 				} else {
 					console.log("Logout failed");
 				}
@@ -122,6 +132,7 @@ function sendLogoutRequest() {
 }
 
 function sendLoginRequest(){
+	let site_navbar = document.getElementById("site-navbar");
 	let utility_navbar = document.getElementById("utility-navbar");
 	let empty = isFieldEmpty('username');
 	empty = isFieldEmpty('password') || empty;
@@ -140,7 +151,9 @@ function sendLoginRequest(){
 			if (this.status == 200){
 				if (!this.responseText.includes("Invalid")){
 					document.getElementById('test').innerHTML = "Logged in!";
-					utility_navbar.innerHTML = `<div class="nav-item">${user}</div>` + logout;
+					navbarIds.push('dashboard');
+					site_navbar.innerHTML = logo + home + dashboard;
+					utility_navbar.innerHTML = `<div id='user_display'>${user}</div>` + logout;
 					console.log(utility_navbar.innerHTML);
 					setTimeout(function() {redirect("Dashboard");}, redirect_delay);
 				} else {

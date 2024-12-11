@@ -17,26 +17,48 @@ function gen_uuid($len=8) {
     return substr($uid, 0, $len);
 }
 
-function generateTicket($conn, $user_id){
+function generateTicket($conn, $user_id, $exp_date){
     $ticket_id = gen_uuid(30);
-    $conn->query("UPDATE valid_users SET ticket_id='" . $ticket_id . "' WHERE user_id='" . $user_id . "'");   
-
-    $date = new DateTime();  // Get the current date and time
-    $date->modify('+2 days');
-    $formatted = $date->format('Y-m-d H\:i\:s');
-
-    $stmt = $conn->prepare("INSERT INTO `tickets` (`user_id`, `ticket_id`, `exp_date`) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $user_id, $ticket_id, $formatted);
-    $stmt->execute();
-    $stmt->close();    
+    $conn->query("UPDATE valid_users SET ticket_id='" . $ticket_id . "', exp_date='" . $exp_date . "' WHERE user_id='" . $user_id . "'"); 
+    
 
     return $ticket_id;
 }
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){
-    //Connect to the SQL database:
-    $conn = new mysqli("localhost", "root", "", "comp307project");
+// Check for cookies
+$conn = new mysqli("localhost", "root", "", "comp307project");
 
+if ($conn->connect_error) {
+    die("Internal Server Error: " . $conn->connect_error);
+}
+
+if (isset($_COOKIE['ticket_id'])) {
+    $ticket_id = $_COOKIE['ticket_id'];
+
+    $stmt = $conn->prepare("SELECT user, user_id, exp_date FROM valid_users WHERE ticket_id = ?");
+    $stmt->bind_param("s", $ticket_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user_data = $result->fetch_assoc();
+
+    if ($result->num_rows > 0) {
+        //check if expired
+        if (time() > $user_data['exp_date']) {
+            echo "Invalid or expired ticket.";
+        }
+        echo $user_data['user'];
+        // Redirect to the dashboard or homepage
+        exit();
+    } else {
+        echo "Invalid or expired ticket.";
+    }
+
+    $stmt->close();
+}
+
+
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+    //Connect to the SQL database
     if ($conn->connect_error) {
         die("Internal Server Error: " . $conn->connect_error);
     }
@@ -65,14 +87,18 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     }
 
     // Check if the user already has a ticket
-    if (empty($user_data["ticket_id"])) {
-        $ticket_id = generateTicket($conn, $user_data["user_id"]);
-        echo $ticket_id;
+    $cookie_expiry = time() + (2 * 24 * 60 * 60); // 2 days (60 * 60 min = 1 hour then mult 24 then 2)
+
+    if (is_null($user_data["ticket_id"])) {
+        $ticket_id = generateTicket($conn, $user_data["user_id"], $cookie_expiry);
     } else {
-        echo $user_data["ticket_id"];
+        $ticket_id = $user_data["ticket_id"];
     }
 
+    // Set cookies
+    setcookie("ticket_id", $ticket_id, $cookie_expiry, "/", "", true, true);
+
     $stmt->close();
-    $conn->close();
 }
+$conn->close();
 ?>

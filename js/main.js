@@ -1,6 +1,6 @@
 //NAVBAR FUNCTIONS
 var popup_default_inner = '';
-var navbarIds = ['home','signup','login','dashboard'];
+var navbarIds = ['home','signup','login','dashboard', 'logout'];
 function navbarClick(id){
     if (id == 'login' || id == 'signup'){
         var elem = document.getElementById('popup');
@@ -45,31 +45,6 @@ function closePopup(){
     elem.className = 'popup';
     elem.innerHTML = popup_default_inner;
     toggleActive('home',navbarIds);
-}
-
-
-// COOKIES!!!!!!!!!
-function setCookie(cname, cvalue, exp_days){
-	const d = new Date();
-	d.setTime(d.getTime() + exp_days*24*60*60*1000);
-	let expires = `expires=${d.toUTCString()}`;
-	document.cookie = `${cname}=${cvalue};${expires};path=/`;
-}
-
-function getCookie(cname){
-	let name = `${cname}=`;
-	let decodedCookie = decodeURIComponent(document.cookie);
-	let ca = decodedCookie.split(';');
-	for (let i = 0; i < ca.length; i++) {
-		let c = ca[i];
-		while (c.charAt(0) == " "){
-			c = c.substring(1);
-		}
-		if (c.indexOf(name) == 0){
-			return c.substring(name.length, c.length);
-		}		
-	}
-	return "";
 }
 
 // FUNCTIONS FOR THE LOGIN AND SIGNUP FORMS
@@ -118,19 +93,36 @@ function isFieldEmpty(id) {
 }
 
 //CHANGE IF YOU WANT
-function encrypt(message, key){
-	return CryptoJS.AES.encrypt(message,key);
-}
-
-function decrypt(message, key){
-	return CryptoJS.AES.decrypt(message, key).toString(CryptoJS.enc.Utf8);
-}
-
 function redirect(page){
 	window.location = `./index.php?Page=${page}`;
 }
 
+function sendLogoutRequest() {
+	let utility_navbar = document.getElementById("utility-navbar");
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if (this.readyState == 4){
+			console.log(this.responseText);
+			if (this.status == 200){
+				if (this.responseText === "Log Out Successful"){
+					//redirects to home and update the navbar
+					redirect("Home");
+					utility_navbar.innerHTML = signup + login;
+				} else {
+					console.log("Logout failed");
+				}
+			} else {
+				console.log("Request failed with status: " + this.status);
+			}
+		}
+	}
+	xhttp.open("POST", "php/logout.php", "true");
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send();
+}
+
 function sendLoginRequest(){
+	let utility_navbar = document.getElementById("utility-navbar");
 	let empty = isFieldEmpty('username');
 	empty = isFieldEmpty('password') || empty;
 
@@ -141,8 +133,6 @@ function sendLoginRequest(){
 	var user = getValue('username');
 	var pass = getValue('password');
 
-	// pass = encrypt(pass, Storage.key);
-
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4){
@@ -150,7 +140,8 @@ function sendLoginRequest(){
 			if (this.status == 200){
 				if (!this.responseText.includes("Invalid")){
 					document.getElementById('test').innerHTML = "Logged in!";
-					setCookie("user",user,default_exp_cookie);
+					utility_navbar.innerHTML = `<div class="nav-item">${user}</div>` + logout;
+					console.log(utility_navbar.innerHTML);
 					setTimeout(function() {redirect("Dashboard");}, redirect_delay);
 				} else {
 					document.getElementById('test').innerHTML = "Invalid User or Password";

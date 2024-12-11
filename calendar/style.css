@@ -1,14 +1,19 @@
 :root {
     --box:hsl(358 22% 25% / 50%);
     --curent-date: hsl(358 22% 25% / 50%);
-    --selected-date: color-mix(in srgb, var(--curent-date) 75%, black 15%) !important;
+    --selected-date: color-mix(in srgb, var(--curent-date) 75%, black 20%) !important;
     --sidebar-width: 200px;
     --height-topbar: 7vh;
     --calendar-spacing: 2vh;
-    --calendar-color: lightgray;
+    --calendar-color: hsl(0 0% 92%);
+    --calendar-accent: hsl(0 0% 63%);
+
     --main-background: white;
     --time-width: 50px;
+    --time-right-padding: 1vw;
     --time-padding: 4vh;
+
+    --text-highlight: hsl(2 47% 74%);
 }
 body {
     background-color: var(--main-background);
@@ -49,6 +54,11 @@ body {
     font-size: 0.75em;
     cursor: pointer;
     align-self: center;
+}
+
+#topbar > a:hover {
+    background-color: #f2f2f2;
+    transition: all .3s ease;
 }
 
 #week_btns {
@@ -294,7 +304,7 @@ header .current-month {
 
 /* Weekly view */
 #weekly-calendar-label, #weekly-days {
-    margin-left: var(--time-width);
+    margin-left: calc(var(--time-width) + var(--time-right-padding));
 }
 
 .timetable-wrapper {
@@ -306,7 +316,7 @@ header .current-month {
 .timetable {
     height: 100%;
     display: block;
-    overflow-y: auto;
+    overflow-y: auto; 
     scrollbar-width: thin;
     white-space: nowrap;
     scrollbar-color: var(--calendar-color) var(--calendar-color);
@@ -314,13 +324,15 @@ header .current-month {
 }
 
 .timetable:hover{
-    scrollbar-color: grey var(--calendar-color);
+    scrollbar-color: var(--calendar-accent) var(--calendar-color);
 }
 
 .times {
     display: flex;
     flex-direction: column;
     width: var(--time-width);
+    border-right: solid var(--calendar-accent) 1px;
+    padding-right: var(--time-right-padding);
 }
 
 .times li {

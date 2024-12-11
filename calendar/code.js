@@ -6,6 +6,18 @@ let selectedDate = date;
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const short_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const weekday_labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const sunday_index = 0;
+let first_day_of_week = "Sun";
+let index_first_day = weekday_labels.indexOf(first_day_of_week);
+
+// function changeFirstDay(){
+//     console.log(first_day_of_week);
+//     first_day_of_week = document.getElementById("day-of-week").value;
+//     index_first_day = weekday_labels.indexOf(first_day_of_week);
+//     renderCalender();
+//     clickDate(`curr_${date.getDate()}`);
+// }
 
 function getWeek(array, id){
     for (let i = 0; i < array.length; i+=7){
@@ -54,7 +66,7 @@ function clickDate(id){
         if (copy.classList.contains('inactive')){
             copy.classList.remove('inactive');
             contains_other_month = true;
-            before = index == 0;
+            before = !before ? index == 0 : before;
         }
         weekDays.appendChild(copy);
         index++;
@@ -83,7 +95,7 @@ function renderCalender(){
     lastDateLastMonth = new Date(currYear, currMonth, 0).getDate();
 
     let liTags = "";
-    for (let i = firstDay; i > 0; i--){
+    for (let i = firstDay; i > index_first_day; i--){
         liTags += `<li class='inactive' id='prev_${lastDateLastMonth- i + 1}' onclick='clickDate(this.id)'>${lastDateLastMonth- i + 1}</li>`;
     }
 
@@ -93,7 +105,7 @@ function renderCalender(){
         liTags += `<li class='${isToday}' id='curr_${i}' onclick='clickDate(this.id)'>${i}</li>`
     }
 
-    for (let i = lastDay; i < 6; i++){
+    for (let i = lastDay; i < (6 + index_first_day) % 7; i++){
         liTags += `<li class='inactive' id='next_${i - lastDay + 1}' onclick='clickDate(this.id)'>${i - lastDay + 1}</li>`;
     }
 
@@ -117,6 +129,11 @@ function renderTimes(){
     }
     for (let i = 1; i < 12; i++){
         times.innerHTML += `<li>${i} PM</li>`
+    }
+
+    var timetable = document.getElementById("timetable");
+    for (let i = 0; i < 7; i++){
+        timetable.innerHTML += `<div class='time-column'></div>`;
     }
 }
 

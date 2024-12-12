@@ -123,17 +123,22 @@ function toToday(){
 
 function renderTimes(){
     var times = document.getElementById("timestamps");
-    times.innerHTML += `<li style='color:var(--calendar-color);'>.</li>`;
+    times.innerHTML += `<div><span>12 AM</span></div>`;
     for (let i = 1; i <= 12; i++){
-        times.innerHTML += `<li>${i} AM</li>`;
+        times.innerHTML += `<div><span>${i} AM</span></div>`;
     }
     for (let i = 1; i < 12; i++){
-        times.innerHTML += `<li>${i} PM</li>`
+        times.innerHTML += `<div><span>${i} PM</span></div>`
     }
 
-    var timetable = document.getElementById("timetable");
+    var sep = document.getElementById('time-sep');
+    for (let i = 0; i < 24; i++){
+        sep.innerHTML += `<div class='sep'></div>`
+    }
+
+    var timetable = document.getElementById("time-row");
     for (let i = 0; i < 7; i++){
-        timetable.innerHTML += `<div class='time-column'></div>`;
+        timetable.innerHTML += `<div class='time-column' role='gridcell' tabindex="-1"></div>`;
     }
 }
 

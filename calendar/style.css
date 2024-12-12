@@ -11,7 +11,10 @@
     --main-background: white;
     --time-width: 50px;
     --time-right-padding: 1vw;
+    --time-scroll-width: 1px;
     --time-padding: 4vh;
+    --time-height: 9vh;
+    --week-font-size: 4vh;
 
     --text-highlight: hsl(2 47% 74%);
 }
@@ -130,7 +133,7 @@ body {
     padding: 2vh;
 }
 
-.sep {
+/* .sep {
     position: relative;
     background-color: black !important;
     height: 1px;
@@ -151,7 +154,7 @@ body {
     background-color: var(--main-background);
     margin: 0 !important;
     width: calc(var(--sidebar-width) + 4vh);
-}
+} */
 
 /* ALL CALENDAR STUFF BELLOW */
 .wrapper {
@@ -203,9 +206,13 @@ header .current-month {
 #weekly-calendar {
     background-color: var(--calendar-color);
     width: calc(100% - var(--sidebar-width));
-    padding: 2vh;
-    font-size: 4vh;
+    padding: 2vh 0vh 2vh 0vh;;
+    font-size: var(--week-font-size);
     border-radius: 30px;
+}
+
+#weekly-calendar > ul {
+    padding: 0 2vh 0 2vh;
 }
 
 #weekly-days {
@@ -304,23 +311,27 @@ header .current-month {
 
 /* Weekly view */
 #weekly-calendar-label, #weekly-days {
-    margin-left: calc(var(--time-width) + var(--time-right-padding));
+    margin-left: calc(var(--time-width) + var(--time-right-padding) - var(--time-scroll-width));
 }
 
 .timetable-wrapper {
     display: block;
     overflow: hidden;
     height: 75vh;
+    padding-left: 2vh;
 }
 
 .timetable {
     height: 100%;
-    display: block;
-    overflow-y: auto; 
-    scrollbar-width: thin;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+    overflow-x: auto; 
+    scrollbar-width: var(--time-scroll-width);
     white-space: nowrap;
     scrollbar-color: var(--calendar-color) var(--calendar-color);
     transition: all .5s ease-in-out;
+    padding-top: 2vh;
 }
 
 .timetable:hover{
@@ -328,15 +339,53 @@ header .current-month {
 }
 
 .times {
-    display: flex;
-    flex-direction: column;
-    width: var(--time-width);
-    border-right: solid var(--calendar-accent) 1px;
+    /* display: flex; */
+    /* flex-direction: column !important; */
+    width: calc(var(--time-width) - var(--time-right-padding));
+
+    /* border-right: solid var(--calendar-accent) 1px; */
     padding-right: var(--time-right-padding);
 }
 
-.times li {
+.times div {
     width: 100%;
-    padding-top: var(--time-padding);
-    padding-bottom: var(--time-padding);
+    /* padding-top: var(--time-padding);
+    padding-bottom: var(--time-padding); */
+    height: var(--time-height);
+    font-size: 0.5em;
+    text-align: right;
+}
+
+.times div span {
+    position: relative;
+    top: -1.3vh;
+}
+
+.time-row {
+    /* position: absolute; */
+    margin-left: calc(-1 * calc(100% - var(--time-width) - var(--time-right-padding)));
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.time-column {
+    /* width: calc(calc(100% - var(--time-width) - var(--time-right-padding)) / 7); */
+    width: calc(100% / 7);
+    /* height: calc(26 * calc(2 * var(--time-padding) + 0.5 * var(--week-font-size))); */
+    height: calc( 24 * var(--time-height));
+    border-left: solid var(--calendar-accent) 1px;
+}
+
+#time-sep {
+    /* width: var(--time-right-padding); */
+    /* height: calc( 24 * var(--time-height)); */
+    /* height: calc(26 * 3 * var(--time-padding)); */
+    width: 100%;
+}
+
+.sep {
+    height: calc(var(--time-height) - 1px);
+    border-top: solid var(--calendar-accent) 1px;
+    width: 100%;
 }

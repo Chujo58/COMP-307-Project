@@ -67,14 +67,13 @@
 #logo {
     display: flex;
     width: 6vh;
-    /* height: 6vh; */
     text-align: center;
     
     flex-direction: column;
     align-self: center;
     filter: opacity(0.5) drop-shadow(0 0 0 var(--box-highlight));
-    /* justify-content: flex-end; */
-    /* vertical-align: middle; */
+
+    padding-left: 1vh;
 }
 
 #user_display {

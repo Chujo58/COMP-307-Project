@@ -21,7 +21,10 @@
     }
     .course-list{
         /* display: flex; */
-        width: 100%;
+        width: 100% !important;
+    }
+    .box{
+        width: calc(100% - 2 * calc(1% + 2em));
     }
 }
 

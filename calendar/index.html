@@ -9,6 +9,9 @@
     </head>
     <body>
         <div class="holder" id="topbar">
+            <a onclick="toggleSidebar();" id="sidebar-menu">
+                <img src="../icons/icons8-menu-ios.svg">
+            </a>
             <a onclick="toToday();">
                 <!-- <div class="heading-highlight">Today</div> -->
                  Today
@@ -26,7 +29,7 @@
             </a>
         </div>
         <div class="holder">
-            <div class="sidebar">
+            <div class="sidebar" id="sidebar">
                 <div class="wrapper">
                     <header>
                         <p class="current-month heading-highlight" id="current-month"></p>

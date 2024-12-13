@@ -338,3 +338,18 @@ function toggleView(){
         return;
     }
 }
+
+function toggleSidebar(){
+    var sidebar = document.getElementById("sidebar");
+    var calendar = document.getElementById('weekly-calendar');
+    if (sidebar.classList.contains('hidden')){
+        sidebar.classList.remove('hidden');
+        calendar.classList.remove('full-size');
+        return;
+    }
+    else {
+        sidebar.classList.add('hidden');
+        calendar.classList.add('full-size');
+        return;
+    }
+}

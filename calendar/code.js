@@ -58,44 +58,67 @@ function clickDate(id){
     
     let weekDays = document.getElementById("weekly-days");
     weekDays.innerHTML = '';
-    var index = 0;
-
+    
     // Rendering of the weekly view
     var contains_other_month = false;
     var before = false;
-    currentWeekDays.forEach(day => {
-        var labels = document.getElementById('weekly-calendar-label').getElementsByTagName("li");
+    var labels = document.getElementById('weekly-calendar-label').getElementsByTagName("li");
+    
+    for (let i = 0; i < 7; i++){
+        var day = currentWeekDays[i];
         if (day.classList.contains('active')){
-            labels[index].className = 'active';
+            labels[i].className = 'active';
         }
         else if (day.classList.contains('selected')){
-            labels[index].className = 'selected';
+            labels[i].className = 'selected';
         }
         else {
-            labels[index].className = '';
+            labels[i].className = '';
         }
         var copy = day.cloneNode(true);
         if (copy.classList.contains('inactive')){
             copy.classList.remove('inactive');
             contains_other_month = true;
-            before = !before ? index == 0 : before;
+            before = !before ? i == 0 : before;
         }
         weekDays.appendChild(copy);
-        index++;
-    });
+    }
 
     // Updates the month title
+    updateMonthTitle(id, contains_other_month, before);
+}
+
+
+function updateMonthTitle(id, contains_other_month, before)
+{
     var day = id.split('_')[1];
-    selectedDate = new Date(currYear, currMonth, day);
+    var monthChange = 0;
+    switch (id.split('_')[0]) {
+        case 'curr':
+            monthChange = 0;
+            break;
+        case 'prev':
+            monthChange = -1;
+            break;
+        case 'next':
+            monthChange = 1;
+            break;
+        default:
+            monthChange = 0;
+            break;
+    }
+    selectedDate = new Date(currYear, currMonth + monthChange, day);
     var str = "";
-    if (contains_other_month){
+    if (contains_other_month)
+    {
         var month = before ? currMonth - 1 : currMonth + 1;
         var year = month < 0 || month > 11 ? new Date(currYear, month).getFullYear() : currYear;
         var month = month < 0 || month > 11 ? new Date(currYear, month).getMonth() : month;
 
         str = before ? `${short_months[month]} ${year} - ${short_months[currMonth]} ${currYear}` : `${short_months[currMonth]} ${currYear} - ${short_months[month]} ${year}`;
     }
-    else {
+    else
+    {
         str = `${months[currMonth]} ${currYear}`;
     }
     document.getElementById("current-week").innerHTML = str;
@@ -158,7 +181,13 @@ function renderTimes(){
         sep.innerHTML += `<div class='sep'></div>`
     }
 
-    generateTimeCols(7);
+    var viewSelector = document.getElementById("view-selector");
+    if (viewSelector.innerHTML.includes("Week")){
+        generateTimeCols(7);
+    }
+    if (viewSelector.innerHTML.includes("Day")){
+        generateTimeCols(1);
+    }
 }
 
 /**
@@ -184,7 +213,7 @@ function onLoad(){
             icon.addEventListener("click", () => {
                 numDays = icon.id === "prev_week" ? -7 : 7;
                 var newDay = selectedDate.getDate() + numDays;
-                selectedDate = new Date(currYear, currMonth, newDay);
+                selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), newDay);
                 currMonth = selectedDate.getMonth();
                 currYear = selectedDate.getFullYear();
 

@@ -24,7 +24,8 @@
         width: 100% !important;
     }
     .box{
-        width: calc(100% - 2 * calc(1% + 2em));
+        width: calc(100% - 2 * calc(2em));
+        margin: 1% 0% 1% 0% !important;
     }
 }
 
@@ -109,6 +110,7 @@ header {
     /* padding: 1rem;
     text-align: center;
     margin: 1rem; */
+    margin: 0 1% 1% 1%;
 }
 
 .course-block h3 {

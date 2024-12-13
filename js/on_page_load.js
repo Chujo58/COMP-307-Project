@@ -18,7 +18,11 @@ function loadNavbar(){
             }
         });
     }
-    let currentPage = window.location.href.split("?")[1].split("Page=")[1].toLowerCase();
+    var tempPage = window.location.href.split("?")[1];
+    let currentPage = "home";
+    if (tempPage){
+        currentPage = tempPage.split("Page=")[1].toLowerCase();
+    }
 
     let site_navbar = document.getElementById("site-navbar");
     let utility_navbar = document.getElementById("utility-navbar");

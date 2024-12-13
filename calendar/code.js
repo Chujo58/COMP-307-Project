@@ -19,6 +19,12 @@ let index_first_day = weekday_labels.indexOf(first_day_of_week);
 //     clickDate(`curr_${date.getDate()}`);
 // }
 
+/**
+ * Gets the index of week with day `id`.
+ * @param {Array} array Array of all month days
+ * @param {string} id ID of day in week we want to obtain
+ * @returns Index of week containing day with `id`
+ */
 function getWeek(array, id){
     for (let i = 0; i < array.length; i+=7){
         for (let j = 0; j < 7; j++){
@@ -29,10 +35,15 @@ function getWeek(array, id){
     }
 }
 
+/**
+ * Updates the currently shown week
+ * @param {string} id ID of clicked date
+ */
 function clickDate(id){
     let calendarDaysPlaceholder = document.getElementById("days");
     let calendarDays = calendarDaysPlaceholder.getElementsByTagName("li");
 
+    // Changing the `selected` class to the clicked item.
     [...calendarDays].forEach(day => {
         if (day.id == id){
             day.classList.add("selected");
@@ -49,6 +60,7 @@ function clickDate(id){
     weekDays.innerHTML = '';
     var index = 0;
 
+    // Rendering of the weekly view
     var contains_other_month = false;
     var before = false;
     currentWeekDays.forEach(day => {
@@ -72,6 +84,7 @@ function clickDate(id){
         index++;
     });
 
+    // Updates the month title
     var day = id.split('_')[1];
     selectedDate = new Date(currYear, currMonth, day);
     var str = "";
@@ -88,6 +101,9 @@ function clickDate(id){
     document.getElementById("current-week").innerHTML = str;
 }
 
+/**
+ * Renders the calendar in sidebar
+ */
 function renderCalender(){
     let firstDay = new Date(currYear, currMonth, 1).getDay(),
     lastDate = new Date(currYear, currMonth+1, 0).getDate(),
@@ -113,6 +129,9 @@ function renderCalender(){
     document.getElementById("days").innerHTML = liTags;
 }
 
+/**
+ * Moves calendar back to today.
+ */
 function toToday(){
     date = new Date();
     currMonth = date.getMonth();
@@ -121,6 +140,9 @@ function toToday(){
     clickDate(`curr_${date.getDate()}`);
 }
 
+/**
+ * Renders the times on the side of the weekly view.
+ */
 function renderTimes(){
     var times = document.getElementById("timestamps");
     times.innerHTML += `<div><span>12 AM</span></div>`;
@@ -136,12 +158,12 @@ function renderTimes(){
         sep.innerHTML += `<div class='sep'></div>`
     }
 
-    var timetable = document.getElementById("time-row");
-    for (let i = 0; i < 7; i++){
-        timetable.innerHTML += `<div class='time-column' role='gridcell' tabindex="-1"></div>`;
-    }
+    generateTimeCols(7);
 }
 
+/**
+ * On window load function.
+ */
 function onLoad(){
     prevNextIcons = document.querySelectorAll(".icons span");
     prevNextIcons.forEach(icon => {
@@ -178,3 +200,52 @@ function onLoad(){
 
 window.addEventListener('load', onLoad);
 
+/**
+ * Function to create events in the calendar.
+ * @param {string} eventTitle Name of the event
+ * @param {string} eventDesc Description of the event
+ * @param {Date} eventStartTime Start time of event
+ * @param {Date} eventStopTime Stop time of event
+ * @param {string} eventFilter Filter of event (used for filtering in sidebar of calendar)
+ */
+function addEvent(eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
+    var eventId = crypto.randomUUID();
+    var weekday_index = eventStartTime.getDay();
+    var timeCol = document.getElementById(`time-col-${weekday_index}`);
+
+    let calendarDaysPlaceholder = document.getElementById("days");
+    let calendarDays = calendarDaysPlaceholder.getElementsByTagName("li");
+
+    var week_id = getWeek(calendarDays, id);    
+    var currentWeekDays = [...calendarDays].slice(week_id,week_id+7);
+}
+
+// TODO: Finish implementing the clearView method
+function clearView(){
+    var timetable = document.getElementById("time-row");
+    var timeColumns = timetable.getElementsByClassName("time-column");
+}
+
+function generateTimeCols(numCols){
+    var timetable = document.getElementById("time-row");
+    if (timetable.innerHTML){
+        timetable.innerHTML = "";
+    }
+    for (let i = 0; i < numCols; i++){
+        timetable.innerHTML += `<div class='time-column' id='time-col-${i}'></div>`;
+    }
+}
+
+function toggleView(){
+    var viewSelector = document.getElementById("view-selector");
+    if (viewSelector.innerHTML.includes("Week")){
+        viewSelector.innerHTML = "Day";
+        generateTimeCols(1);
+        return;
+    }
+    if (viewSelector.innerHTML.includes("Day")){
+        viewSelector.innerHTML = "Week";
+        generateTimeCols(7);
+        return;
+    }
+}

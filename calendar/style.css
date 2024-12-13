@@ -223,6 +223,10 @@ header .current-month {
     font-size: 3vh;
 }
 
+#weekly-days li.alone {
+    width: 100%;
+}
+
 #weekly-days li::before {
     height: 5vh;
     width: 5vh;
@@ -234,6 +238,10 @@ header .current-month {
 
 #weekly-calendar-label .selected{
     color: var(--selected-date);
+}
+
+#weekly-calendar-label .alone {
+    width: 100%;
 }
 
 .calendar ul {

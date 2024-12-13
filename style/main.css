@@ -4,6 +4,7 @@
 @import './divider.css';
 @import './popup.css';
 @import './form.css';
+@import './dashboard.css';
 
 html {
     scrollbar-color: var(--scroll-color) var(--navbar-color);

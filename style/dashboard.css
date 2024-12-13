@@ -105,7 +105,7 @@ header {
     /* width: calc(100%/3);
     background-color: var(--box-background); */
     border: 1px solid var(--box-highlight);
-    border-radius: 30px;
+    /* border-radius: 30px !important; */
     /* padding: 1rem;
     text-align: center;
     margin: 1rem; */

@@ -20,4 +20,5 @@ body {
     font-family: 'Parkinsans', sans-serif;
     font-weight: 300;
     font-style: normal;
+    font-optical-sizing: auto !important;
 }

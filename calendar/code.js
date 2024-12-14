@@ -305,28 +305,24 @@ window.addEventListener('load', onLoad);
 function showEvents(eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
     var eventId = crypto.randomUUID();
     var weekday_index = eventStartTime.getDay();
-    var timeCol = document.getElementById(`time-col-${weekday_index}`);
+    // var timeCol = document.getElementById(`time-col-${weekday_index}`);
 
     let calendarDaysPlaceholder = document.getElementById("days");
     let calendarDays = calendarDaysPlaceholder.getElementsByTagName("li");
 
     // Get the displayed first date.
-    var startDisplayedDate = selectedDate;
-    if (Array.isArray(displayedDates)){
-        startDisplayedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay());
-    }
+    // var startDisplayedDate = selectedDate;
+    // if (Array.isArray(displayedDates)){
+    //     startDisplayedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay());
+    // }
     
     
 }
 
 function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
     var timeHeight = getCSSvariable('--time-height');
-    var timePadding = getCSSvariable('--time-padding-top');
 
-    // eventTop = `calc(calc(${eventStartTime.getHours()} * 60 + ${eventStartTime.getMinutes()}) / calc(${timeHeight} * 24 * 60) )`;
     timeDiff = (eventStopTime - eventStartTime)/1000/60;
-    // eventHeight = `calc(${timeDiff} / calc(${timeHeight} * 24 * 60) )`;
-
     eventTop = `calc(${timeHeight} * calc(calc(${eventStartTime.getHours()} * 60 + ${eventStartTime.getMinutes()}) / 60))`;
     eventHeight = `calc(${timeHeight} * ${timeDiff} / 60)`;
 

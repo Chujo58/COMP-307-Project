@@ -18,10 +18,14 @@ def getCourseName(a_tag):
 def getCourseTagandID(course_name):
     return course_name[0:4], course_name[5:].split(' ')[0]
 
+course_levels = set()
+
 for a_tag in courses_a:
     available = checkAvailable(a_tag)
     course_name = getCourseName(a_tag)
+    tag, id = getCourseTagandID(course_name)
+    course_levels.add(int(id[0])*100)
     print(course_name)
-    print(getCourseTagandID(course_name))
     print(available)
     
+print(course_levels)

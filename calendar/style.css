@@ -2,7 +2,7 @@
     --box:hsl(358 22% 25% / 50%);
     --curent-date: hsl(358 22% 25% / 50%);
     --selected-date: color-mix(in srgb, var(--curent-date) 75%, black 20%) !important;
-    --sidebar-width: 200px;
+    --sidebar-width: 18vw;
     --height-topbar: 7vh;
     --calendar-spacing: 2vh;
     --calendar-color: hsl(0 0% 92%);
@@ -14,6 +14,7 @@
     --time-scroll-width: 1px;
     --time-padding: 4vh;
     --time-height: 9vh;
+    --time-padding-top: 2vh;
     --week-font-size: 4vh;
 
     --text-highlight: hsl(2 47% 74%);
@@ -116,6 +117,7 @@ body {
 
 .sidebar.hidden {
     display: none;
+    transition: all 0.5s ease-in-out;
 }
 
 .heading-highlight {
@@ -158,29 +160,6 @@ body {
     /* width: 100%; */
     padding: 2vh;
 }
-
-/* .sep {
-    position: relative;
-    background-color: black !important;
-    height: 1px;
-    padding: 0 !important;
-    margin: 2vh;
-    margin-top: 0;
-    margin-bottom: 0;
-    z-index: 5;
-}
-
-.sep::before{
-    position: absolute;
-    display: block;
-    height: 1px;
-    z-index: -5;
-    content: "";
-    padding: 0 !important;
-    background-color: var(--main-background);
-    margin: 0 !important;
-    width: calc(var(--sidebar-width) + 4vh);
-} */
 
 /* ALL CALENDAR STUFF BELLOW */
 .wrapper {
@@ -369,7 +348,7 @@ header .current-month {
     white-space: nowrap;
     scrollbar-color: var(--calendar-color) var(--calendar-color);
     transition: all .5s ease-in-out;
-    padding-top: 2vh;
+    padding-top: var(--time-padding-top);
 }
 
 .timetable:hover{
@@ -426,4 +405,8 @@ header .current-month {
     height: calc(var(--time-height) - 1px);
     border-top: solid var(--calendar-accent) 1px;
     width: 100%;
+}
+
+.event {
+    position: relative;
 }

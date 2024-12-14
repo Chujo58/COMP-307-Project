@@ -58,7 +58,7 @@ header {
     margin: 0.5rem 0;
 }
 
-.filter-section form input {
+.filter-section form input, select {
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;

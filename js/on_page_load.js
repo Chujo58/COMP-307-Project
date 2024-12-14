@@ -28,19 +28,26 @@ function loadNavbar(){
     let utility_navbar = document.getElementById("utility-navbar");
 
     site_navbar.innerHTML = logo + home;
+    utility_navbar.innerHTML = signup + login;
+    reloadActive();
+
+    if (window.sessionStorage.getItem("ticketExpired")) {
+        // Prevent making further requests if already redirected
+        return;
+    }
 
     // check if cookies is valid
     var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200){
-            if (!this.responseText.includes("Expired")){
+            if (this.responseText.includes("Expired")){
+                console.log("Redirecting to home because ticket is expired.");
+                window.sessionStorage.setItem("ticketExpired", true);
+                window.location.href = "./index.php?Page=Home";           
+            } else {
                 console.log('Logged in automatically');
                 site_navbar.innerHTML = logo + home + dashboard;
                 utility_navbar.innerHTML = `<div id='user_display'>${this.responseText}</div>` + logout;
-                reloadActive();                
-            } else {
-                site_navbar.innerHTML = logo + home;                
-                utility_navbar.innerHTML = signup + login;
                 reloadActive();
             }
         } else {

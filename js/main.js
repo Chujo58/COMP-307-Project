@@ -155,6 +155,8 @@ function sendLoginRequest(){
 					navbarIds.push('dashboard');
 					site_navbar.innerHTML = logo + home + dashboard;
 					utility_navbar.innerHTML = `<div id='user_display'>${user}</div>` + logout;
+					//remove the expired session to get correct navbar after redirection
+					window.sessionStorage.removeItem("ticketExpired");
 					setTimeout(function() {redirect("Dashboard");}, redirect_delay);
 				} else {
 					document.getElementById('test').innerHTML = "Invalid User or Password";

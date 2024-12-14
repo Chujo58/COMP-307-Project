@@ -33,11 +33,11 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    $ticket_id = $_COOKIE['ticket_id'];
-    if (is_null($ticket_id)) {
+    if (!isset($_COOKIE['ticket_id'])) {
         echo "Require Log In or Expired Ticket";
         exit();
     }
+    $ticket_id = $_COOKIE['ticket_id'];
 
     $stmt = $conn->prepare("SELECT user, user_id, exp_date FROM valid_users WHERE ticket_id = ?");
     $stmt->bind_param("s", $ticket_id);
@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if ($result->num_rows > 0) {
         //check if expired
         if (time() > $user_data['exp_date'] || is_null($user_data['exp_date'])) {
+            $_SESSION['expired_ticket'] = true;
             setcookie('ticket_id', '', time() - 3600, '/');
             echo "Expired ticket.";
             exit();
@@ -102,6 +103,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
     // Set cookies
     setcookie("ticket_id", $ticket_id, $cookie_expiry, "/", "", true, true);
+    $_SESSION['expired_ticket'] = false;
 
     $stmt->close();
 }

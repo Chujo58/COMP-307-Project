@@ -1,6 +1,6 @@
 //NAVBAR FUNCTIONS
 var popup_default_inner = '';
-var navbarIds = ['home','signup','login', 'logout'];
+var navbarIds = ['home','signup','login', 'logout', 'dashboard'];
 
 
 function arrayRemove(array, elem){
@@ -67,14 +67,6 @@ function getValue(id){
 	return document.getElementById(id).value ?? '';
 }
 
-function addClass(id, text, class_text){
-	var elem = document.getElementById(id);
-	elem.classList.add(class_text);
-	if (id.includes("_div")){
-		elem.innerHTML = class_text.substring(0,1).toUpperCase() + class_text.substring(1,class_text.length) + " " + text;
-	}
-}
-
 function removeClass(id, class_text){
 	var elem = document.getElementById(id);
 	if (elem.classList.contains(class_text)) elem.classList.remove(class_text);
@@ -116,7 +108,6 @@ function sendLogoutRequest() {
 		if (this.readyState == 4){
 			if (this.status == 200){
 				if (this.responseText === "Log Out Successful"){
-					arrayRemove(navbarIds, 'dashboard');
 					//redirects to home and update the navbar
 					utility_navbar.innerHTML = signup + login;
 					redirect("Home");
@@ -152,7 +143,6 @@ function sendLoginRequest(){
 			if (this.status == 200){
 				if (!this.responseText.includes("Invalid")){
 					document.getElementById('test').innerHTML = "Logged in!";
-					navbarIds.push('dashboard');
 					site_navbar.innerHTML = logo + home + dashboard;
 					utility_navbar.innerHTML = `<div id='user_display'>${user}</div>` + logout;
 					//remove the expired session to get correct navbar after redirection
@@ -172,7 +162,7 @@ function sendLoginRequest(){
 	xhttp.send(`username=${user}&password=${pass}`);
 }
 
-function sendSignUpRequest(event){
+function sendSignUpRequest(){
 	// Make sure user cannot sign up with empty fields
 	let empty = isFieldEmpty('username');
 	empty = isFieldEmpty('password') || empty;
@@ -186,13 +176,19 @@ function sendSignUpRequest(event){
 	var pass = getValue('password');
 	var c_pass = getValue('confirm_password');
 
-	// pass = encrypt(pass, Storage.key);
-	// c_pass = encrypt(c_pass, Storage.key);
+	//Check if it is mcgill email
+	let email = user.split('@');
+	if (email.length != 2 || (email[1] != "mail.mcgill.ca" && email[1] != "mcgill.ca")) {
+		document.getElementById('username').classList.add('missing');
+		document.getElementById('username_div').classList.add('missing');
+		document.getElementById('username_div').innerText = "Please Use a Valid Mcgill Email as Username";
+		return;
+	}
 
 	// Check if both passwords match
 	if (pass !== c_pass) {
-		addClass('confirm_password','password','missing');
-		addClass('confirm_password_div','password','missing');
+		document.getElementById('confirm_password').classList.add('missing');
+		document.getElementById('confirm_password_div').classList.add('missing');
 		document.getElementById("confirm_password_div").innerText = "Passwords Must Match";
 		return;
 	}
@@ -202,7 +198,7 @@ function sendSignUpRequest(event){
 		if (this.readyState == 4){
 			console.log(this.responseText);
 			if (this.status == 200){
-				if (this.responseText === "User added"){
+				if (this.responseText === "User Added"){
 					document.getElementById('test').innerHTML = "Signed up!";
 					setTimeout(function(){navbarClick("login")}, redirect_delay);
 				} else {

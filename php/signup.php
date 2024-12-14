@@ -31,7 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
     //Check if it is the same
     if ($password !== $confirm_password) {
-        echo "Passwords do not match";
+        echo "Passwords Must Match";
+        exit();
+    }
+
+    //Check if it is a valid username
+    $email = explode('@', $username);
+    if (count($email) != 2 || ($email[1] != "mail.mcgill.ca" && $email[1] != "mcgill.ca")) {
+        echo "Please Use a Valid Mcgill Email as Username";
         exit();
     }
 
@@ -41,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $verify_user->execute();
     $verify_user->store_result();
     if ($verify_user->num_rows > 0) {
-        echo "User already exists.";
+        echo "User Already Exists.";
         $verify_user->close();
         exit();
     }
@@ -56,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id) VALUES (?, ?, ?)");
     $insert_user->bind_param("sss", $username, $hashed_password, $user_id);
     if ($insert_user->execute()) {
-        echo "User added";
+        echo "User Added";
     } else {
         echo "Failed";
     }

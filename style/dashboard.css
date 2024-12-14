@@ -28,6 +28,7 @@
 }
 
 header {
+    font-size: 2.5vh;
     padding: 2rem;
     text-align: center;
     background-color: var(--box-background);

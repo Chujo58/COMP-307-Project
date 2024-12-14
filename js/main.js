@@ -254,3 +254,32 @@ function filterCourses() {
 // Attach event listeners
 window.addEventListener('load', loadLevels);
 window.addEventListener('load', filterCourses);
+
+// Load staff for a selected course
+function loadStaff() {
+    // Check if courseID is defined (from PHP)
+    if (typeof courseID === 'undefined' || !courseID) {
+        document.getElementById('staff-list').innerHTML = "<p>No course selected!</p>";
+        return;
+    }
+
+    // Make an AJAX request to fetch staff details
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // Populate the staff list container with the response
+            document.getElementById('staff-list').innerHTML = this.responseText;
+        }
+    };
+    xhttp.open('GET', `php/list_staff.php?course_id=${courseID}`, true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send();
+}
+
+// Attach the `loadStaff` function to the `list_staff.htm` page
+window.addEventListener('load', loadStaff);
+
+function redirectToStaffList(courseID) {
+    // Use window.location.href for redirection
+    window.location.href = `index.php?Page=StaffList&course_id=${courseID}`;
+}

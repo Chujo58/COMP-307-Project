@@ -51,24 +51,47 @@ if (!$result) {
 }
 
 // Output course list as HTML
+// if ($result->num_rows == 0) {
+//     echo "<p>No courses found!</p>";
+// } else {
+//     $old_index=0;
+//     $index=0;
+//     while ($row = $result->fetch_assoc()) {
+//         if ($index%3==0 && $index-$old_index==3){
+//             echo "</div>";
+//             $old_index+=3;
+//         }
+//         if ($index%3==0){
+//             echo "<div class='box-holder'>";
+//         }
+//         echo "<div class='box course-block'>";
+//         echo "<h3 class='heading-higlight'>" . htmlspecialchars($row['course_name']) . "</h3>";
+//         echo "<p>Course ID: " . htmlspecialchars($row['course_id']) . "</p>";
+//         echo "</div>";
+//         $index ++;
+//     }
+// }
 if ($result->num_rows == 0) {
     echo "<p>No courses found!</p>";
 } else {
-    $old_index=0;
-    $index=0;
+    $old_index = 0;
+    $index = 0;
     while ($row = $result->fetch_assoc()) {
-        if ($index%3==0 && $index-$old_index==3){
+        if ($index % 3 == 0 && $index - $old_index == 3) {
             echo "</div>";
-            $old_index+=3;
+            $old_index += 3;
         }
-        if ($index%3==0){
+        if ($index % 3 == 0) {
             echo "<div class='box-holder'>";
         }
-        echo "<div class='box course-block'>";
+
+        // Make the course block clickable with a link to `list_staff.htm`
+        echo "<div class='box course-block' onclick=\"redirectToStaffList({$row['course_id']})\">";
         echo "<h3 class='heading-higlight'>" . htmlspecialchars($row['course_name']) . "</h3>";
         echo "<p>Course ID: " . htmlspecialchars($row['course_id']) . "</p>";
         echo "</div>";
-        $index ++;
+
+        $index++;
     }
 }
 

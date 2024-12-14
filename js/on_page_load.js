@@ -33,7 +33,7 @@ function loadNavbar(){
     var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200){
-            if (!this.responseText.includes("Invalid")){
+            if (!this.responseText.includes("Expired")){
                 console.log('Logged in automatically');
                 site_navbar.innerHTML = logo + home + dashboard;
                 utility_navbar.innerHTML = `<div id='user_display'>${this.responseText}</div>` + logout;
@@ -48,7 +48,7 @@ function loadNavbar(){
 		}
 	}
 
-	xhttp.open("POST", "php/login.php", "true");
+	xhttp.open("GET", "php/login.php", "true");
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send();
 }

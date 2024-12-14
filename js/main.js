@@ -41,6 +41,9 @@ function toggleActive(id, ids){
         if (element == id){
             return;
         }
+		if (!document.getElementById(element)) {
+			return;
+		}
         var elemToDeactivate = document.getElementById(element).classList;
         if (elemToDeactivate != null){   
             elemToDeactivate.remove("active");
@@ -111,7 +114,6 @@ function sendLogoutRequest() {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4){
-			console.log(this.responseText);
 			if (this.status == 200){
 				if (this.responseText === "Log Out Successful"){
 					arrayRemove(navbarIds, 'dashboard');
@@ -147,14 +149,12 @@ function sendLoginRequest(){
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4){
-			console.log(this.responseText);
 			if (this.status == 200){
 				if (!this.responseText.includes("Invalid")){
 					document.getElementById('test').innerHTML = "Logged in!";
 					navbarIds.push('dashboard');
 					site_navbar.innerHTML = logo + home + dashboard;
 					utility_navbar.innerHTML = `<div id='user_display'>${user}</div>` + logout;
-					console.log(utility_navbar.innerHTML);
 					setTimeout(function() {redirect("Dashboard");}, redirect_delay);
 				} else {
 					document.getElementById('test').innerHTML = "Invalid User or Password";

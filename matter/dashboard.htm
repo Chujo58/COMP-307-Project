@@ -1,43 +1,27 @@
-<!-- <h1>Course List</h1> -->
-<!-- from all the tables generates by staff dash, take the course tag and course id to display -->
-<!-- staff dash generates a table per staff -->
 <header>
     <h1>Course List</h1>
 </header>
 
 <div class="container">
     <!-- Filter Section -->
-     <div class="sidebar">
-         <div class="filter-section">
-             <h2>Filter</h2>
-             <form id="filter-form">
-                 <label for="course-name">Course Name:</label>
-                 <input type="text" id="course-name" name="course-name" placeholder="Enter course name">
-                 
-                 <label for="course-id">Course ID:</label>
-                 <input type="text" id="course-id" name="course-id" placeholder="Enter course ID">
-                 
-                 <button type="submit">Apply Filter</button>
-                </form>
-            </div>
+    <div class="sidebar">
+        <div class="filter-section">
+            <h2>Filter</h2>
+            <form id="filter-form" method="GET" action="php/dashboard.php">
+                <label for="course-name">Course Name:</label>
+                <input type="text" name="course-name" id="course-name" placeholder="Enter course name" onkeydown="filterCourses();">
+                <label for="course-id">Course ID:</label>
+                <input type="text" name="course-id" id="course-id" placeholder="Enter course id" onkeydown="filterCourses();">
+                <label for="course-level">Course Levels:</label>
+                <select id="course-level" name="course-level" onchange="filterCourses();">
+                    <option value="">All Levels</option>                    
+                </select>
+                <button type="button" onclick="reset();filterCourses();">Reset to Default</button>
+            </form>
         </div>
+    </div>
 
     <!-- Course List Section -->
-    <div class="course-list">
-        <div class="box-holder">
-            <!-- TODO: need to dynamically insert the courses from the course_list tabel in database (avoid using headers, use a div and give class)-->
-            <div class="box course-block">
-                <h3 class="heading-higlight">COMP307</h3>
-                <p>Course ID: COMP101</p>
-            </div>
-            <div class="box course-block">
-                <h3>Course Name 2</h3>
-                <p>Course ID: COMP102</p>
-            </div>
-            <div class="box course-block">
-                <h3>Course Name 3</h3>
-                <p>Course ID: COMP103</p>
-            </div>
-        </div>
+    <div class="course-list" id="course-list">
     </div>
 </div>

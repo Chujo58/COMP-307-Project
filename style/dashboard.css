@@ -48,6 +48,15 @@ header {
     display: flex;
     flex-direction: column;
 }
+
+#dashboard-filter-heading::before{
+    background: linear-gradient(180deg, transparent 50%, hsl(from var(--title-text-gradient) h s l / 50%) 50%);
+}
+
+.filter-section:hover > form h2.heading-highlight::before{
+    height: 100%;
+}
+
 .filter-section h2 {
     margin-bottom: 1rem;
     color: var(--title-text);
@@ -59,6 +68,7 @@ header {
 }
 
 .filter-section form input, select {
+    font-family: 'Parkinsans', sans-serif;
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;
@@ -69,6 +79,7 @@ header {
 }
 
 .filter-section form button {
+    font-family: 'Parkinsans', sans-serif;
     width: 100%;
     padding: 0.5rem;
     border: none;

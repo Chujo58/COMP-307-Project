@@ -32,8 +32,12 @@ if ($conn->connect_error) {
     die("Internal Server Error: " . $conn->connect_error);
 }
 
-if (isset($_COOKIE['ticket_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $ticket_id = $_COOKIE['ticket_id'];
+    if (is_null($ticket_id)) {
+        echo "Require Log In or Expired Ticket";
+        exit();
+    }
 
     $stmt = $conn->prepare("SELECT user, user_id, exp_date FROM valid_users WHERE ticket_id = ?");
     $stmt->bind_param("s", $ticket_id);
@@ -43,16 +47,17 @@ if (isset($_COOKIE['ticket_id'])) {
 
     if ($result->num_rows > 0) {
         //check if expired
-        if (time() > $user_data['exp_date']) {
-            echo "Invalid or expired ticket.";
+        if (time() > $user_data['exp_date'] || is_null($user_data['exp_date'])) {
+            setcookie('ticket_id', '', time() - 3600, '/');
+            echo "Expired ticket.";
+            exit();
+        } else {
+            echo $user_data['user'];
         }
-        echo $user_data['user'];
-        // Redirect to the dashboard or homepage
-        exit();
     } else {
-        echo "Invalid or expired ticket.";
+        echo "Require Log In or Expired Ticket";
+        exit();
     }
-
     $stmt->close();
 }
 
@@ -68,7 +73,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $password = $_POST["password"];
 
     // Verify if user exists and get hashed password + user_id
-    $stmt = $conn->prepare("SELECT user, pass, user_id, ticket_id FROM valid_users WHERE user = ?");
+    $stmt = $conn->prepare("SELECT user, pass, user_id, ticket_id, exp_date FROM valid_users WHERE user = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -89,7 +94,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     // Check if the user already has a ticket
     $cookie_expiry = time() + (2 * 24 * 60 * 60); // 2 days (60 * 60 min = 1 hour then mult 24 then 2)
 
-    if (is_null($user_data["ticket_id"])) {
+    if (is_null($user_data["ticket_id"]) || time() > $user_data["exp_date"]) {
         $ticket_id = generateTicket($conn, $user_data["user_id"], $cookie_expiry);
     } else {
         $ticket_id = $user_data["ticket_id"];

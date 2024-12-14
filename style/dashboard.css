@@ -1,0 +1,109 @@
+@import './constants.css';
+:root{
+    --filter-width: 20vw;
+}
+
+.container {
+    color: var(--text);
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+}
+@media screen and (max-width: 800px){
+    .container{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .sidebar{
+        width: 100% !important;
+    }
+    .course-list{
+        /* display: flex; */
+        width: 100% !important;
+    }
+    .box{
+        width: calc(100% - 2 * calc(2em));
+        margin: 1% 0% 1% 0% !important;
+    }
+}
+
+header {
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--box-background);
+    margin-bottom: 1rem;
+}
+
+/* Filter Section */
+.filter-section {
+    /* align-self: center; */
+    background-color: var(--box-background);
+    border: 1px solid var(--box-highlight);
+    border-radius: 8px;
+    padding: 1rem;
+    height: fit-content;
+}
+.sidebar{
+    width: var(--filter-width);
+    display: flex;
+    flex-direction: column;
+}
+.filter-section h2 {
+    margin-bottom: 1rem;
+    color: var(--title-text);
+}
+
+.filter-section form label {
+    display: block;
+    margin: 0.5rem 0;
+}
+
+.filter-section form input, select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--box-highlight);
+    border-radius: 4px;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+.filter-section form button {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--title-text);
+    color: #fff;
+    cursor: pointer;
+}
+
+.filter-section form button:hover {
+    background-color: var(--title-text-gradient);
+}
+
+/* Course List */
+.course-list{
+    display: block;
+    width: calc(100% - var(--filter-width));
+}
+
+.course-block {
+    /* width: calc(100%/3);
+    background-color: var(--box-background); */
+    border: 1px solid var(--box-highlight);
+    /* border-radius: 30px !important; */
+    /* padding: 1rem;
+    text-align: center;
+    margin: 1rem; */
+    margin: 0 1% 1% 1%;
+}
+
+.course-block h3 {
+    margin-bottom: 0.5rem;
+    color: var(--title-text);
+}
+
+.course-block p {
+    color: var(--text);
+}

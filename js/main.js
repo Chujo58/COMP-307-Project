@@ -216,3 +216,39 @@ function sendSignUpRequest(event){
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(`username=${user}&password=${pass}&confirm_password=${c_pass}`);
 }
+
+// 1. Load course levels dynamically
+function loadLevels() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('course-level').innerHTML += this.responseText;
+        }
+    };
+    xhttp.open('GET', 'php/dashboard.php?loadLevels=true', true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+}
+
+// 2. Filter and load courses dynamically
+function filterCourses() {
+    const courseName = document.getElementById('course-name').value;
+    const courseID = document.getElementById('course-id').value;
+    const courseLevel = document.getElementById('course-level').value;
+
+    const queryParams = `course-name=${encodeURIComponent(courseName)}&course-id=${encodeURIComponent(courseID)}&course-level=${encodeURIComponent(courseLevel)}`;
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('course-list').innerHTML = this.responseText;
+        }
+    };
+    xhttp.open('POST', `php/dashboard.php`, true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(queryParams);
+}
+
+// Attach event listeners
+window.addEventListener('load', loadLevels);
+window.addEventListener('load', filterCourses);

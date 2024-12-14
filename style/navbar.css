@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: row;
     align-content: space-between;
+    align-items: center;
 }
 
 .nav-item {
@@ -50,6 +51,7 @@
 #site-navbar {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 #utility-navbar {
@@ -57,6 +59,7 @@
     flex-direction: row;
     align-content: space-between;
     margin-left: auto;
+    align-items: center;
 }
 
 .active.nav-item::before {

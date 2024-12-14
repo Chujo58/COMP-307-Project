@@ -10,10 +10,9 @@
     <body>
         <div class="holder" id="topbar">
             <a onclick="toggleSidebar();" id="sidebar-menu">
-                <img src="../icons/icons8-menu-ios.svg">
+                <img src="../icons/icons8-close-win.svg">
             </a>
             <a onclick="toToday();">
-                <!-- <div class="heading-highlight">Today</div> -->
                  Today
             </a>
             <div class="icons" id="week_btns">
@@ -23,7 +22,6 @@
                     class="material-symbols-rounded">chevron_right</span>
             </div>
             <p class="current-month heading-highlight" id="current-week"></p>
-            <!-- TODO: Fix the thing with the left margin -->
             <a style="margin-left: auto;" onclick="toggleView();" id="view-selector">
                 Week
             </a>
@@ -60,15 +58,7 @@
                 </div>
             </div>
             <div class="calendar" id="weekly-calendar">
-                <ul class="weekday" id="weekly-calendar-label">
-                    <!-- <li>Sun</li>
-                    <li>Mon</li>
-                    <li>Tue</li>
-                    <li>Wed</li>
-                    <li>Thu</li>
-                    <li>Fri</li>
-                    <li>Sat</li> -->
-                </ul>
+                <ul class="weekday" id="weekly-calendar-label"></ul>
                 <ul class="days" id="weekly-days"></ul>
                 <div class="timetable-wrapper">
                     <div class="timetable" id="timetable">

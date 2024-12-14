@@ -3,6 +3,7 @@ currYear = date.getFullYear(),
 currMonth = date.getMonth();
 
 let selectedDate = date;
+let displayedDates = null;
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const short_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -18,6 +19,10 @@ let index_first_day = weekday_labels.indexOf(first_day_of_week);
 //     renderCalender();
 //     clickDate(`curr_${date.getDate()}`);
 // }
+
+function getCSSvariable(var_name){
+    return getComputedStyle(document.body).getPropertyValue(var_name);
+}
 
 /**
  * Gets the index of week with day `id`.
@@ -73,13 +78,14 @@ function clickDate(id){
 
     if (numDays == 7){
         ({ contains_other_month, before } = generateWeekly_Days_Labels(numDays, currentWeekDays, contains_other_month, before, weekDays));
+        displayedDates = currentWeekDays;
     }
     else if (numDays == 1){
         ({ contains_other_month, before } = generateDailyDays_Labels(numDays, contains_other_month, before, weekDays, id));
+        displayedDates = document.getElementById(id);
     }
 
     // Updates the month title
-
     if (viewSelectorText.includes('Week')) updateMonthTitle(id, contains_other_month, before);
     if (viewSelectorText.includes('Day')) updateMonthTitle(id, false, false);
 }
@@ -287,15 +293,16 @@ function onLoad(){
 
 window.addEventListener('load', onLoad);
 
+// TODO: FINISH THIS BS
 /**
- * Function to create events in the calendar.
+ * Function to show events in the calendar.
  * @param {string} eventTitle Name of the event
  * @param {string} eventDesc Description of the event
  * @param {Date} eventStartTime Start time of event
  * @param {Date} eventStopTime Stop time of event
  * @param {string} eventFilter Filter of event (used for filtering in sidebar of calendar)
  */
-function addEvent(eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
+function showEvents(eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
     var eventId = crypto.randomUUID();
     var weekday_index = eventStartTime.getDay();
     var timeCol = document.getElementById(`time-col-${weekday_index}`);
@@ -303,14 +310,36 @@ function addEvent(eventTitle, eventDesc, eventStartTime, eventStopTime, eventFil
     let calendarDaysPlaceholder = document.getElementById("days");
     let calendarDays = calendarDaysPlaceholder.getElementsByTagName("li");
 
-    var week_id = getWeek(calendarDays, id);    
-    var currentWeekDays = [...calendarDays].slice(week_id,week_id+7);
+    // Get the displayed first date.
+    var startDisplayedDate = selectedDate;
+    if (Array.isArray(displayedDates)){
+        startDisplayedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay());
+    }
+    
+    
 }
 
-// TODO: Finish implementing the clearView method
+function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
+    var timeHeight = getCSSvariable('--time-height');
+    var timePadding = getCSSvariable('--time-padding-top');
+
+    // eventTop = `calc(calc(${eventStartTime.getHours()} * 60 + ${eventStartTime.getMinutes()}) / calc(${timeHeight} * 24 * 60) )`;
+    timeDiff = (eventStopTime - eventStartTime)/1000/60;
+    // eventHeight = `calc(${timeDiff} / calc(${timeHeight} * 24 * 60) )`;
+
+    eventTop = `calc(${timeHeight} * calc(calc(${eventStartTime.getHours()} * 60 + ${eventStartTime.getMinutes()}) / 60))`;
+    eventHeight = `calc(${timeHeight} * ${timeDiff} / 60)`;
+
+    var column = document.getElementById(`time-col-${columnid}`);
+    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}'>${eventTitle}</div>`
+}
+
 function clearView(){
     var timetable = document.getElementById("time-row");
-    var timeColumns = timetable.getElementsByClassName("time-column");
+    var timeColumns = [...timetable.getElementsByClassName("time-column")];
+    timeColumns.forEach(col => {
+        col.innerHTML = "";
+    });
 }
 
 function generateTimeCols(numCols){
@@ -342,14 +371,17 @@ function toggleView(){
 function toggleSidebar(){
     var sidebar = document.getElementById("sidebar");
     var calendar = document.getElementById('weekly-calendar');
+    var sidebar_menu = document.getElementById('sidebar-menu');
     if (sidebar.classList.contains('hidden')){
         sidebar.classList.remove('hidden');
         calendar.classList.remove('full-size');
+        sidebar_menu.innerHTML = `<img src='../icons/icons8-close-win.svg'>`
         return;
     }
     else {
         sidebar.classList.add('hidden');
         calendar.classList.add('full-size');
+        sidebar_menu.innerHTML = `<img src='../icons/icons8-menu-win.svg'>`
         return;
     }
 }

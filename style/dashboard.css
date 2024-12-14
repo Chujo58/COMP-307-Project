@@ -4,8 +4,6 @@
 }
 
 .container {
-    /* min-height: 100vh; */
-    /* background-color: var(--background); */
     color: var(--text);
     padding: 2rem;
     display: flex;
@@ -85,21 +83,9 @@ header {
 }
 
 /* Course List */
-/* .course-list {
-    flex: 3;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-} */
 .course-list{
     display: block;
     width: calc(100% - var(--filter-width));
-}
-
-.course-row{
-    display: flex;
-    flex-direction: row;
-    /* //width: 100%; */
 }
 
 .course-block {

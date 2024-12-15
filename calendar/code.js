@@ -295,39 +295,50 @@ window.addEventListener('load', onLoad);
 
 // TODO: FINISH THIS BS
 /**
- * Function to show events in the calendar.
- * @param {string} eventTitle Name of the event
- * @param {string} eventDesc Description of the event
- * @param {Date} eventStartTime Start time of event
- * @param {Date} eventStopTime Stop time of event
- * @param {string} eventFilter Filter of event (used for filtering in sidebar of calendar)
+ * Shows all events of selected day.
+ * @param {Date} day Day to show events
  */
-function showEvents(eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
-    var eventId = crypto.randomUUID();
-    var weekday_index = eventStartTime.getDay();
-    // var timeCol = document.getElementById(`time-col-${weekday_index}`);
-
-    let calendarDaysPlaceholder = document.getElementById("days");
-    let calendarDays = calendarDaysPlaceholder.getElementsByTagName("li");
-
-    // Get the displayed first date.
-    // var startDisplayedDate = selectedDate;
-    // if (Array.isArray(displayedDates)){
-    //     startDisplayedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay());
-    // }
+function showEvents(day){
+    // var eventId = crypto.randomUUID();
+    var weekday_index = day.getDay();
+    var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
+    var stop_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()+1).getTime();
     
-    
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        if (this.readyState == 4){
+            if (this.status == 200){
+                results = this.responseText.split('\\n');
+                results = results.slice(0,results.length - 1);
+                results.forEach(row => {
+                    var data = row.split(',');
+                    // console.log(data);
+                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4]);
+                });
+            }
+            else {
+                console.log("Request failed with status: " + this.status);
+            }
+        }
+    }
+
+    xhttp.open("POST", "../php/calendar.php", 'true');
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}`);
 }
 
-function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTime, eventStopTime, eventFilter){
+function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter){
     var timeHeight = getCSSvariable('--time-height');
 
+    var eventStartTime = new Date(Number(eventStartTimestamp));
+    var eventStopTime = new Date(Number(eventStopTimestamp));
+
     timeDiff = (eventStopTime - eventStartTime)/1000/60;
-    eventTop = `calc(${timeHeight} * calc(calc(${eventStartTime.getHours()} * 60 + ${eventStartTime.getMinutes()}) / 60))`;
-    eventHeight = `calc(${timeHeight} * ${timeDiff} / 60)`;
+    eventTop = `calc(${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes())/ 60})`;
+    eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
 
     var column = document.getElementById(`time-col-${columnid}`);
-    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}'>${eventTitle}</div>`
+    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){

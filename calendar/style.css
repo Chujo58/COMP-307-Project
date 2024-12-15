@@ -392,6 +392,7 @@ header .current-month {
     /* height: calc(26 * calc(2 * var(--time-padding) + 0.5 * var(--week-font-size))); */
     height: calc( 24 * var(--time-height));
     border-left: solid var(--calendar-accent) 1px;
+    position: relative;
 }
 
 #time-sep {
@@ -408,5 +409,18 @@ header .current-month {
 }
 
 .event {
-    position: relative;
+    position: absolute;
+    font-size: 0.5em;
+    font-family: 'Outfit', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+
+    background: white;
+    border-radius: 10px;
+    width: 95%;
+}
+
+.event span {
+    display: block;
+    padding: 5%;
 }

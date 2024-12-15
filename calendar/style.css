@@ -422,5 +422,5 @@ header .current-month {
 
 .event span {
     display: block;
-    padding: 5%;
+    padding: 10px;
 }

@@ -79,10 +79,14 @@ function clickDate(id){
     if (numDays == 7){
         ({ contains_other_month, before } = generateWeekly_Days_Labels(numDays, currentWeekDays, contains_other_month, before, weekDays));
         displayedDates = currentWeekDays;
+        clearView();
+        displayEventForCurrView(true);
     }
     else if (numDays == 1){
         ({ contains_other_month, before } = generateDailyDays_Labels(numDays, contains_other_month, before, weekDays, id));
         displayedDates = document.getElementById(id);
+        clearView();
+        displayEventForCurrView(false);
     }
 
     // Updates the month title
@@ -228,9 +232,10 @@ function toToday(){
 function renderTimes(){
     var times = document.getElementById("timestamps");
     times.innerHTML += `<div><span>12 AM</span></div>`;
-    for (let i = 1; i <= 12; i++){
+    for (let i = 1; i < 12; i++){
         times.innerHTML += `<div><span>${i} AM</span></div>`;
     }
+    times.innerHTML += `<div><span>12 PM</span></div>`;
     for (let i = 1; i < 12; i++){
         times.innerHTML += `<div><span>${i} PM</span></div>`
     }
@@ -270,10 +275,17 @@ function onLoad(){
         }
         else {
             icon.addEventListener("click", () => {
+                clearView();
                 var viewSelectorText = document.getElementById("view-selector").innerHTML;
                 var daysToAdd = 0;
-                if (viewSelectorText.includes('Week')) daysToAdd = 7;
-                if (viewSelectorText.includes('Day')) daysToAdd = 1;
+                var weeklyViewToggled = false;
+                if (viewSelectorText.includes('Week')) {
+                    daysToAdd = 7;
+                    weeklyViewToggled = true;
+                }
+                if (viewSelectorText.includes('Day')) {
+                    daysToAdd = 1;
+                }
 
                 numDays = icon.id === "prev_week" ? -daysToAdd : daysToAdd;
                 var newDay = selectedDate.getDate() + numDays;
@@ -283,24 +295,26 @@ function onLoad(){
 
                 renderCalender();
                 clickDate(`curr_${selectedDate.getDate()}`);
+                displayEventForCurrView(weeklyViewToggled);
             });
         }
     });
     renderCalender();
     clickDate(`curr_${date.getDate()}`);
     renderTimes();
+    displayEventForCurrView(true);
 }
 
 window.addEventListener('load', onLoad);
 
-// TODO: FINISH THIS BS
 /**
  * Shows all events of selected day.
  * @param {Date} day Day to show events
+ * @param {boolean} weeklyView Is weekly view toggled on.
  */
-function showEvents(day){
+function showEvents(day, weeklyView){
     // var eventId = crypto.randomUUID();
-    var weekday_index = day.getDay();
+    var weekday_index = weeklyView ? day.getDay() : 0;
     var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
     var stop_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()+1).getTime();
     
@@ -359,18 +373,35 @@ function generateTimeCols(numCols){
     }
 }
 
+function displayEventForCurrView(weeklyView){
+    if (weeklyView){
+        var i = 0;
+        while (i < 7){
+            new_date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay() + i);
+            showEvents(new_date, true);
+            i++;
+        }
+    } else {
+        showEvents(selectedDate, false);
+    }
+}
+
 function toggleView(){
     var viewSelector = document.getElementById("view-selector");
     if (viewSelector.innerHTML.includes("Week")){
         viewSelector.innerHTML = "Day";
         generateTimeCols(1);
         clickDate(`curr_${selectedDate.getDate()}`);
+        document.getElementById('time-col-0').style = 'width: 100%;'
+        displayEventForCurrView(false);
         return;
     }
     if (viewSelector.innerHTML.includes("Day")){
         viewSelector.innerHTML = "Week";
         generateTimeCols(7);
         clickDate(`curr_${selectedDate.getDate()}`);
+        document.getElementById('time-col-0').style = '';
+        displayEventForCurrView(true);
         return;
     }
 }

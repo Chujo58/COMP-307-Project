@@ -1,0 +1,46 @@
+.footer {
+    background-color: black;
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    padding: 30px;
+    column-gap: 50px;
+}
+
+.footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer a {
+    text-decoration: none;
+    color: white;
+}
+
+.footer a:visited,
+.footer a:active {
+    color: white;
+}
+
+#footer-logo {
+    width: 6vw;
+    margin-left: 20px;
+}
+
+.credits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+        font-size: 2.5rem;
+    }
+}
+
+.internal,
+.quick-links,
+.explore {
+    padding-left: 35%;
+    justify-self: center;
+}

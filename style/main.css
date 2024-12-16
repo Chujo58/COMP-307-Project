@@ -6,6 +6,7 @@
 @import './form.css';
 @import './dashboard.css';
 @import './list_staff.css';
+@import './bot.css';
 
 html {
     scrollbar-color: var(--scroll-color) var(--navbar-color);

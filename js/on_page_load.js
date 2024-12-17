@@ -47,11 +47,8 @@ function loadNavbar(){
 		if (this.readyState == 4 && this.status == 200){
             let response = JSON.parse(this.responseText);
             if (response.status !== "success"){
-                window.sessionStorage.setItem("ticketExpired", true);
-                if (!window.sessionStorage.getItem("ticketRedirected")) {
-                    window.sessionStorage.setItem("ticketRedirected", "true"); // Prevent future redirects
-                    window.location.href = "./index.php?Page=Home";
-                }     
+                window.sessionStorage.setItem("ticketExpired", true);   
+                window.location.href = "./index.php?Page=Home"; 
             } else {
                 site_navbar.innerHTML = logo + home + dashboard;
                 utility_navbar.innerHTML = `<div id='user_display'>${response.user}</div>` + logout;

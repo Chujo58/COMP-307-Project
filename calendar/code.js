@@ -80,13 +80,13 @@ function clickDate(id){
         ({ contains_other_month, before } = generateWeekly_Days_Labels(numDays, currentWeekDays, contains_other_month, before, weekDays));
         displayedDates = currentWeekDays;
         clearView();
-        displayEventForCurrView(true);
+        displayFiltered(true);
     }
     else if (numDays == 1){
         ({ contains_other_month, before } = generateDailyDays_Labels(numDays, contains_other_month, before, weekDays, id));
         displayedDates = document.getElementById(id);
         clearView();
-        displayEventForCurrView(false);
+        displayFiltered(false);
     }
 
     // Updates the month title
@@ -222,7 +222,6 @@ function toToday(){
     currMonth = date.getMonth();
     currYear = date.getFullYear();
     renderCalender();
-    var viewSelectorText = document.getElementById("view-selector").innerHTML;
     clickDate(`curr_${date.getDate()}`);
 }
 
@@ -295,14 +294,15 @@ function onLoad(){
 
                 renderCalender();
                 clickDate(`curr_${selectedDate.getDate()}`);
-                displayEventForCurrView(weeklyViewToggled);
+                displayFiltered(weeklyViewToggled);
             });
         }
     });
     renderCalender();
     clickDate(`curr_${date.getDate()}`);
     renderTimes();
-    displayEventForCurrView(true);
+    loadFilters();
+    displayFiltered(true);
 }
 
 window.addEventListener('load', onLoad);
@@ -312,7 +312,7 @@ window.addEventListener('load', onLoad);
  * @param {Date} day Day to show events
  * @param {boolean} weeklyView Is weekly view toggled on.
  */
-function showEvents(day, weeklyView){
+function showEvents(day, weeklyView, filter){
     // var eventId = crypto.randomUUID();
     var weekday_index = weeklyView ? day.getDay() : 0;
     var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
@@ -326,7 +326,7 @@ function showEvents(day, weeklyView){
                 results = results.slice(0,results.length - 1);
                 results.forEach(row => {
                     var data = row.split(',');
-                    // console.log(data);
+                    console.log(data);
                     addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4]);
                 });
             }
@@ -338,7 +338,7 @@ function showEvents(day, weeklyView){
 
     xhttp.open("POST", "../php/calendar.php", 'true');
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}`);
+    xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}`);
 }
 
 function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter){
@@ -373,16 +373,16 @@ function generateTimeCols(numCols){
     }
 }
 
-function displayEventForCurrView(weeklyView){
+function displayEventForCurrView(weeklyView, filter){
     if (weeklyView){
         var i = 0;
         while (i < 7){
             new_date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay() + i);
-            showEvents(new_date, true);
+            showEvents(new_date, true, filter);
             i++;
         }
     } else {
-        showEvents(selectedDate, false);
+        showEvents(selectedDate, false, filter);
     }
 }
 
@@ -393,7 +393,7 @@ function toggleView(){
         generateTimeCols(1);
         clickDate(`curr_${selectedDate.getDate()}`);
         document.getElementById('time-col-0').style = 'width: 100%;'
-        displayEventForCurrView(false);
+        displayFiltered(false);
         return;
     }
     if (viewSelector.innerHTML.includes("Day")){
@@ -401,7 +401,7 @@ function toggleView(){
         generateTimeCols(7);
         clickDate(`curr_${selectedDate.getDate()}`);
         document.getElementById('time-col-0').style = '';
-        displayEventForCurrView(true);
+        displayFiltered(true);
         return;
     }
 }
@@ -421,5 +421,44 @@ function toggleSidebar(){
         calendar.classList.add('full-size');
         sidebar_menu.innerHTML = `<img src='../icons/icons8-menu-win.svg'>`
         return;
+    }
+}
+
+function loadFilters(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200){
+            document.getElementById('filters').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open('GET', `../php/calendar.php?loadFilters=true`, false);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+}
+
+function displayFiltered(weekly){
+    var filters = document.querySelectorAll('div.filter');
+    var clicked_filters = [];
+    filters.forEach(filter => {
+        var item = filter.getElementsByTagName('input')[0];
+        if (item.checked){
+            clicked_filters.push(item.getAttribute('event_filter'));
+        }
+    });
+
+    clearView();
+    clicked_filters.forEach(filter_id => {
+        displayEventForCurrView(weekly, filter_id);       
+    });
+}
+
+function changeFilter(){
+    var viewSelector = document.getElementById("view-selector");
+    if (viewSelector.innerHTML.includes("Week")){
+        displayFiltered(true);
+    }
+    else {
+        displayFiltered(false);
     }
 }

@@ -1,0 +1,47 @@
+<header>
+  <div class="left-h">
+    <button class="openbtn" onclick="openNav()">
+      <img src="icons/icons8-menu-win.svg" />
+    </button>
+  </div>
+  <div class="logo">Staff Dashboard</div>
+</header>
+
+<div class="container">
+  <div id="staffdash-sidebar" class="sidebar">
+    <div
+      style="display: flex; flex-direction: row-reverse; align-items: center"
+    >
+      <a class="closebtn" onclick="closeNav()"
+        ><img src="icons/icons8-close-win.svg" />
+      </a>
+      <a href="#">Main Page</a>
+    </div>
+    <a href="#">Availabilities</a>
+    <a href="#">Course</a>
+  </div>
+
+  <!-- Calendar and Appointments -->
+  <div class="calendar-wrapper">
+    <!-- Weekly Calendar -->
+    <div class="calendar" id="calendar">
+      <h2>Weekly Calendar</h2>
+    </div>
+
+    <!-- Upcoming Appointments -->
+    <div class="upcoming-appointments">
+      <h2>Upcoming Appointments</h2>
+      <div id="appointments"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openNav() {
+    document.getElementById("staffdash-sidebar").style.display = "block";
+  }
+
+  function closeNav() {
+    document.getElementById("staffdash-sidebar").style.display = "none";
+  }
+</script>

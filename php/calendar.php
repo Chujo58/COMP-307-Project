@@ -9,11 +9,8 @@ function echoLikeCSV($array){
     echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . '\n';
 }
 
-function showData($method, $conn){
-    $start = $method['start'];
-    $stop = $method['stop'];
-
-    $result = $conn->query("SELECT * FROM events WHERE event_start BETWEEN '" . $start ."' AND '" . $stop . "'");
+function showData($query, $conn){
+    $result = $conn->query($query);
 
     if ($result->num_rows == 0){
         echo "No events";
@@ -21,20 +18,40 @@ function showData($method, $conn){
     else {
         while ($row = $result->fetch_assoc()){
             echoLikeCSV($row);
-            // echo $row['event_name'];
-            // echo '<br>';
-            // echo $row['event_desc'];
-            // echo '<br>';
         }
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-    // $time_stamp = $_GET['date'];
-    showData($_GET,$conn);
+if (isset($_GET['loadFilters'])) {
+    $query = "SELECT DISTINCT event_filter FROM events ORDER BY event_filter";
+    $result = $conn->query($query);
+
+    if (!$result){
+        die("Query failed: " . $conn->error);
+    }
+
+    while ($row = $result->fetch_assoc()){
+        echo '<div class="filter"><input type="checkbox" checked="true" event_filter="' . $row['event_filter'] . '" onclick="changeFilter();"><span>' . $row['event_filter'] . '</span></div>';
+    }
+
+    $conn->close();
+    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-    showData($_POST,$conn);
+    $start = $_POST['start'];
+    $stop = $_POST['stop'];
+
+    $query = "SELECT * FROM events WHERE event_start BETWEEN '" . $start ."' AND '" . $stop . "'";
+
+    $filter = $_POST['filter'] ?? '';
+    
+    if (!empty($filter)){
+        $query .= " AND event_filter='" . $filter . "'";
+    }
+    
+    // echo $query . '<br>';
+
+    showData($query, $conn);
 }
 ?>

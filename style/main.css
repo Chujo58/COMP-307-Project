@@ -1,25 +1,26 @@
-@import './box.css';
-@import './navbar.css';
-@import './title.css';
-@import './divider.css';
-@import './popup.css';
-@import './form.css';
-@import './dashboard.css';
-@import './list_staff.css';
-@import './bot.css';
+@import "./box.css";
+@import "./navbar.css";
+@import "./title.css";
+@import "./divider.css";
+@import "./popup.css";
+@import "./form.css";
+@import "./dashboard.css";
+@import "./staffdash.css";
+@import "./list_staff.css";
+@import "./bot.css";
 
 html {
-    scrollbar-color: var(--scroll-color) var(--navbar-color);
+  scrollbar-color: var(--scroll-color) var(--navbar-color);
 }
 
-*::selection{
-    background: var(--text-highlight);
+*::selection {
+  background: var(--text-highlight);
 }
 
 body {
-    margin: 0;
-    font-family: 'Parkinsans', sans-serif;
-    font-weight: 300;
-    font-style: normal;
-    font-optical-sizing: auto !important;
+  margin: 0;
+  font-family: "Parkinsans", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-optical-sizing: auto !important;
 }

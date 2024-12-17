@@ -25,6 +25,6 @@
     session_unset();
     session_destroy();
 
-    header("Location: ../index.php?Page=Home&reload=true");
+    // header("Location: ../index.php?Page=Home&reload=true");
     exit();
 ?>

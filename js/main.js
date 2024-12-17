@@ -281,3 +281,20 @@ function redirectToStaffList(courseID) {
     // Use window.location.href for redirection
     window.location.href = `index.php?Page=StaffList&course_id=${courseID}`;
 }
+
+function toggleNavbar(){
+	var navbar = document.getElementById('navbar');
+	var icon = document.getElementById('navbar-menu-icon');
+	if (navbar.classList.contains('hidden')){
+		navbar.classList.remove('hidden');
+		icon.innerHTML = "<img src='icons/icons8-close-win.svg'>";
+		icon.classList.remove('show');
+		return;
+	}
+	else {
+		navbar.classList.add('hidden');
+		icon.innerHTML = "<img src='icons/icons8-menu-win.svg'>";
+		icon.classList.add('show');
+		return;
+	}
+}

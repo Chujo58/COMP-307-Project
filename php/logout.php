@@ -1,8 +1,5 @@
 <?php
     session_start();
-    header("Cache-Control: private, no-store, max-age=0, must-revalidate");
-    header("Pragma: no-cache");
-    header("Expires: 0");
 
     if (isset($_COOKIE['ticket_id'])) {
         $token = $_COOKIE['ticket_id'];

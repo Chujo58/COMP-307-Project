@@ -1,4 +1,9 @@
 <?php
+    session_start();
+    header("Cache-Control: private, no-store, max-age=0, must-revalidate");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
     if (isset($_COOKIE['ticket_id'])) {
         $token = $_COOKIE['ticket_id'];
 
@@ -14,8 +19,15 @@
         $stmt->close();
 
         setcookie('ticket_id', "", time() - 3600, "/", "", true, true);
-        echo "Log Out Successful";
+
         $conn->close();
     }
+    unset($_SESSION['expired_ticket']);
+    unset($_SESSION['user_id']);
 
+    session_unset();
+    session_destroy();
+
+    header("Location: ../index.php?Page=Home&reload=true");
+    exit();
 ?>

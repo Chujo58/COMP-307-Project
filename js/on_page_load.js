@@ -33,6 +33,8 @@ function loadNavbar(){
 
     if (window.sessionStorage.getItem("ticketExpired")) {
         // Prevent making further requests if already redirected
+        window.sessionStorage.removeItem("ticketExpired");
+        window.location.href = "./index.php?Page=Home";
         return;
     }
 
@@ -40,14 +42,16 @@ function loadNavbar(){
     var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200){
-            if (this.responseText.includes("Expired")){
-                console.log("Redirecting to home because ticket is expired.");
+            let response = JSON.parse(this.responseText);
+            if (response.status !== "success"){
                 window.sessionStorage.setItem("ticketExpired", true);
-                window.location.href = "./index.php?Page=Home";           
+                if (!window.sessionStorage.getItem("ticketRedirected")) {
+                    window.sessionStorage.setItem("ticketRedirected", "true"); // Prevent future redirects
+                    window.location.href = "./index.php?Page=Home";
+                }     
             } else {
-                console.log('Logged in automatically');
                 site_navbar.innerHTML = logo + home + dashboard;
-                utility_navbar.innerHTML = `<div id='user_display'>${this.responseText}</div>` + logout;
+                utility_navbar.innerHTML = `<div id='user_display'>${response.user}</div>` + logout;
                 reloadActive();
             }
         } else {
@@ -55,7 +59,7 @@ function loadNavbar(){
 		}
 	}
 
-	xhttp.open("GET", "php/login.php", "true");
+	xhttp.open("GET", "php/auth.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send();
 }

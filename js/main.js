@@ -61,7 +61,7 @@ function closePopup(){
 
 // FUNCTIONS FOR THE LOGIN AND SIGNUP FORMS
 let default_exp_cookie = 10;
-let redirect_delay = 1500;
+let redirect_delay = 500;
 
 function getValue(id){
 	return document.getElementById(id).value ?? '';
@@ -98,7 +98,7 @@ function isFieldEmpty(id) {
 
 //CHANGE IF YOU WANT
 function redirect(page){
-	window.location = `./index.php?Page=${page}`;
+	window.location = `./index.php?Page=${page}&reload=true`;
 }
 
 function sendLogoutRequest() {
@@ -107,19 +107,21 @@ function sendLogoutRequest() {
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4){
 			if (this.status == 200){
-				if (this.responseText === "Log Out Successful"){
-					//redirects to home and update the navbar
-					utility_navbar.innerHTML = signup + login;
-					redirect("Home");
-				} else {
-					console.log("Logout failed");
+				//redirects to home and update the navbar
+				redirect("Home");
+				if (window.history && window.history.pushState) {
+					window.history.pushState(null, null, window.location.href);
+					window.onpopstate = function() {
+						window.history.pushState(null, null, window.location.href);
+					};
 				}
+				utility_navbar.innerHTML = signup + login;
 			} else {
 				console.log("Request failed with status: " + this.status);
 			}
 		}
 	}
-	xhttp.open("POST", "php/logout.php", "true");
+	xhttp.open("POST", "php/logout.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send();
 }
@@ -157,7 +159,7 @@ function sendLoginRequest(){
 		}
 	}
 
-	xhttp.open("POST", "php/login.php", "true");
+	xhttp.open("POST", "php/login.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(`username=${user}&password=${pass}`);
 }
@@ -210,7 +212,7 @@ function sendSignUpRequest(){
 		}
 	}
 
-	xhttp.open("POST","php/signup.php","true");
+	xhttp.open("POST","php/signup.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(`username=${user}&password=${pass}&confirm_password=${c_pass}`);
 }

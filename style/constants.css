@@ -7,7 +7,8 @@
     --title-text-gradient-private: hsl(216 67 37);
 
     --title-text-covered: 10vw;
-    --title-padding: 4vh;
+    /* --title-padding: 4vh; */
+    --title-padding: 2.35vw;
 
     --background: hsl(358 15% 90%);
     --background-private: hsl(216 15 90);

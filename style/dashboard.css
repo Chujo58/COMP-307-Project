@@ -4,13 +4,13 @@
 }
 
 .container {
-    height: 40vh;
+    /* height: 40vh; */
     color: var(--text);
     padding: 2rem;
     display: flex;
     flex-direction: row;
 }
-@media screen and (max-width: 800px){
+@media screen and (max-width: 500px){
     .container{
         flex-direction: column;
         flex-wrap: wrap;
@@ -96,9 +96,26 @@ header {
 }
 
 /* Course List */
-.course-list{
+.course-list-wrapper {
     display: block;
     width: calc(100% - var(--filter-width));
+    height: 60vh;
+    overflow: hidden;
+}
+
+.course-list{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: auto;
+
+    scrollbar-color: var(--background) var(--background);
+    transition: all .5s ease-in-out;
+}
+
+.course-list:hover {
+    scrollbar-color: var(--box-highlight) var(--background);
 }
 
 .course-block {

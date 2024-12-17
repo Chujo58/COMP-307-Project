@@ -6,7 +6,7 @@
     flex-direction: row;
 }
 
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 500px){
     .box-holder {
         flex-direction: column;
         flex-wrap: wrap;

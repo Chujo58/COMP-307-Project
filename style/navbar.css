@@ -35,6 +35,12 @@
     }
 }
 
+@media screen and (min-width: 750px) {
+    .navbar.hidden {
+        display: flex !important;
+    }
+}
+
 @media screen and (max-width: 750px) {
     #navbar-menu-icon {
         display: block;

@@ -418,6 +418,7 @@ header .current-month {
     background: white;
     border-radius: 10px;
     width: 95%;
+    cursor: pointer;
 }
 
 .event span {

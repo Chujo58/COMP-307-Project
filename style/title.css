@@ -45,7 +45,7 @@
 
     left: var(--title-text-covered);
     /* width: 20vw; */
-    width: 100%;
+    width: calc(100% - var(--title-text-covered));
     background: linear-gradient(to right, var(--title-text)0%, var(--title-text-gradient) 55%,  color-mix(in srgb, var(--title-text-gradient) 50%, black 50%));
     padding: var(--title-padding) 0;
     /* top: calc(var(--title-padding) * -1 / 2 - 10%); */

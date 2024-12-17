@@ -4,6 +4,7 @@
 }
 
 .container {
+    height: 40vh;
     color: var(--text);
     padding: 2rem;
     display: flex;

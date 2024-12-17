@@ -121,7 +121,7 @@
 
 #logo {
     display: flex;
-    width: 6vh;
+    width: clamp(30px, 3.525vw, 6vh);
     text-align: center;
     
     flex-direction: column;

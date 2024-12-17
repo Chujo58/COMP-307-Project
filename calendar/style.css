@@ -1,10 +1,13 @@
 :root {
+    --calendar-font-size: clamp(25px, 2.35vw, 2.35vw); /*Basically a 4vh for a 13in screen*/
+    --default-padding: calc(0.5 * var(--calendar-font-size));
+
     --box:hsl(358 22% 25% / 50%);
     --curent-date: hsl(358 22% 25% / 50%);
     --selected-date: color-mix(in srgb, var(--curent-date) 75%, black 20%) !important;
-    --sidebar-width: 18vw;
-    --height-topbar: 7vh;
-    --calendar-spacing: 2vh;
+    --sidebar-width: 200px;
+    --height-topbar: calc(1.75 * var(--calendar-font-size));
+    --calendar-spacing: calc(0.5 * var(--calendar-font-size));
     --calendar-color: hsl(0 0% 92%);
     --calendar-accent: hsl(0 0% 63%);
 
@@ -12,19 +15,28 @@
     --time-width: 50px;
     --time-right-padding: 1vw;
     --time-scroll-width: 1px;
-    --time-padding: 4vh;
-    --time-height: 9vh;
-    --time-padding-top: 2vh;
-    --week-font-size: 4vh;
+    --time-padding: var(--calendar-font-size);
+    --time-height: calc(2.25 * var(--calendar-font-size));
+    --time-padding-top: calc(0.5 * var(--calendar-font-size));
+    --week-font-size: var(--calendar-font-size);
 
     --text-highlight: hsl(2 47% 74%);
 }
+
+@media screen and (max-width: 750px) {
+    #topbar > a:not(#sidebar-menu):not(#view-selector) {
+        margin-left: 0 !important;
+    }
+
+}
+
 body {
     background-color: var(--main-background);
     font-family: 'Parkinsans', sans-serif;
     font-weight: 300;
     font-style: normal;
     font-optical-sizing: auto;
+    font-size: var(--calendar-font-size);
 }
 
 * {
@@ -40,7 +52,7 @@ body {
 /* Topbar code */
 #topbar {
     background-color: var(--main-background); 
-    font-size: 3vh;
+    font-size: 0.75em;
     height: var(--height-topbar);
 }
 
@@ -104,15 +116,17 @@ body {
     height: 100%;
 }
 
+#botbar {
+    height: calc(100vh - var(--height-topbar));
+}
+
 /* Sidebar code */
 .sidebar {
     display: flex;
     flex-direction: column;
     width: var(--sidebar-width);
-    font-size: 2.5vh;
+    font-size: 0.625em;
     background-color: var(--main-background);
-
-    height: calc(100vh - var(--height-topbar));
 }
 
 .sidebar.hidden {
@@ -157,17 +171,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* width: 100%; */
-    padding: 2vh;
+
+    padding: var(--default-padding);
 }
 
 /* ALL CALENDAR STUFF BELLOW */
 .wrapper {
     width: fit-content;
     background-color: var(--main-background);
-    /* border-radius: 10px; */
-    font-size: 2.5vh;
-    padding: 2vh;
+
+    padding: var(--default-padding);
 
     display: flex;
     flex-direction: column;
@@ -211,8 +224,9 @@ header .current-month {
 #weekly-calendar {
     background-color: var(--calendar-color);
     width: calc(100% - var(--sidebar-width));
-    padding: 2vh 0vh 2vh 0vh;;
-    font-size: var(--week-font-size);
+    padding: var(--default-padding) 0vh var(--default-padding) 0vh;;
+    /* font-size: var(--week-font-size); */
+    font-size: 0.75em;
     border-radius: 30px;
 }
 
@@ -221,7 +235,7 @@ header .current-month {
 }
 
 #weekly-calendar > ul {
-    padding: 0 2vh 0 2vh;
+    padding: 0 var(--default-padding) 0 var(--default-padding);
 }
 
 #weekly-days {
@@ -229,7 +243,7 @@ header .current-month {
 }
 
 #weekly-days li {
-    font-size: 3vh;
+    font-size: 0.75em;
 }
 
 #weekly-days li.alone {
@@ -237,8 +251,8 @@ header .current-month {
 }
 
 #weekly-days li::before {
-    height: 5vh;
-    width: 5vh;
+    height: calc(1.25 * var(--calendar-font-size));
+    width: calc(1.25 * var(--calendar-font-size));
 }
 
 #weekly-calendar-label .active{
@@ -300,8 +314,8 @@ header .current-month {
     left: 50%;
     align-self: center;
     top: 50%;
-    height: 3vh;
-    width: 3vh;
+    height: calc(0.75 * var(--calendar-font-size));
+    width: calc(0.75 * var(--calendar-font-size));
     z-index: -1;
     border-radius: 50%;
     transform: translate(-50%, 0%);
@@ -335,7 +349,7 @@ header .current-month {
     display: block;
     overflow: hidden;
     height: 75vh;
-    padding-left: 2vh;
+    padding-left: var(--default-padding);
 }
 
 .timetable {
@@ -349,6 +363,12 @@ header .current-month {
     scrollbar-color: var(--calendar-color) var(--calendar-color);
     transition: all .5s ease-in-out;
     padding-top: var(--time-padding-top);
+}
+
+.timetable::-webkit-scrollbar-thumb{
+    border: 4px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
 }
 
 .timetable:hover{

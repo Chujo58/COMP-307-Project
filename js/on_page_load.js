@@ -1,3 +1,4 @@
+const menu = `<a class="site-navbar" id="navbar-menu"><img src="./icons/icons8-menu-win.svg"></a>`
 const logo = `<a class="site-navbar" href="./index.php?Page=Home" id="logo" onclick="navbarClick('home');"><img src="./icons/307logo_fixed.svg"></a>`
 const home = `<a class="site-navbar nav-item" href="./index.php?Page=Home" id="home" onclick="navbarClick('home');">Home</a>`
 const dashboard = `<a class="site-navbar nav-item" href="./index.php?Page=Dashboard" id="dashboard" onclick="navbarClick('dashboard');">Dashboard</a>`
@@ -34,7 +35,9 @@ function loadNavbar(){
     if (window.sessionStorage.getItem("ticketExpired")) {
         // Prevent making further requests if already redirected
         window.sessionStorage.removeItem("ticketExpired");
-        window.location.href = "./index.php?Page=Home";
+        if (currentPage != "home"){
+            window.location.href = "./index.php?Page=Home";
+        }
         return;
     }
 

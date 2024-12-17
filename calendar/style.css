@@ -424,3 +424,29 @@ header .current-month {
     display: block;
     padding: 10px;
 }
+
+#filters{
+    font-size: 0.75em;
+    font-family: 'Outfit', sans-serif;
+    font-optical-sizing: auto;
+    
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.filter {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+.filter input{
+    margin: 5px;
+}
+
+.filter span {
+    width: 100%;
+}

@@ -31,6 +31,9 @@ else {
                 echo "<p>No course selected!</p>";
             }
             break;
+        case "StaffDash":
+            display("matter/staffdash.htm");
+            break;
         default:
             echo "<p>Page not found!</p>";
             break;

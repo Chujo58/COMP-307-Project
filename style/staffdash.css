@@ -1,0 +1,191 @@
+/* staffdash.css */
+@import "./constants.css";
+
+:root {
+  --sidebar-width: 18vw;
+  --calendar-height: 70vh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.openbtn {
+  background-color: var(--title-text-gradient);
+  border-radius: 4px;
+}
+
+.left-h {
+  text-align: left;
+  margin-left: 1px;
+}
+
+.logo {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  color: var(--text);
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--box-background);
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  padding: 1rem;
+  height: calc(100vh - 2rem);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  transition: transform 0.3s ease;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: var(--title-text);
+  margin: 0.5rem 0;
+  font-family: "Parkinsans", sans-serif;
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: block;
+  transition: background 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: var(--title-text-gradient);
+  color: #fff;
+}
+
+.sidebar .closebtn {
+  margin-left: auto;
+}
+
+.closebtn > img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  align-self: center;
+  text-align: center;
+  filter: opacity(0.4) drop-shadow(0 0 0 var(--title-text));
+}
+
+.closebtn:hover > img {
+  filter: invert();
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn > img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  align-self: center;
+  text-align: center;
+  filter: opacity(0.8) drop-shadow(0 0 0);
+}
+
+.openbtn:hover {
+  background-color: #111;
+}
+
+.openbtn:hover > img {
+  filter: invert();
+}
+
+/* Calendar Section */
+.calendar-wrapper {
+  width: calc(100% - var(--sidebar-width));
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.calendar {
+  background-color: var(--background);
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  height: var(--calendar-height);
+  padding: 1rem;
+  overflow-y: scroll;
+}
+
+/* Upcoming Appointments Section */
+.upcoming-appointments {
+  margin-top: 1.5rem;
+  background-color: var(--box-background);
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  padding: 1rem;
+  height: fit-content;
+}
+
+.upcoming-appointments h2 {
+  font-family: "Parkinsans", sans-serif;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--title-text);
+}
+
+.appointment {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--box-highlight);
+}
+
+.appointment:last-child {
+  border-bottom: none;
+}
+
+.appointment p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    transform: translateX(-100%);
+  }
+
+  .calendar-wrapper {
+    width: 100%;
+  }
+
+  .toggle-sidebar {
+    display: block;
+  }
+}
+
+.toggle-sidebar {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--title-text);
+}

@@ -1,8 +1,9 @@
 <?php
-// Database Connection
-$conn = new mysqli("localhost", "root", "", "comp307project");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Database Connection using SQLite3
+$conn = new SQLite3('../comp307project.db');
+
+if (!$conn) {
+    die("Connection failed: Unable to connect to SQLite database.");
 }
 
 // Retrieve the course ID
@@ -13,17 +14,27 @@ if (empty($courseID)) {
 }
 
 // Prepare the query
-$query = "SELECT staff_id, course_name FROM course_list WHERE course_id = ?";
+$query = "SELECT staff_id, course_name FROM course_list WHERE course_id = :course_id";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $courseID);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmt->bindValue(':course_id', $courseID, SQLITE3_TEXT);
+
+$count_query = "SELECT COUNT(*) FROM course_list WHERE course_id = :course_id";
+$count_stmt = $conn->prepare($count_query);
+$count_stmt->bindValue(':course_id',$courseID, SQLITE3_TEXT);
+
+// Execute the query
+$result = $stmt->execute();
+$count_result = $count_stmt->execute();
+
+if (!$result) {
+    die("Query failed: " . $conn->lastErrorMsg());
+}
 
 // Display staff details
-if ($result->num_rows == 0) {
+if ($count_result->fetchArray(SQLITE3_NUM)[0] == 0) {
     echo "<p>No staff associated with this course!</p>";
 } else {
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         echo "<div class='staff-card'>";
         echo "<h3>Staff ID: " . htmlspecialchars($row['staff_id']) . "</h3>";
         echo "<p>Name: " . htmlspecialchars($row['course_name']) . "</p>";
@@ -31,6 +42,5 @@ if ($result->num_rows == 0) {
     }
 }
 
-$stmt->close();
 $conn->close();
 ?>

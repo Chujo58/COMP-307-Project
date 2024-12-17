@@ -19,13 +19,12 @@ function gen_uuid($len=8) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
     //Connect to the SQL database:
-    $conn = new mysqli("localhost", "root", "", "comp307project");
-
-    if ($conn->connect_error) {
-        die("Internal Server Error: " . $conn->connect_error);
+    $conn = new SQLite3('../comp307project.db');
+    if (!$conn){
+        die("Internal Server Error");
     }
 
-    $username = $conn->real_escape_string($_POST['username']);
+    $username = $_POST['username'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
@@ -43,16 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     }
 
     //Verify is user exists
-    $verify_user = $conn->prepare("SELECT user FROM valid_users WHERE user = ?");
-    $verify_user->bind_param("s", $username);
-    $verify_user->execute();
-    $verify_user->store_result();
-    if ($verify_user->num_rows > 0) {
+    $verify_user = $conn->prepare("SELECT COUNT(*) FROM valid_users WHERE user = ?");
+    $verify_user->bindParam("s", $username);
+    $verify_user = $verify_user->execute();
+
+    if ($verify_user->fetchArray(SQLITE3_NUM)[0] > 0) {
         echo "User Already Exists.";
-        $verify_user->close();
         exit();
     }
-    $verify_user->close();
 
     //Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -60,12 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $user_id = gen_uuid(10);
 
     //Validate the sign up
-    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id) VALUES (?, ?, ?)");
-    $insert_user->bind_param("sss", $username, $hashed_password, $user_id);
+    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id) VALUES (:user, :pass, :id)");
+    $insert_user->bindParam(':user',$username, SQLITE3_TEXT);
+    $insert_user->bindParam(':pass',$hashed_password, SQLITE3_TEXT);
+    $insert_user->bindParam(':id',$user_id, SQLITE3_TEXT);
+
     if ($insert_user->execute()) {
         echo "User Added";
     } else {
-        echo "Failed";
+        echo "Failed" . $conn->lastErrorMsg();
     }
     $insert_user->close();
 

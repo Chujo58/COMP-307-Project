@@ -26,34 +26,34 @@ function generateTicket($conn, $user_id, $exp_date){
 }
 
 // Check for cookies
-$conn = new mysqli("localhost", "root", "", "comp307project");
-
-if ($conn->connect_error) {
-    die("Internal Server Error: " . $conn->connect_error);
+// $conn = new mysqli("localhost", "root", "", "comp307project");
+try {
+    $conn = new SQLite3('comp307project.db');
+    $conn->enableExceptions(true);   
+} catch (Exception $e){
+    die("Internal Server Error");
+} finally {
+    if (isset($conn)) {
+        $conn->close();
+    }
 }
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
-    //Connect to the SQL database
-    if ($conn->connect_error) {
-        die("Internal Server Error: " . $conn->connect_error);
-    }
-
     // Sanitize input
     $username = $_POST["username"];
     $password = $_POST["password"];
 
     // Verify if user exists and get hashed password + user_id
     $stmt = $conn->prepare("SELECT user, pass, user_id, ticket_id, exp_date FROM valid_users WHERE user = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->bindParam("s", $username);
+    $result = $stmt->execute();
 
-    if ($result->num_rows == 0) {
+    if ($result->fetchArray()) {
         echo "Invalid user";
         exit();
     }
 
-    $user_data = $result->fetch_assoc();
+    $user_data = $result->fetchArray();
 
     // Verify password
     if (!password_verify($password, $user_data["pass"])) {

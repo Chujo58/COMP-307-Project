@@ -2,7 +2,7 @@
 @import "./constants.css";
 
 :root {
-  --sidebar-width: 18vw;
+  --sidebar-width: 15vw;
   --calendar-height: 70vh;
 }
 
@@ -17,6 +17,14 @@ button.openbtn {
   border-radius: 4px;
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  color: var(--text);
+  transition: all 0.3s ease; /* Smooth adjustment */
+}
+
 .left-h {
   text-align: left;
   margin-left: 1px;
@@ -25,13 +33,6 @@ button.openbtn {
 .logo {
   margin-left: auto;
   margin-right: auto;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  padding: 1rem;
-  color: var(--text);
 }
 
 .sidebar {
@@ -114,6 +115,7 @@ button.openbtn {
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  flex-grow: 1; /* Automatically adjust width */
 }
 
 .calendar {
@@ -132,7 +134,6 @@ button.openbtn {
   border: 1px solid var(--box-highlight);
   border-radius: 8px;
   padding: 1rem;
-  height: fit-content;
 }
 
 .upcoming-appointments h2 {

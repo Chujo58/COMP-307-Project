@@ -1,5 +1,4 @@
 <?php
-require_once 'auth.php';
 
 $conn = new mysqli("localhost", "root", "", "comp307project");
 if ($conn->connect_error) {

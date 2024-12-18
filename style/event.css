@@ -1,0 +1,82 @@
+@import './constants.css';
+
+#event-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'Outfit';
+    width: 50%;
+    align-self: center;
+
+    background: white;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.event_inner {
+    padding: 30px;
+    width: 100%;
+}
+
+.event_name {
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.event_time_infos {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: smaller;
+}
+
+.event_sep {
+    font-weight: 700;
+    margin: 0 8px;
+}
+
+.event_details_holder {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.event_detail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 5% 0 5%;
+
+    span {
+        display: block;
+        width: 5%;
+        padding: 0 5px 0 5px;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.close_btn,
+.delete_btn {
+    position: relative;
+    width: 5%;
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+    img {
+        width: 100%;
+    }
+}
+
+.close_btn {
+    top: -30px;
+}
+
+.delete_btn {
+    top: 30px;
+}

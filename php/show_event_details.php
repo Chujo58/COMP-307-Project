@@ -12,6 +12,10 @@ if(empty($eventID)){
     exit();
 }
 
+function echoLikeCSV($array){
+    echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . '\n';
+}
+
 $query = "SELECT * FROM events WHERE event_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $eventID);
@@ -22,7 +26,8 @@ if ($result->num_rows == 0){
     echo "<p>The event selected doesn't exist or has been deleted.</p>";
 } else {
     while ($row = $result->fetch_assoc()){
-        echo $row["event_name"];
+        // echo `<div class='event_name'>$event_name</div>$event_desc`;
+        echoLikeCSV($row);
     }
 } 
 

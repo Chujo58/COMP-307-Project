@@ -8,6 +8,7 @@
 @import "./staffdash.css";
 @import "./list_staff.css";
 @import "./bot.css";
+@import "./event.css";
 
 html {
   scrollbar-color: var(--scroll-color) var(--navbar-color);

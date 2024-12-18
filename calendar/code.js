@@ -8,6 +8,7 @@ let displayedDates = null;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const short_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const weekday_labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const long_weekday_labels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"];
 const sunday_index = 0;
 let first_day_of_week = "Sun";
 let index_first_day = weekday_labels.indexOf(first_day_of_week);
@@ -344,6 +345,27 @@ function showEvents(day, weeklyView, filter, user){
 function redirectToEvent(event_id){
     window.location.href = `index.php?Page=Event&event_id=${event_id}`;
 }
+
+/**
+ * 
+ * @param {Date} date 
+ */
+function formatDate(date){
+    console.log(date);
+    return long_weekday_labels.at(date.getDay()) + ', ' + months.at(date.getMonth()) + ' ' + date.getDate() + ' ' + date.getFullYear();
+}
+
+/**
+ * 
+ * @param {Date} start 
+ * @param {Date} stop 
+ */
+function formatTimes(start, stop){
+    var startstr = start.toTimeString().split(' ')[0];
+    var stopstr = stop.toTimeString().split(' ')[0];
+    return startstr.slice(0,startstr.length-3) + ' - ' + stopstr.slice(0,stopstr.length-3);
+}
+
 function popoutEvent(){
     var event = "";
     if (typeof eventID === 'undefined' || !eventID){
@@ -356,7 +378,36 @@ function popoutEvent(){
         if (this.readyState == 4 && this.status == 200){
             var elem = document.getElementById('event-body');
             if (elem != null){
-                elem.innerHTML = this.responseText;
+                results = this.responseText.split('\\n');
+                results = results[0];
+                results = results.split(',')
+                elem.innerHTML = `
+                <div class='event_inner'>
+                    <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
+                    <div class='event_name'>
+                    ${results[0]}
+                    </div>
+                    <div class='event_time_infos'>
+                    <div class='event_date'>
+                    ${formatDate(new Date(Number(results[2])))}
+                        </div>
+                        <span class='event_sep'>⋅</span>
+                        <div class='event_time'>
+                            ${formatTimes(new Date(Number(results[2])), new Date(Number(results[3])))}
+                        </div>
+                    </div>
+                    <div class='event_details_holder'>
+                        <div class='event_detail'>
+                            <span><img src='icons/pulsar_line_multitext.png'></span>
+                            ${results[1]}
+                        </div>
+                        <div class='event_detail'>
+                            <span><img src='icons/pulsar_line_calendar.png'></span>
+                            ${results[4]}
+                        </div>
+                    </div>
+                    <span class='delete_btn'><img src='icons/pulsar_line_trash.png'></span>
+                </div>`;
             }
         }
     }

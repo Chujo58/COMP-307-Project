@@ -301,9 +301,20 @@ function onLoad(){
     });
     renderCalender();
     clickDate(`curr_${date.getDate()}`);
+    loadCalendarIcons();
     renderTimes();
     loadFilters();
     displayFiltered(true);
+}
+
+function loadCalendarIcons(){
+    var current_day = date.getDate();
+    var icon_path = "icons/calendar/Calendar " + current_day + ".png";
+
+    document.getElementById('calendar-page-icon').innerHTML = `
+        <span><img src='${icon_path}'></span>
+        Calendar
+    `;
 }
 
 window.addEventListener('load', onLoad);
@@ -500,6 +511,12 @@ function toggleSidebar(){
 }
 
 function loadFilters(){
+    var user = "";
+    if (typeof userID === 'undefined' || !userID){
+        user = "";
+    } else {
+        user = userID;
+    }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
@@ -507,7 +524,7 @@ function loadFilters(){
         }
     };
 
-    xhttp.open('GET', `php/calendar.php?loadFilters=true`, false);
+    xhttp.open('GET', `php/calendar.php?loadFilters=true&user=${user}`, false);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }

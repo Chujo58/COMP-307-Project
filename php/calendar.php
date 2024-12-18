@@ -23,7 +23,13 @@ function showData($query, $conn){
 }
 
 if (isset($_GET['loadFilters'])) {
-    $query = "SELECT DISTINCT event_filter FROM events ORDER BY event_filter";
+    $user = $_GET['user'] ?? '';
+    $query = "SELECT DISTINCT event_filter FROM events";
+    if (!empty($user)) {
+        $query .= " WHERE (staff_id='" . $user . "' OR student_id='" . $user . "')";
+    }
+    $query .= " ORDER BY event_filter";
+
     $result = $conn->query($query);
 
     if (!$result){

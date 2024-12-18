@@ -56,6 +56,24 @@
     height: var(--height-topbar);
 }
 
+#calendar-page-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: 'DM Serif Text';
+    width: calc(var(--sidebar-width) - var(--height-topbar));
+
+    span {
+        width: 15%;
+        padding: 0 2% 0 2%;
+        display: flex;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
 #sidebar-menu {
     height: calc(0.5 * var(--height-topbar));
     width: calc(0.5 * var(--height-topbar));
@@ -81,7 +99,8 @@
     color: black;
     margin: calc(var(--calendar-spacing)/2);
     padding: calc(var(--calendar-spacing)/2);
-    margin-left: calc(var(--sidebar-width) - var(--height-topbar));
+    /* margin-left: calc(var(--sidebar-width) - var(--height-topbar)); */
+    margin-left: 0;
     
     font-family: "DM Serif Text", serif;
 

@@ -1,5 +1,6 @@
 .footer {
     background-color: black;
+    margin-top: auto;
     color: white;
     padding: 30px;
     column-gap: 50px;

@@ -18,31 +18,34 @@ function gen_uuid($len=8) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
-    //Connect to the SQL database:
+    // Connect to the SQL database
     $conn = new mysqli("localhost", "root", "", "comp307project");
 
     if ($conn->connect_error) {
         die("Internal Server Error: " . $conn->connect_error);
     }
 
+    // Retrieve input values and sanitize
+    $f_name = $conn->real_escape_string($_POST['f_name']);
+    $l_name = $conn->real_escape_string($_POST['l_name']);
     $username = $conn->real_escape_string($_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    //Check if it is the same
+    // Check if passwords match
     if ($password !== $confirm_password) {
         echo "Passwords Must Match";
         exit();
     }
 
-    //Check if it is a valid username
+    // Validate email
     $email = explode('@', $username);
     if (count($email) != 2 || ($email[1] != "mail.mcgill.ca" && $email[1] != "mcgill.ca")) {
-        echo "Please Use a Valid Mcgill Email as Username";
+        echo "Please Use a Valid McGill Email as Username";
         exit();
     }
 
-    //Verify is user exists
+    // Verify if user exists
     $verify_user = $conn->prepare("SELECT user FROM valid_users WHERE user = ?");
     $verify_user->bind_param("s", $username);
     $verify_user->execute();
@@ -54,21 +57,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     }
     $verify_user->close();
 
-    //Hash the password
+    // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
     $user_id = gen_uuid(10);
 
-    //Validate the sign up
-    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id) VALUES (?, ?, ?)");
-    $insert_user->bind_param("sss", $username, $hashed_password, $user_id);
+    // Insert user data into database
+    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id, f_name, l_name) VALUES (?, ?, ?, ?, ?)");
+    $insert_user->bind_param("sssss", $username, $hashed_password, $user_id, $f_name, $l_name);
+
     if ($insert_user->execute()) {
         echo "User Added";
     } else {
-        echo "Failed";
+        echo "Failed to add user: " . $conn->error;
     }
-    $insert_user->close();
 
+    $insert_user->close();
     $conn->close();
 }
 

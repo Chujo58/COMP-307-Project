@@ -1,6 +1,10 @@
 <img src="icons/icons8-close-win.svg" id="close" onclick="closePopup();">
 <form action="php/signup.php" method="post">
     <h2 class="heading-highlight form-heading">Sign Up</h2>
+    <input type="text" name="first_name" id="f_name" placeholder="First Name" onfocusout="isFieldEmpty('first_name')">
+    <div id="first_name_div"></div>
+    <input type="text" name="last_name" id="l_name" placeholder="Last Name" onfocusout="isFieldEmpty('last_name')">
+    <div id="last_name_div"></div>
     <input type="email" name="username" id="username" placeholder="McGill Email" onfocusout="isFieldEmpty('username')">
     <div id="username_div"></div>
     <input type="password" name="password" id="password" placeholder="Password" onfocusout="isFieldEmpty('password')">

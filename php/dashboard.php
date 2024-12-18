@@ -1,22 +1,24 @@
 <?php
-// Database Connection
-$conn = new mysqli("localhost", "root", "", "comp307project");
+// Database Connection using SQLite3
+$conn = new SQLite3('../comp307project.db');
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed: Unable to connect to SQLite database.");
 }
 
 // Handle Loading Course Levels
 if (isset($_GET['loadLevels'])) {
-    $query = "SELECT DISTINCT FLOOR(course_id / 100) * 100 AS level FROM course_list ORDER BY level";
+    // SQLite3 does not support FLOOR with divisions directly like MySQL. 
+    // We can perform the level calculation with a simple approach.
+    $query = "SELECT DISTINCT CAST(course_id AS INTEGER) / 100 * 100 AS level FROM course_list ORDER BY level";
     $result = $conn->query($query);
 
     if (!$result) {
-        die("Query failed: " . $conn->error);
+        die("Query failed: " . $conn->lastErrorMsg());
     }
 
     // Output each course level as an option
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $level = $row['level'];
         echo "<option value='{$level}'>{$level} Level</option>";
     }
@@ -31,52 +33,37 @@ $idFilter = $_POST['course-id'] ?? '';
 $levelFilter = $_POST['course-level'] ?? '';
 
 $query = "SELECT course_name, course_id FROM course_list WHERE 1";
+$count_query = "SELECT COUNT(*) FROM course_list WHERE 1";
 
 // Apply filters if provided
 if (!empty($nameFilter)) {
-    $query .= " AND course_name LIKE '%" . $conn->real_escape_string($nameFilter) . "%'";
+    $query .= " AND course_name LIKE '%" . $conn->escapeString($nameFilter) . "%'";
+    $count_query .= " AND course_name LIKE '%" . $conn->escapeString($nameFilter) . "%'";
 }
 if (!empty($idFilter)) {
-    $query .= " AND course_id LIKE '%" . $conn->real_escape_string($idFilter) . "%'";
+    $query .= " AND course_id LIKE '%" . $conn->escapeString($idFilter) . "%'";
+    $count_query .= " AND course_id LIKE '%" . $conn->escapeString($idFilter) . "%'";
 }
 if (!empty($levelFilter)) {
-    $query .= " AND FLOOR(course_id / 100) * 100 = " . $conn->real_escape_string($levelFilter);
+    // SQLite3 equivalent of FLOOR(course_id / 100) * 100 for level filtering
+    $query .= " AND CAST(course_id AS INTEGER) / 100 * 100 = " . $conn->escapeString($levelFilter);
+    $count_query .= " AND CAST(course_id AS INTEGER) / 100 * 100 = " . $conn->escapeString($levelFilter);
 }
-// echo($query);
 
+// Execute the query
 $result = $conn->query($query);
 
 if (!$result) {
-    die("Query failed: " . $conn->error);
+    die("Query failed: " . $conn->lastErrorMsg());
 }
 
 // Output course list as HTML
-// if ($result->num_rows == 0) {
-//     echo "<p>No courses found!</p>";
-// } else {
-//     $old_index=0;
-//     $index=0;
-//     while ($row = $result->fetch_assoc()) {
-//         if ($index%3==0 && $index-$old_index==3){
-//             echo "</div>";
-//             $old_index+=3;
-//         }
-//         if ($index%3==0){
-//             echo "<div class='box-holder'>";
-//         }
-//         echo "<div class='box course-block'>";
-//         echo "<h3 class='heading-higlight'>" . htmlspecialchars($row['course_name']) . "</h3>";
-//         echo "<p>Course ID: " . htmlspecialchars($row['course_id']) . "</p>";
-//         echo "</div>";
-//         $index ++;
-//     }
-// }
-if ($result->num_rows == 0) {
+if ($conn->query($count_query)->fetchArray(SQLITE3_NUM)[0] == 0) {
     echo "<p>No courses found!</p>";
 } else {
     $old_index = 0;
     $index = 0;
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         if ($index % 3 == 0 && $index - $old_index == 3) {
             echo "</div>";
             $old_index += 3;

@@ -5,7 +5,7 @@
     --box:hsl(358 22% 25% / 50%);
     --curent-date: hsl(358 22% 25% / 50%);
     --selected-date: color-mix(in srgb, var(--curent-date) 75%, black 20%) !important;
-    --sidebar-width: clamp(200px, 200px, 18vw);
+    --sidebar-width: clamp(200px, 18vw, 18vw);
     --height-topbar: calc(1.75 * var(--calendar-font-size));
     --calendar-spacing: calc(0.5 * var(--calendar-font-size));
     --calendar-color: hsl(0 0% 92%);

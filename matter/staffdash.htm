@@ -22,26 +22,99 @@
   </div>
 
   <!-- Calendar and Appointments -->
-  <div class="calendar-wrapper">
+  <div class="main-wrapper">
     <!-- Upcoming Appointments -->
     <div class="upcoming-appointments">
       <h2>Upcoming Appointments</h2>
-      <div id="appointments"></div>
-    </div>
+      <div class="block-container" id="apt-block-container">
+        <!--
+        <div class="apt-block">
+          <b>COMP 307</b>
+          <br />Mon 12:30 <br />12/03/2024 <br />Rachel Shi
+        </div>
+        -->
+      </div>
 
-    <!-- Weekly Calendar -->
-    <div class="calendar-container" id="calendar">
-      <h2>Weekly Calendar</h2>
+      <!-- Weekly Calendar -->
+      <div class="calendar-container" id="calendar">
+        <h2>Weekly Calendar</h2>
+      </div>
     </div>
   </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("staffdash-sidebar").style.display = "flex";
+    }
+
+    function closeNav() {
+      document.getElementById("staffdash-sidebar").style.display = "none";
+    }
+
+    async function fetchApt() {
+      try {
+        const response = await fetch("/php/get_apt.php");
+        const appointments = await response.json();
+        const apt_container = document.getElementById("apt-block-container");
+
+        if (!response.ok) {
+          // If the response code is not OK (e.g., 500 for server error)
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Unknown error occurred");
+        }
+
+        // Clear the container before appending new appointments
+        apt_container.innerHTML = "";
+
+        if (appointments.length === 0) {
+          apt_container.innerHTML = "<p>No upcoming appointments.</p>";
+        } else {
+          // Loop through appointments and create HTML elements dynamically
+          appointments.forEach((appointment) => {
+            const apt_block = document.createElement("div");
+            apt_block.className = "apt-block";
+
+            // Format the event_start date to "Tuesday Dec 3, 2024"
+            const formattedStart = new Date(appointment.event_start);
+            const formattedDate = formattedStart.toLocaleDateString("en-US", {
+              weekday: "long", // Full weekday name (e.g., Tuesday)
+              month: "short", // Short month name (e.g., Dec)
+              day: "numeric", // Day number (e.g., 3)
+              year: "numeric", // Full year (e.g., 2024)
+            });
+
+            // Format time as "15:30"
+            const formattedTime = formattedStart.toLocaleTimeString("en-US", {
+              hour: "2-digit", // 15
+              minute: "2-digit", // 30
+              hour12: false, // 24-hour format (e.g., 15:30)
+            });
+
+            // Create the content for the appointment block
+            apt_block.innerHTML = `
+            <b>${appointment.event_name}</b><br>
+            ${formattedDate}<br>
+            ${formattedTime}<br>
+            ${appointment.fname} ${appointment.lname}
+          `;
+
+            // Append the appointment block to the container
+            apt_container.appendChild(apt_block);
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+
+        const apt_container = document.getElementById("apt-block-container");
+        apt_container.innerHTML =
+          "<p>Error fetching appointments. Please try again later.</p>";
+      }
+    }
+
+    // Load appointments when the page is ready
+    window.onload = fetchApt;
+  </script>
 </div>
 
-<script>
-  function openNav() {
-    document.getElementById("staffdash-sidebar").style.display = "block";
-  }
-
-  function closeNav() {
-    document.getElementById("staffdash-sidebar").style.display = "none";
-  }
-</script>
+// { [event_name: 'balbalalbla', ...etc] [event_name: 'balbalalbla', ...etc]
+[event_name: 'balbalalbla', ...etc] }

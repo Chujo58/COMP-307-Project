@@ -501,14 +501,14 @@ function toggleSidebar(){
         sidebar.classList.remove('hidden');
         calendar.classList.remove('full-size');
         add_event.classList.remove('small');
-        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_close.png'>`
+        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_close.svg'>`
         return;
     }
     else {
         sidebar.classList.add('hidden');
         calendar.classList.add('full-size');
         add_event.classList.add('small');
-        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_menu.png'>`
+        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_menu.svg'>`
         return;
     }
 }

@@ -30,13 +30,13 @@
 
 }
 
-body {
+.calendar-body {
     background-color: var(--main-background);
     font-family: 'Parkinsans', sans-serif;
     font-weight: 300;
     font-style: normal;
     font-optical-sizing: auto;
-    font-size: var(--calendar-font-size);
+    font-size: var(--calendar-font-size) !important;
 }
 
 * {
@@ -44,7 +44,7 @@ body {
     padding: 0;
 }
 
-.holder {
+.calendar-holder {
     display: flex;
     flex-direction: row;
 }
@@ -121,7 +121,7 @@ body {
 }
 
 /* Sidebar code */
-.sidebar {
+.calendar-sidebar {
     display: flex;
     flex-direction: column;
     width: var(--sidebar-width);
@@ -129,12 +129,12 @@ body {
     background-color: var(--main-background);
 }
 
-.sidebar.hidden {
+.calendar-sidebar.hidden {
     display: none;
     transition: all 0.5s ease-in-out;
 }
 
-.heading-highlight {
+.calendar-heading-highlight {
     font-family: "DM Serif Text", serif;
     text-align: center;
     position: relative;
@@ -149,7 +149,7 @@ body {
     align-self: flex-start;
 }
 
-.heading-highlight::before {
+.calendar-heading-highlight::before {
     content: "";
     align-self: center;
     height: 50%;
@@ -162,12 +162,12 @@ body {
     background: linear-gradient(180deg, transparent 50%, var(--box) 50%);
 }
 
-.heading-highlight:hover::before{
+.calendar-heading-highlight:hover::before{
     transition: all .3s ease;
     height: 100%;
 }
 
-.sidebar > div:not(.wrapper) {
+.calendar-sidebar > div:not(.wrapper) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -188,18 +188,18 @@ body {
 }
 
 /* .wrapper:hover > header p.heading-highlight::before{ */
-header:hover > p.heading-highlight::before {
+header.calendar-header:hover > p.heading-highlight::before {
     transition: all .3s ease;
     height: 100%;
 }
 
-.wrapper header {
+.wrapper header.calendar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-header p {
+header.calendar-header p {
     margin-left: 2%;
 }
 
@@ -395,7 +395,7 @@ header .current-month {
 
 .times div span {
     position: relative;
-    top: -1.3vh;
+    top: calc(-0.25 * var(--calendar-font-size));
 }
 
 .time-row {

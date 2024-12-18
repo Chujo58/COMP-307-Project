@@ -25,7 +25,10 @@ if (isset($_GET['fetchCalendar'])) {
 
 // Fetch Upcoming Appointments
 if (isset($_GET['fetchAppointments'])) {
-    $query = "SELECT appointment_id, staff_name, date, time, location FROM appointments WHERE date >= CURDATE() ORDER BY date, time";
+    $query = "SELECT course_id, course_name, course_tag, staff_id 
+              FROM course_list 
+              WHERE staff_id IS NOT NULL 
+              ORDER BY course_name";
     $result = $conn->query($query);
 
     if (!$result) {
@@ -34,10 +37,10 @@ if (isset($_GET['fetchAppointments'])) {
 
     while ($row = $result->fetch_assoc()) {
         echo "<div class='appointment'>";
-        echo "<p><strong>Staff:</strong> " . htmlspecialchars($row['staff_name']) . "</p>";
-        echo "<p><strong>Date:</strong> " . htmlspecialchars($row['date']) . "</p>";
-        echo "<p><strong>Time:</strong> " . htmlspecialchars($row['time']) . "</p>";
-        echo "<p><strong>Location:</strong> " . htmlspecialchars($row['location']) . "</p>";
+        echo "<p><strong>Course ID:</strong> " . htmlspecialchars($row['course_id']) . "</p>";
+        echo "<p><strong>Course Name:</strong> " . htmlspecialchars($row['course_name']) . "</p>";
+        echo "<p><strong>Course Tag:</strong> " . htmlspecialchars($row['course_tag']) . "</p>";
+        echo "<p><strong>Staff ID:</strong> " . htmlspecialchars($row['staff_id']) . "</p>";
         echo "</div>";
     }
     $conn->close();

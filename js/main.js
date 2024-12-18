@@ -98,7 +98,7 @@ function isFieldEmpty(id) {
 
 //CHANGE IF YOU WANT
 function redirect(page){
-	window.location = `./index.php?Page=${page}&reload=true`;
+	window.location = `./index.php?Page=${page}`;
 }
 
 function sendLogoutRequest() {

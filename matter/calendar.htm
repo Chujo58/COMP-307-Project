@@ -1,0 +1,70 @@
+<div class="calendar-body">
+    <div class="calendar-holder" id="topbar">
+        <a onclick="toggleSidebar();" id="sidebar-menu">
+            <img src="icons/icons8-close-win.svg">
+        </a>
+        <a onclick="toToday();">
+            Today
+        </a>
+        <div class="icons" id="week_btns">
+            <span id="prev_week"
+                class="material-symbols-rounded">chevron_left</span>
+            <span id="next_week"
+                class="material-symbols-rounded">chevron_right</span>
+        </div>
+        <p class="current-month calendar-heading-highlight"
+            id="current-week"></p>
+        <a style="margin-left: auto;" onclick="toggleView();"
+            id="view-selector">
+            Week
+        </a>
+    </div>
+    <div class="calendar-holder" id="botbar">
+        <div class="calendar-sidebar" id="sidebar">
+            <div class="wrapper">
+                <header class="calendar-header">
+                    <p class="current-month calendar-heading-highlight"
+                        id="current-month"></p>
+                    <div class="icons">
+                        <span id="prev"
+                            class="material-symbols-rounded">chevron_left</span>
+                        <span id="next"
+                            class="material-symbols-rounded">chevron_right</span>
+                    </div>
+                </header>
+                <div class="calendar">
+                    <ul class="weekday">
+                        <li>Sun</li>
+                        <li>Mon</li>
+                        <li>Tue</li>
+                        <li>Wed</li>
+                        <li>Thu</li>
+                        <li>Fri</li>
+                        <li>Sat</li>
+                    </ul>
+                    <ul class="days" id="days"></ul>
+                </div>
+            </div>
+            <div>
+                <div class="calendar-heading-highlight">
+                    Calendars
+                </div>
+                <div id="filters">
+
+                </div>
+            </div>
+        </div>
+        <div class="calendar" id="weekly-calendar">
+            <ul class="weekday" id="weekly-calendar-label"></ul>
+            <ul class="days" id="weekly-days"></ul>
+            <div class="timetable-wrapper">
+                <div class="timetable" id="timetable">
+                    <div class="times" id="timestamps" aria-hidden="true"
+                        tabindex="-1"></div>
+                    <div id="time-sep"></div>
+                    <div class="time-row" id="time-row" role="row"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

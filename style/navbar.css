@@ -149,4 +149,5 @@
     font-family: "Outfit", sans-serif;
     font-weight: 400;
     /* font-size: 2.5vh; */
+    font-size: clamp(16px, 1.47vw, 1.47vw);
 }

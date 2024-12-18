@@ -1,10 +1,10 @@
 <img src="icons/icons8-close-win.svg" id="close" onclick="closePopup();">
-<form action="php/login.php" method="post">
+<form action="php/login.php" method="post" id="login_form">
     <h2 class="heading-highlight form-heading">Login</h2>
     <input type="email" name="username" id="username" placeholder="McGill Email" onfocusout="isFieldEmpty('username')">
     <div id="username_div"></div>
     <input type="password" name="password" id="password" placeholder="Password" onfocusout="isFieldEmpty('password')">
     <div id="password_div"></div>
-    <input type="button" value="Login" onclick="sendLoginRequest();">
+    <input type="button" id="form_button" value="Login" onclick="sendLoginRequest();">
 </form>
 <div id="test"></div>

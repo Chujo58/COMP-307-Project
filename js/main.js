@@ -19,6 +19,7 @@ function navbarClick(id){
         xhttp.onreadystatechange= function(){
             if (this.readyState == 4 && this.status == 200){
                 document.getElementById('popup').innerHTML = popup_default_inner + this.responseText;
+                setEvent(document.getElementById(id+"_form"));
             }
         };
         
@@ -304,4 +305,23 @@ function toggleNavbar(){
 		icon.classList.add('show');
 		return;
 	}
+}
+
+
+/**
+ * Setup event listener for enter keypress
+ * @param {HTMLElement|null} form 
+ */
+function setEvent(form){
+    var inputs = form.querySelectorAll("input");
+    inputs.forEach(input => {
+        if (input.type != "button"){
+            input.addEventListener("keypress", function(event){
+                if (event.key === "Enter"){
+                    event.preventDefault();
+                    document.getElementById("form_button").click();
+                }
+            });
+        }
+    });
 }

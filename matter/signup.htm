@@ -1,5 +1,5 @@
 <img src="icons/icons8-close-win.svg" id="close" onclick="closePopup();">
-<form action="php/signup.php" method="post">
+<form action="php/signup.php" method="post" id="signup_form">
     <h2 class="heading-highlight form-heading">Sign Up</h2>
     <input type="text" name="first_name" id="f_name" placeholder="First Name" onfocusout="isFieldEmpty('first_name')">
     <div id="first_name_div"></div>
@@ -11,6 +11,6 @@
     <div id="password_div"></div>
     <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" onfocusout="isFieldEmpty('confirm_password')">
     <div id="confirm_password_div"></div>
-    <input type="button" value="Sign Up" onclick="sendSignUpRequest();">
+    <input type="button" id="form_button" value="Sign Up" onclick="sendSignUpRequest();">
 </form>
 <div id="test"></div>

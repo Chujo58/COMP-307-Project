@@ -41,6 +41,7 @@ else {
             if ($userID){
                 echo "<script>const userID ='" . $userID . "';</script>";
             }
+            echo "<script>window.addEventListener('load', onLoad);</script>";
             display('matter/calendar.htm');
             break;
 

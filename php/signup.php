@@ -42,11 +42,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     }
 
     //Verify is user exists
-    $verify_user = $conn->prepare("SELECT COUNT(*) FROM valid_users WHERE user = ?");
-    $verify_user->bindParam("s", $username);
+    $verify_user = $conn->prepare("SELECT COUNT(*) AS count FROM valid_users WHERE user = :user");
+    $verify_user->bindParam(":user", $username);
     $verify_user = $verify_user->execute();
 
-    if ($verify_user->fetchArray(SQLITE3_NUM)[0] > 0) {
+    $numAccs = $verify_user->fetchArray(SQLITE3_ASSOC)['count'];
+    if ($numAccs > 0) {
         echo "User Already Exists.";
         exit();
     }

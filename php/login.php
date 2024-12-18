@@ -45,10 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // Verify if user exists and get hashed password + user_id
         $stmt = $conn->prepare("SELECT user, pass, user_id, ticket_id, exp_date FROM valid_users WHERE user = :username");
-        $stmt->bindValue(':username', $username, SQLITE3_TEXT);
-        $result = $stmt->execute();
+        $count_stmt = $conn->prepare("SELECT COUNT(*) as count FROM valid_users WHERE user = :username");
 
-        if ($result->numColumns() == 0) {
+        $stmt->bindValue(':username', $username, SQLITE3_TEXT);
+        $count_stmt->bindValue(':username', $username, SQLITE3_TEXT);
+
+        $result = $stmt->execute();
+        $count = $count_stmt->execute()->fetchArray(SQLITE3_ASSOC)['count'];
+
+        if ($count == 0) {
             echo "Invalid user";
             exit();
         }

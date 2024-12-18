@@ -59,6 +59,9 @@
     #site-navbar {
         flex-direction: column !important;
     }
+    .navbar.hidden {
+        display: none !important;
+    }
 }
 
 .nav-item {

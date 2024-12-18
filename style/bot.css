@@ -55,7 +55,7 @@
     padding-left: 5%;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-device-width: 750px), screen and (max-width: 750px) {
     .footer {
         flex-direction: column;
     }

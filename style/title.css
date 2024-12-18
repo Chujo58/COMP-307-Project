@@ -3,10 +3,10 @@
     --title-img-height: 50vh;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-device-width: 750px), screen and (max-width: 750px) {
     .page-title{
-        left: 50% !important;
-        width: 40% !important;
+        left: 45% !important;
+        width: 50% !important;
     }
 }
 

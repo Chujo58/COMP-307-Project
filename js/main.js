@@ -164,57 +164,113 @@ function sendLoginRequest(){
 	xhttp.send(`username=${user}&password=${pass}`);
 }
 
-function sendSignUpRequest(){
-	// Make sure user cannot sign up with empty fields
-	let empty = isFieldEmpty('username');
-	empty = isFieldEmpty('password') || empty;
-	empty = isFieldEmpty('confirm_password') || empty;
+// function sendSignUpRequest(){
+// 	// Make sure user cannot sign up with empty fields
+// 	let empty = isFieldEmpty('username');
+// 	empty = isFieldEmpty('password') || empty;
+// 	empty = isFieldEmpty('confirm_password') || empty;
 
-	if (empty) {
-		return
-	}
+// 	if (empty) {
+// 		return
+// 	}
 
-	var user = getValue('username');
-	var pass = getValue('password');
-	var c_pass = getValue('confirm_password');
+// 	var user = getValue('username');
+// 	var pass = getValue('password');
+// 	var c_pass = getValue('confirm_password');
 
-	//Check if it is mcgill email
-	let email = user.split('@');
-	if (email.length != 2 || (email[1] != "mail.mcgill.ca" && email[1] != "mcgill.ca")) {
-		document.getElementById('username').classList.add('missing');
-		document.getElementById('username_div').classList.add('missing');
-		document.getElementById('username_div').innerText = "Please Use a Valid Mcgill Email as Username";
-		return;
-	}
+// 	//Check if it is mcgill email
+// 	let email = user.split('@');
+// 	if (email.length != 2 || (email[1] != "mail.mcgill.ca" && email[1] != "mcgill.ca")) {
+// 		document.getElementById('username').classList.add('missing');
+// 		document.getElementById('username_div').classList.add('missing');
+// 		document.getElementById('username_div').innerText = "Please Use a Valid Mcgill Email as Username";
+// 		return;
+// 	}
 
-	// Check if both passwords match
-	if (pass !== c_pass) {
-		document.getElementById('confirm_password').classList.add('missing');
-		document.getElementById('confirm_password_div').classList.add('missing');
-		document.getElementById("confirm_password_div").innerText = "Passwords Must Match";
-		return;
-	}
+// 	// Check if both passwords match
+// 	if (pass !== c_pass) {
+// 		document.getElementById('confirm_password').classList.add('missing');
+// 		document.getElementById('confirm_password_div').classList.add('missing');
+// 		document.getElementById("confirm_password_div").innerText = "Passwords Must Match";
+// 		return;
+// 	}
 
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function(){
-		if (this.readyState == 4){
-			console.log(this.responseText);
-			if (this.status == 200){
-				if (this.responseText === "User Added"){
-					document.getElementById('test').innerHTML = "Signed up!";
-					setTimeout(function(){navbarClick("login")}, redirect_delay);
-				} else {
-					document.getElementById('test').innerHTML = this.responseText;
-				}
-			} else {
-				console.log("Request failed with status: " + this.status);
-			}
-		}
-	}
+// 	var xhttp = new XMLHttpRequest();
+// 	xhttp.onreadystatechange = function(){
+// 		if (this.readyState == 4){
+// 			console.log(this.responseText);
+// 			if (this.status == 200){
+// 				if (this.responseText === "User Added"){
+// 					document.getElementById('test').innerHTML = "Signed up!";
+// 					setTimeout(function(){navbarClick("login")}, redirect_delay);
+// 				} else {
+// 					document.getElementById('test').innerHTML = this.responseText;
+// 				}
+// 			} else {
+// 				console.log("Request failed with status: " + this.status);
+// 			}
+// 		}
+// 	}
 
-	xhttp.open("POST","php/signup.php", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send(`username=${user}&password=${pass}&confirm_password=${c_pass}`);
+// 	xhttp.open("POST","php/signup.php", true);
+// 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+// 	xhttp.send(`username=${user}&password=${pass}&confirm_password=${c_pass}`);
+// }
+function sendSignUpRequest() {
+    // Make sure user cannot sign up with empty fields
+    let empty = isFieldEmpty('f_name');
+    empty = isFieldEmpty('l_name') || empty;
+    empty = isFieldEmpty('username') || empty;
+    empty = isFieldEmpty('password') || empty;
+    empty = isFieldEmpty('confirm_password') || empty;
+
+    if (empty) {
+        return;
+    }
+
+    var firstName = getValue('f_name');
+    var lastName = getValue('l_name');
+    var user = getValue('username');
+    var pass = getValue('password');
+    var c_pass = getValue('confirm_password');
+
+    // Check if it is McGill email
+    let email = user.split('@');
+    if (email.length != 2 || (email[1] != "mail.mcgill.ca" && email[1] != "mcgill.ca")) {
+        document.getElementById('username').classList.add('missing');
+        document.getElementById('username_div').classList.add('missing');
+        document.getElementById('username_div').innerText = "Please Use a Valid McGill Email as Username";
+        return;
+    }
+
+    // Check if both passwords match
+    if (pass !== c_pass) {
+        document.getElementById('confirm_password').classList.add('missing');
+        document.getElementById('confirm_password_div').classList.add('missing');
+        document.getElementById("confirm_password_div").innerText = "Passwords Must Match";
+        return;
+    }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            console.log(this.responseText);
+            if (this.status == 200) {
+                if (this.responseText === "User Added") {
+                    document.getElementById('test').innerHTML = "Signed up!";
+                    setTimeout(function () { navbarClick("login") }, redirect_delay);
+                } else {
+                    document.getElementById('test').innerHTML = this.responseText;
+                }
+            } else {
+                console.log("Request failed with status: " + this.status);
+            }
+        }
+    };
+
+    xhttp.open("POST", "php/signup.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`f_name=${encodeURIComponent(firstName)}&l_name=${encodeURIComponent(lastName)}&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&confirm_password=${encodeURIComponent(c_pass)}`);
 }
 
 // 1. Load course levels dynamically

@@ -6,11 +6,13 @@ if ($conn->connect_error) {
 }
 
 $eventID = $_POST['event_id'] ?? '';
+
 if(empty($eventID)){
     echo "<p>No event selected.</p>";
+    exit();
 }
 
-$query = "SELECT * WHERE event_id = ?";
+$query = "SELECT * FROM events WHERE event_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $eventID);
 $stmt->execute();
@@ -20,7 +22,7 @@ if ($result->num_rows == 0){
     echo "<p>The event selected doesn't exist or has been deleted.</p>";
 } else {
     while ($row = $result->fetch_assoc()){
-        
+        echo $row["event_name"];
     }
 } 
 

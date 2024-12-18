@@ -341,6 +341,30 @@ function showEvents(day, weeklyView, filter, user){
     xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}`);
 }
 
+function redirectToEvent(event_id){
+    window.location.href = `index.php?Page=Event&event_id=${event_id}`;
+}
+function popoutEvent(){
+    var event = "";
+    if (typeof eventID === 'undefined' || !eventID){
+        event = "";
+    } else {
+        event = eventID;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200){
+            var elem = document.getElementById('event-body');
+            if (elem != null){
+                elem.innerHTML = this.responseText;
+            }
+        }
+    }
+    xhttp.open('POST', `php/show_event_details.php`, false);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(`event_id=${event}`);
+}
+
 function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID){
     var timeHeight = getCSSvariable('--time-height');
 
@@ -352,7 +376,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
 
     var column = document.getElementById(`time-col-${columnid}`);
-    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}'><span>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='redirectToEvent(${eventID});'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){

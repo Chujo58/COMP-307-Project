@@ -226,7 +226,10 @@ function loadLevels() {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('course-level').innerHTML += this.responseText;
+            var elem = document.getElementById('course-level');
+            if (elem != null){
+                elem.innerHTML += this.responseText;
+            }
         }
     };
     xhttp.open('GET', 'php/dashboard.php?loadLevels=true', true);
@@ -245,7 +248,10 @@ function filterCourses() {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('course-list').innerHTML = this.responseText;
+            var elem = document.getElementById('course-list');
+            if (elem != null){
+                elem.innerHTML = this.responseText;
+            }
         }
     };
     xhttp.open('POST', `php/dashboard.php`, true);
@@ -253,9 +259,6 @@ function filterCourses() {
     xhttp.send(queryParams);
 }
 
-// Attach event listeners
-window.addEventListener('load', loadLevels);
-window.addEventListener('load', filterCourses);
 
 // Load staff for a selected course
 function loadStaff() {
@@ -270,16 +273,16 @@ function loadStaff() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             // Populate the staff list container with the response
-            document.getElementById('staff-list').innerHTML = this.responseText;
+            var elem = document.getElementById('staff-list');
+            if (elem != null){
+                elem.innerHTML = this.responseText;
+            }
         }
     };
     xhttp.open('GET', `php/list_staff.php?course_id=${courseID}`, true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send();
 }
-
-// Attach the `loadStaff` function to the `list_staff.htm` page
-window.addEventListener('load', loadStaff);
 
 function redirectToStaffList(courseID) {
     // Use window.location.href for redirection

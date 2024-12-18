@@ -23,13 +23,14 @@ else {
             display("matter/main.htm");
             break;
         case "Dashboard":
+            echo "<script>window.addEventListener('load', loadLevels); window.addEventListener('load', filterCourses);</script>";
             display("matter/dashboard.htm");
             break;
         case "StaffList":
             $courseID = isset($_GET["course_id"]) ? $_GET["course_id"] : null; //check course_id provided
             if ($courseID) {
                 // Pass the course_id as a JavaScript variable for use in the staff list
-                echo "<script>const courseID = '$courseID';</script>";
+                echo "<script>const courseID = '$courseID'; window.addEventListener('load', loadStaff);</script>";
                 display("matter/list_staff.htm");
             } else {
                 echo "<p>No course selected!</p>";
@@ -41,6 +42,14 @@ else {
                 echo "<script>const userID ='" . $userID . "';</script>";
             }
             display('matter/calendar.htm');
+            break;
+
+        case "Event":
+            $eventID = isset($_GET['event_id']) ? $_GET["event_id"] : null;
+            if ($eventID){
+                echo "<script>const eventID ='" . $eventID . "'; window.addEventListener('load', popoutEvent);</script>";
+            }
+            display('matter/event.htm');
             break;
 
         case "StaffDash":

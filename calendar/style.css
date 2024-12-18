@@ -8,6 +8,7 @@
     --sidebar-width: clamp(200px, 18vw, 18vw);
     --height-topbar: calc(1.75 * var(--calendar-font-size));
     --calendar-spacing: calc(0.5 * var(--calendar-font-size));
+    --add-button: hsl(0 0% 85%);
     --calendar-color: hsl(0 0% 92%);
     --calendar-accent: hsl(0 0% 63%);
 
@@ -42,6 +43,56 @@
 * {
     margin: 0;
     padding: 0;
+}
+
+.add-event{
+    margin: calc(var(--calendar-spacing)/2);
+    padding: calc(var(--calendar-spacing)/2);
+
+    /* height: fit-content; */
+}
+
+#add_event_btn {
+    position: absolute;
+    font-family: "DM Serif Text", serif;
+
+    border: solid var(--add-button) 1px;
+    background: var(--add-button);
+    border-radius: 15px;
+    padding-left: calc(var(--calendar-spacing)*2);
+    padding-right: calc(var(--calendar-spacing)*2);
+    font-size: 0.6em;
+    cursor: pointer;
+    align-self: center;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    max-width: calc(var(--sidebar-width) - 5.1* var(--calendar-spacing));
+
+    span {
+        width: 20%;
+        padding: 0 5% 0 5%;
+        display: flex;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+#add_event_btn.small {
+    .add-event-text {
+        display: none;
+    }
+
+    max-width: 20px;
+    padding: 10px;
+
+    span {
+        width: 100%;
+    }
 }
 
 .calendar-holder {
@@ -84,8 +135,8 @@
     border-radius: 30px;;
 
     img {
-        height: 75%;
-        width: 75%;
+        height: 100%;
+        width: 100%;
     }
 
     cursor: pointer;

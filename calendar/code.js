@@ -496,16 +496,19 @@ function toggleSidebar(){
     var sidebar = document.getElementById("sidebar");
     var calendar = document.getElementById('weekly-calendar');
     var sidebar_menu = document.getElementById('sidebar-menu');
+    var add_event = document.getElementById('add_event_btn');
     if (sidebar.classList.contains('hidden')){
         sidebar.classList.remove('hidden');
         calendar.classList.remove('full-size');
-        sidebar_menu.innerHTML = `<img src='icons/icons8-close-win.svg'>`
+        add_event.classList.remove('small');
+        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_close.png'>`
         return;
     }
     else {
         sidebar.classList.add('hidden');
         calendar.classList.add('full-size');
-        sidebar_menu.innerHTML = `<img src='icons/icons8-menu-win.svg'>`
+        add_event.classList.add('small');
+        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_menu.png'>`
         return;
     }
 }

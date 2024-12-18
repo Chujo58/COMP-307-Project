@@ -31,6 +31,7 @@ if (isset($_GET['fetchCalendar'])) {
 if (isset($_GET['fetchAppointments'])) {
     // Set the 'staff_id' dynamically (e.g., from session or request).
     $current_staff_id = $_GET['staff_id'] ?? null; // Example for getting the staff_id dynamically
+    $event_filter = $_GET['event_filter'] ?? null; // Optional event filter
 
     if (!$current_staff_id) {
         http_response_code(400);

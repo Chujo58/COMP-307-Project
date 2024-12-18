@@ -3,6 +3,8 @@ header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
 header("Pragma: no-cache"); // HTTP 1.0.
 header("Expires: 0"); // Proxies.
 
+session_start();
+
 function display($path){
     $file = fopen($path,"r");
     while (!feof($file)) {
@@ -38,6 +40,10 @@ else {
             break;
         case "Calendar":
             $userID = isset($_GET['user_id']) ? $_GET["user_id"] : null;
+            $use_session = isset($_GET['session']) ? $_GET['session'] : null;
+            if ($use_session){
+                $userID = $_SESSION['user_id'];
+            }
             if ($userID){
                 echo "<script>const userID ='" . $userID . "';</script>";
             }

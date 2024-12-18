@@ -36,6 +36,10 @@ else {
             }
             break;
         case "Calendar":
+            $userID = isset($_GET['user_id']) ? $_GET["user_id"] : null;
+            if ($userID){
+                echo "<script>const userID ='" . $userID . "';</script>";
+            }
             display('matter/calendar.htm');
             break;
 

@@ -45,13 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $query = "SELECT * FROM events WHERE event_start BETWEEN '" . $start ."' AND '" . $stop . "'";
 
     $filter = $_POST['filter'] ?? '';
+    $user = $_POST['user'] ?? '';
     
     if (!empty($filter)){
         $query .= " AND event_filter='" . $filter . "'";
     }
-    
-    // echo $query . '<br>';
+    if (!empty($user)){
+        $query .= " AND (staff_id='" . $user . "' OR student_id='" . $user . "')";   
+    }
 
+    
     showData($query, $conn);
 }
 ?>

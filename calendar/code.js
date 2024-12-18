@@ -312,7 +312,7 @@ window.addEventListener('load', onLoad);
  * @param {Date} day Day to show events
  * @param {boolean} weeklyView Is weekly view toggled on.
  */
-function showEvents(day, weeklyView, filter){
+function showEvents(day, weeklyView, filter, user){
     // var eventId = crypto.randomUUID();
     var weekday_index = weeklyView ? day.getDay() : 0;
     var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
@@ -338,7 +338,7 @@ function showEvents(day, weeklyView, filter){
 
     xhttp.open("POST", "php/calendar.php", 'true');
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}`);
+    xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}`);
 }
 
 function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID){
@@ -373,16 +373,16 @@ function generateTimeCols(numCols){
     }
 }
 
-function displayEventForCurrView(weeklyView, filter){
+function displayEventForCurrView(weeklyView, filter, user){
     if (weeklyView){
         var i = 0;
         while (i < 7){
             new_date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay() + i);
-            showEvents(new_date, true, filter);
+            showEvents(new_date, true, filter, user);
             i++;
         }
     } else {
-        showEvents(selectedDate, false, filter);
+        showEvents(selectedDate, false, filter, user);
     }
 }
 
@@ -438,6 +438,12 @@ function loadFilters(){
 }
 
 function displayFiltered(weekly){
+    var user = "";
+    if (typeof userID === 'undefined' || !userID){
+        user = "";
+    } else {
+        user = userID;
+    }
     var filters = document.querySelectorAll('div.filter');
     var clicked_filters = [];
     filters.forEach(filter => {
@@ -449,7 +455,7 @@ function displayFiltered(weekly){
 
     clearView();
     clicked_filters.forEach(filter_id => {
-        displayEventForCurrView(weekly, filter_id);       
+        displayEventForCurrView(weekly, filter_id, user);       
     });
 }
 

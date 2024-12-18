@@ -31,6 +31,12 @@ button.openbtn {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  .event-body {
+    align-self: flex-start !important;
+    width: 100%;
+    margin: 0 2% 0 2%;
+  }
 }
 
 .apt-block {

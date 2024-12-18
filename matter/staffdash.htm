@@ -1,120 +1,108 @@
 <header class="staff-header">
-  <div class="left-h">
-    <button class="openbtn" onclick="openNav()">
-      <img src="icons/icons8-menu-win.svg" />
-    </button>
-  </div>
-  <div class="logo">Staff Dashboard</div>
+    <div class="left-h">
+        <button class="openbtn" onclick="openNav()">
+            <img src="icons/icons8-menu-win.svg" />
+        </button>
+    </div>
+    <div class="logo">Staff Dashboard</div>
 </header>
 
 <div class="container">
-  <div id="staffdash-sidebar" class="sidebar">
-    <div
-      style="display: flex; flex-direction: row-reverse; align-items: center"
-    >
-      <a class="closebtn" onclick="closeNav()"
-        ><img src="icons/icons8-close-win.svg" />
-      </a>
-      <a href="#">Main Page</a>
+    <div id="staffdash-sidebar" class="sidebar">
+        <div
+            style="display: flex; flex-direction: row-reverse; align-items: center">
+            <a class="closebtn" onclick="closeNav()"><img
+                    src="icons/icons8-close-win.svg" />
+            </a>
+            <a href="#">Main Page</a>
+        </div>
+        <a href="#">Availabilities</a>
+        <a href="#">Course</a>
     </div>
-    <a href="#">Availabilities</a>
-    <a href="#">Course</a>
-  </div>
 
-  <!-- Calendar and Appointments -->
-  <div class="main-wrapper">
-    <!-- Upcoming Appointments -->
-    <div class="upcoming-appointments">
-      <h2>Upcoming Appointments</h2>
-      <div class="block-container" id="apt-block-container">
-        <!--
+    <!-- Calendar and Appointments -->
+    <div class="main-wrapper">
+        <!-- Upcoming Appointments -->
+        <div class="upcoming-appointments">
+            <h2>Upcoming Appointments</h2>
+            <div class="block-container" id="apt-block-container">
+                <!--
         <div class="apt-block">
           <b>COMP 307</b>
           <br />Mon 12:30 <br />12/03/2024 <br />Rachel Shi
         </div>
         -->
-      </div>
+            </div>
 
-      <!-- Weekly Calendar -->
-      <div class="calendar-container" id="calendar">
-        <h2>Weekly Calendar</h2>
-      </div>
+            <!-- Weekly Calendar -->
+            <div class="calendar-container" id="calendar">
+                <h2>Weekly Calendar</h2>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
+    <script>
     function openNav() {
-      document.getElementById("staffdash-sidebar").style.display = "flex";
+        document.getElementById("staffdash-sidebar").style.display = "flex";
     }
 
     function closeNav() {
-      document.getElementById("staffdash-sidebar").style.display = "none";
+        document.getElementById("staffdash-sidebar").style.display = "none";
     }
 
-    async function fetchApt() {
-      try {
-        const response = await fetch("/php/get_apt.php");
-        const appointments = await response.json();
-        const apt_container = document.getElementById("apt-block-container");
 
-        if (!response.ok) {
-          // If the response code is not OK (e.g., 500 for server error)
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Unknown error occurred");
+    function fetchApt(){
+        var xhttp = new XMLHttpRequest();
+        const apt_container = document.getElementById("apt-block-container");
+        xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200){
+                apt_container.innerHTML = "";
+                results = this.responseText.split('\n');
+                results = results.slice(0, results.length-1);
+                results.forEach(row => {
+                    var data = row.split(',');
+                    console.log(data);
+                    apt_container.innerHTML += `
+                    <div class='event-body'>
+                        <div class="event_inner">
+                            <div class='event_name'>
+                                ${data[0]}
+                            </div>
+                            <div class='event_time_infos'>
+                                <div class='event_date'>
+                                    ${formatDate(new Date(Number(data[1])))}
+                                </div>
+                                <span class='event_sep'>⋅</span>
+                                <div class='event_time'>
+                                    ${formatTimes(new Date(Number(data[1])), new Date(Number(data[2])))}
+                                </div>
+                            </div>
+                            <div class='event_details_holder'>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_multitext.png'></span>
+                                    ${data[6]}
+                                </div>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_account.png'></span>
+                                    ${data[3]} ${data[4]}
+                                </div>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_calendar.png'></span>
+                                    ${data[5]}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+            }
         }
 
-        // Clear the container before appending new appointments
-        apt_container.innerHTML = "";
+        var tempDate = new Date();
 
-        if (appointments.length === 0) {
-          apt_container.innerHTML = "<p>No upcoming appointments.</p>";
-        } else {
-          // Loop through appointments and create HTML elements dynamically
-          appointments.forEach((appointment) => {
-            const apt_block = document.createElement("div");
-            apt_block.className = "apt-block";
-
-            // Format the event_start date to "Tuesday Dec 3, 2024"
-            const formattedStart = new Date(appointment.event_start);
-            const formattedDate = formattedStart.toLocaleDateString("en-US", {
-              weekday: "long", // Full weekday name (e.g., Tuesday)
-              month: "short", // Short month name (e.g., Dec)
-              day: "numeric", // Day number (e.g., 3)
-              year: "numeric", // Full year (e.g., 2024)
-            });
-
-            // Format time as "15:30"
-            const formattedTime = formattedStart.toLocaleTimeString("en-US", {
-              hour: "2-digit", // 15
-              minute: "2-digit", // 30
-              hour12: false, // 24-hour format (e.g., 15:30)
-            });
-
-            // Create the content for the appointment block
-            apt_block.innerHTML = `
-            <b>${appointment.event_name}</b><br>
-            ${formattedDate}<br>
-            ${formattedTime}<br>
-            ${appointment.fname} ${appointment.lname}
-          `;
-
-            // Append the appointment block to the container
-            apt_container.appendChild(apt_block);
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-
-        const apt_container = document.getElementById("apt-block-container");
-        apt_container.innerHTML =
-          "<p>Error fetching appointments. Please try again later.</p>";
-      }
+        xhttp.open("GET", `php/get_apt.php?date=${new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate()).getTime()}`, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send();
     }
-
-    // Load appointments when the page is ready
-    window.onload = fetchApt;
   </script>
 </div>
-
-// { [event_name: 'balbalalbla', ...etc] [event_name: 'balbalalbla', ...etc]
-[event_name: 'balbalalbla', ...etc] }

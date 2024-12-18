@@ -15,7 +15,7 @@
     }
     $ticket_id = $_COOKIE['ticket_id'];
 
-    $stmt = $conn->prepare("SELECT user, user_id, exp_date FROM valid_users WHERE ticket_id = ?");
+    $stmt = $conn->prepare("SELECT user, user_id, exp_date, user_type FROM valid_users WHERE ticket_id = ?");
     $stmt->bind_param("s", $ticket_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -33,6 +33,7 @@
     }
     $_SESSION['user'] = $user_data['user'];
     $_SESSION['user_id'] = $user_data['user_id'];
+    $_SESSION['user_type'] = $user_data['user_type'];
     echo json_encode(["status" => "success", "message" => "Logged in automatically.", "user" => $user_data['user']]);
     $stmt->close();
 

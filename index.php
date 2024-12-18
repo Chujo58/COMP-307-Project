@@ -55,6 +55,7 @@ else {
 
         case "StaffDash":
             display("matter/staffdash.htm");
+            echo "<script>window.addEventListener('load', fetchApt);</script>";
             break;
         default:
             echo "<p>Page not found!</p>";

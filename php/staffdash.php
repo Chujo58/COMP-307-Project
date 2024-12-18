@@ -7,11 +7,15 @@ if ($conn->connect_error) {
 
 // Fetch Weekly Calendar Data
 if (isset($_GET['fetchCalendar'])) {
-    $query = "SELECT staff_name, timeslot, booked FROM staff_calendar ORDER BY timeslot";
-    $result = $conn->query($query);
-    
+    header("Content-Type: application/json");
+    $query = $conn->prepare("SELECT staff_name, timeslot, booked FROM staff_calendar ORDER BY timeslot");
+    $query->execute();
+    $result = $query->get_result();
+
     if (!$result) {
-        die("Query failed: " . $conn->error);
+        http_response_code(500);
+        echo json_encode(["error" => $conn->error]);
+        exit();
     }
 
     $calendarData = [];
@@ -19,31 +23,55 @@ if (isset($_GET['fetchCalendar'])) {
         $calendarData[] = $row;
     }
     echo json_encode($calendarData);
-    $conn->close();
+    $query->close();
     exit();
 }
 
 // Fetch Upcoming Appointments
 if (isset($_GET['fetchAppointments'])) {
-    $query = "SELECT course_id, course_name, course_tag, staff_id 
-              FROM course_list 
-              WHERE staff_id IS NOT NULL 
-              ORDER BY course_name";
-    $result = $conn->query($query);
+    // Set the 'staff_id' dynamically (e.g., from session or request).
+    $current_staff_id = $_GET['staff_id'] ?? null; // Example for getting the staff_id dynamically
+
+    if (!$current_staff_id) {
+        http_response_code(400);
+        echo "Error: Staff ID is required.";
+        exit();
+    }
+
+    // Fetch events where staff_id matches the current staff_id
+    $query = $conn->prepare("SELECT event_desc, event_name, event_start, event_stop, student_id 
+                             FROM events 
+                             WHERE staff_id = ?
+                             ORDER BY event_start");
+    $query->bind_param("s", $current_staff_id); // Bind the staff_id parameter to the query
+    $query->execute();
+    $result = $query->get_result();
 
     if (!$result) {
-        die("Query failed: " . $conn->error);
+        http_response_code(500);
+        echo "Error fetching appointments.";
+        exit();
     }
 
+    // Output the events as formatted HTML
     while ($row = $result->fetch_assoc()) {
         echo "<div class='appointment'>";
-        echo "<p><strong>Course ID:</strong> " . htmlspecialchars($row['course_id']) . "</p>";
-        echo "<p><strong>Course Name:</strong> " . htmlspecialchars($row['course_name']) . "</p>";
-        echo "<p><strong>Course Tag:</strong> " . htmlspecialchars($row['course_tag']) . "</p>";
-        echo "<p><strong>Staff ID:</strong> " . htmlspecialchars($row['staff_id']) . "</p>";
+        echo "<p><strong>Event Name:</strong> " . htmlspecialchars($row['event_name']) . "</p>";
+        echo "<p><strong>Description:</strong> " . htmlspecialchars($row['event_desc']) . "</p>";
+        echo "<p><strong>Start Time:</strong> " . htmlspecialchars($row['event_start']) . "</p>";
+        echo "<p><strong>End Time:</strong> " . htmlspecialchars($row['event_stop']) . "</p>";
+        echo "<p><strong>Student ID:</strong> " . htmlspecialchars($row['student_id']) . "</p>";
         echo "</div>";
     }
-    $conn->close();
+
+    $query->close();
     exit();
 }
+
+// Close connection
+register_shutdown_function(function () use ($conn) {
+    if ($conn) {
+        $conn->close();
+    }
+});
 ?>

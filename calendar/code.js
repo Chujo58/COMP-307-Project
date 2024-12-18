@@ -327,7 +327,7 @@ function showEvents(day, weeklyView, filter){
                 results.forEach(row => {
                     var data = row.split(',');
                     console.log(data);
-                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4]);
+                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4], data[5]);
                 });
             }
             else {
@@ -336,12 +336,12 @@ function showEvents(day, weeklyView, filter){
         }
     }
 
-    xhttp.open("POST", "../php/calendar.php", 'true');
+    xhttp.open("POST", "php/calendar.php", 'true');
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}`);
 }
 
-function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter){
+function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID){
     var timeHeight = getCSSvariable('--time-height');
 
     var eventStartTime = new Date(Number(eventStartTimestamp));
@@ -352,7 +352,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
 
     var column = document.getElementById(`time-col-${columnid}`);
-    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}'><span>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){
@@ -413,13 +413,13 @@ function toggleSidebar(){
     if (sidebar.classList.contains('hidden')){
         sidebar.classList.remove('hidden');
         calendar.classList.remove('full-size');
-        sidebar_menu.innerHTML = `<img src='../icons/icons8-close-win.svg'>`
+        sidebar_menu.innerHTML = `<img src='icons/icons8-close-win.svg'>`
         return;
     }
     else {
         sidebar.classList.add('hidden');
         calendar.classList.add('full-size');
-        sidebar_menu.innerHTML = `<img src='../icons/icons8-menu-win.svg'>`
+        sidebar_menu.innerHTML = `<img src='icons/icons8-menu-win.svg'>`
         return;
     }
 }
@@ -432,7 +432,7 @@ function loadFilters(){
         }
     };
 
-    xhttp.open('GET', `../php/calendar.php?loadFilters=true`, false);
+    xhttp.open('GET', `php/calendar.php?loadFilters=true`, false);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }

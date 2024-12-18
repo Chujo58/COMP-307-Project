@@ -35,6 +35,10 @@ else {
                 echo "<p>No course selected!</p>";
             }
             break;
+        case "Calendar":
+            display('matter/calendar.htm');
+            break;
+
         case "StaffDash":
             display("matter/staffdash.htm");
             break;

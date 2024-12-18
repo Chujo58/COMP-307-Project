@@ -6,7 +6,7 @@ if ($conn->connect_error){
 }
 
 function echoLikeCSV($array){
-    echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . '\n';
+    echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . '\n';
 }
 
 function showData($query, $conn){

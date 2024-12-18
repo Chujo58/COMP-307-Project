@@ -54,7 +54,7 @@ if ($result->num_rows == 0) {
 } else {
     while ($row = $result->fetch_assoc()) {
         echo "<div class='staff-card'>";
-        echo "<h3>Staff Name: " . htmlspecialchars($row['f_name']) . " " . htmlspecialchars($row['l_name']) . "</h3>";
+        echo "<h3>" . htmlspecialchars($row['f_name']) . " " . htmlspecialchars($row['l_name']) . "</h3>";
         echo "</div>";
     }
 }

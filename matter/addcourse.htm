@@ -9,35 +9,49 @@
 
 <div class="container">
   <div id="staffdash-sidebar" class="sidebar">
-    <div style="display: flex; flex-direction: row-reverse; align-items: center">
+    <div
+      style="display: flex; flex-direction: row-reverse; align-items: center"
+    >
       <a class="closebtn" onclick="closeNav()">
         <img src="icons/pulsar_line_close.png" />
       </a>
       <a href="./index.php?Page=Dashboard">Main</a>
     </div>
-    <a href="./index.php?Page=Calendar&session=true" id="aval">Availabilities</a>
+    <a href="./index.php?Page=Calendar&session=true" id="aval"
+      >Availabilities</a
+    >
     <a href="./index.php?Page=StaffCourses">Courses</a>
     <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
   </div>
   <div class="main-wrapper">
     <div class="main-dashboard-container">
-      <form id="course-form" method="POST" style="
+      <form
+        id="course-form"
+        method="POST"
+        style="
           max-width: 400px;
           margin: auto;
           padding: 20px;
           border: 1px solid #ccc;
           border-radius: 8px;
           background: #f9f9f9;
-        ">
+        "
+      >
         <h2 style="text-align: center">Course Selection</h2>
 
         <!-- Message area (for errors or success) -->
         <div id="message" style="color: red; text-align: center"></div>
 
         <label for="course_tag">Course Tag</label>
-        <input list="course_tags" name="course_tag" id="course_tag" required
-          style="width: auto; padding: 8px; margin: 8px 0" pattern="[A-Za-z]{4}"
-          title="Course tag must be 4 letters." />
+        <input
+          list="course_tags"
+          name="course_tag"
+          id="course_tag"
+          required
+          style="width: auto; padding: 8px; margin: 8px 0"
+          pattern="[A-Za-z]{4}"
+          title="Course tag must be 4 letters."
+        />
         <datalist id="course_tags">
           <option value="COMP"></option>
           <option value="ATOC"></option>
@@ -45,21 +59,33 @@
         </datalist>
 
         <label for="course_id">Course ID</label>
-        <input list="course_ids" name="course_id" id="course_id" required
-          style="width: auto; padding: 8px; margin: 8px 0" pattern="\d{3}" title="Course ID must be 3 digits." />
+        <input
+          list="course_ids"
+          name="course_id"
+          id="course_id"
+          required
+          style="width: auto; padding: 8px; margin: 8px 0"
+          pattern="\d{3}"
+          title="Course ID must be 3 digits."
+        />
         <datalist id="course_ids">
           <option value="202"></option>
           <option value="183"></option>
           <option value="222"></option>
         </datalist>
 
-        <div style="
+        <div
+          style="
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
-          ">
+          "
+        >
           <!-- Add Course Button -->
-          <input type="button" value="Add" style="
+          <input
+            type="button"
+            value="Add"
+            style="
               width: 55%;
               margin: 10px;
               padding-left: 15px;
@@ -71,10 +97,15 @@
               border: none;
               border-radius: 4px;
               cursor: pointer;
-            " onclick="submitForm('add')" />
+            "
+            onclick="submitForm('add')"
+          />
 
           <!-- Remove Course Button -->
-          <input type="button" value="Remove" style="
+          <input
+            type="button"
+            value="Remove"
+            style="
               width: 55%;
               margin: 10px;
               padding: 10px;
@@ -83,7 +114,9 @@
               border: none;
               border-radius: 4px;
               cursor: pointer;
-            " onclick="submitForm('remove')" />
+            "
+            onclick="submitForm('remove')"
+          />
         </div>
       </form>
     </div>

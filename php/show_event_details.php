@@ -80,7 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $s_id = $_POST['staff_id'] ?? '';
 
     $query = "SELECT staff_id from events WHERE event_id='" . $eventID . "'";
-    $s_id = $conn->query($query)->fetch_assoc();
+    $result = $conn->query($query)->fetch_assoc();
+    $s_id = $result['staff_id'];
 
     $id = gen_uuid(10);
 
@@ -99,8 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo 'Logged user';
         } else {
             echo 'Guest';
+            exit();
         }
-        exit();
     }
 
     //make fname lname and  email part of desc;

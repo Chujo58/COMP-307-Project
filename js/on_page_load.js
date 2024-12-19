@@ -1,7 +1,7 @@
 const menu = `<a class="site-navbar" id="navbar-menu"><img src="./icons/icons8-menu-win.svg"></a>`
 const logo = `<a class="site-navbar" href="./index.php?Page=Home" id="logo" onclick="navbarClick('home');"><img src="./icons/307logo_fixed.svg"></a>`
 const home = `<a class="site-navbar nav-item" href="./index.php?Page=Home" id="home" onclick="navbarClick('home');">Home</a>`
-const calendar = `<a></a>`
+const calendar = `<a class="site-navbar nav-item" href="./index.php?Page=Calendar" id="calendar" onclick="navbarClick('calendar');">Calendar</a>`
 const dashboard = `<a class="site-navbar nav-item" href="./index.php?Page=Dashboard" id="dashboard" onclick="navbarClick('dashboard');">Dashboard</a>`
 const signup = `<a class="utility-navbar nav-item"  id="signup" onclick="navbarClick('signup');">Sign Up</a>`
 const login = `<a class="utility-navbar nav-item"  id="login" onclick="navbarClick('login');">Login</a>`
@@ -20,7 +20,7 @@ function loadNavbar(){
             }
         });
     }
-    var tempPage = window.location.href.split("?")[1];
+    var tempPage = window.location.href.split("?")[1].split("&")[0];
     let currentPage = "home";
     if (tempPage){
         currentPage = tempPage.split("Page=")[1].toLowerCase();
@@ -29,7 +29,7 @@ function loadNavbar(){
     let site_navbar = document.getElementById("site-navbar");
     let utility_navbar = document.getElementById("utility-navbar");
 
-    site_navbar.innerHTML = logo + home;
+    site_navbar.innerHTML = logo + home + calendar;
     utility_navbar.innerHTML = signup + login;
     reloadActive();
 
@@ -51,7 +51,7 @@ function loadNavbar(){
                 window.sessionStorage.setItem("ticketExpired", true);   
                 window.location.href = "./index.php?Page=Home"; 
             } else {
-                site_navbar.innerHTML = logo + home + dashboard;
+                site_navbar.innerHTML = logo + home + calendar + dashboard;
                 utility_navbar.innerHTML = `<div id='user_display'>${response.user}</div>` + logout;
                 reloadActive();
             }

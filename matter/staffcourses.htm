@@ -44,7 +44,45 @@
         function closeNav() {
           document.getElementById("staffdash-sidebar").style.display = "none";
         }
-      </script>
+        // Fetch courses for the current user
+        function fetchCourses() {
+            var xhttp = new XMLHttpRequest();
+            const courseContainer = document.getElementById("course-list");
+        
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    courseContainer.innerHTML = "";  // Clear previous content
+                    var results = this.responseText.split("\n");
+                    results = results.slice(0, results.length - 1);  // Remove the last empty line
+
+                    if (results.length === 0 || (results.length === 1 && results[0] === "")) {
+                        courseContainer.innerHTML = "<div class='no-course-body'>No courses found...</div>";
+                    } else {
+                        results.forEach((row) => {
+                            var data = row.split(",");
+                            // Append each course as a block
+                            courseContainer.innerHTML += `
+                                <div class='course-body'>
+                                    <div class="course_inner">
+                                        <div class='course_tag'>
+                                            ${data[0]}
+                                        </div>
+                                        <div class='course_id'>
+                                            ${data[1]}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                }
+            };
+
+            xhttp.open("GET", "php/get_course.php", true);  // Modify the path if needed
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send();
+        }
+    </script>
     </div>
   </div>
   

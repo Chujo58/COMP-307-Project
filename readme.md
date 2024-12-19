@@ -1,8 +1,20 @@
 # McGill COMP 307 (Principles of Web Development) Final Project
 
-## Folder structure
+<!-- ## Folder structure -->
 
-<table>
+* Student Dashboard (private) (Sophia)
+  * List of staff (private)  (Sophia)-> Calendar
+* Calendar (Chloé)
+  * Create availability(private) (Chloe)
+  * Create booking (private) (Ling Jie)
+* Staff Dashboard (private) (Rachel + Chloé)
+  * Availabilities -> Calendar
+  * Courses (private) (Rachel)
+  * Add/remove courses (private) (Rachel)
+  * Pending requests -> Accept/deny (Sophia+Lingjie)
+* Signup/Login -> Cookies/Security (Lingjie)
+
+<!-- <table>
     <tbody>
         <tr>
             <th>Feature</th>
@@ -66,25 +78,7 @@
             <td>HTML code used to populate the signup popup</td>
         </tr>
     </tbody>
-</table>
-
-## To Dos
-
-* [ ] Encryption of the passwords
-* [ ] Dashboard pages
-* [ ] Availibility pages (+editing page for staff)
-* [ ] Course pages
-* [ ] Booking & Confirmation page
-
->  The course can probably be merged into the dashboard, same for the availability page. We might want to add some sort of phonebook to search through staff members with office hours (maybe allow multi selection to preview multiple OH in one calendar view). This would require a selection box to choose the staff with whom we want a booking.
-
-### Code specific to dos
-
-* [ ] Line 49 in `php/login.php` might not require the extra SQL query to revalidate the user.
-* [ ] Encryption not working.
-
-## Notes
-The navigation bar isn't hard coded in the `top.htm`, but rather is loaded with JS in `on_page_load.js`. This is to change the navigation bar and allow other items to be added.
+</table> -->
 
 ## Repository Analytics
 

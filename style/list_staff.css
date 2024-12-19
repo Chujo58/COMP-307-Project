@@ -43,6 +43,7 @@ header.staff-list-header {
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
 }
 
 .staff-card h3 {

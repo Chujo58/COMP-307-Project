@@ -106,6 +106,10 @@ function redirect(page){
 	window.location = `./index.php?Page=${page}`;
 }
 
+function redirectToCalendar(user_id){
+    window.location = `./index.php?Page=Calendar&user_id=${user_id}`;
+}
+
 function sendLogoutRequest() {
 	let utility_navbar = document.getElementById("utility-navbar");
 	var xhttp = new XMLHttpRequest();

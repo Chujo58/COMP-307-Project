@@ -1,50 +1,50 @@
 <?php
-// Check if the user is logged in and is a staff member
-session_start();
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] != 'staff') {
-    header('Location: login.php');
+session_start(); // Start the session to get user_id from the session
+header('Content-Type: application/json');
+
+// Ensure user is logged in (session should be set)
+if (!isset($_SESSION["user_id"])) {
+    http_response_code(401);
+    echo json_encode(["error" => "User is not logged in."]);
     exit();
 }
 
-$conn = new mysqli('localhost', 'root', '', 'comp307project');
+$user_id = $_SESSION["user_id"];
+$course_tag = $_POST['course_tag'];
+$course_id = $_POST['course_id'];
+
+// Create DB connection
+$conn = new mysqli("localhost", "root", "", "comp307project");
+
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    http_response_code(500);
+    echo json_encode(["error" => "Database connection failed: " . $conn->connect_error]);
+    exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the posted data
-    $course_tag = $_POST['course_tag'];
-    $staff_id = $_POST['staff_id'];
+// Check if the course already exists for the user
+$query = "SELECT * FROM course_list WHERE course_tag = ? AND course_id = ? AND staff_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ssi", $course_tag, $course_id, $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    // Validate staff_id (ensure it's a valid staff ID, e.g., numeric)
-    if (!is_numeric($staff_id)) {
-        echo "Invalid Staff ID";
-        exit();
-    }
-
-    // Check if the course tag exists
-    $check_course = $conn->prepare("SELECT * FROM course_list WHERE course_tag = ?");
-    $check_course->bind_param("s", $course_tag);
-    $check_course->execute();
-    $course_result = $check_course->get_result();
-
-    if ($course_result->num_rows == 0) {
-        echo "Course not found.";
-        exit();
-    }
-
-    // Insert the staff_id into the course list for the selected course tag
-    $stmt = $conn->prepare("INSERT INTO course_list (course_tag, staff_id) VALUES (?, ?)");
-    $stmt->bind_param("ss", $course_tag, $staff_id);
-
-    if ($stmt->execute()) {
-        echo "Staff ID successfully added to the course.";
+if ($result->num_rows > 0) {
+    // Course already exists
+    echo "<script>document.getElementById('message').innerText = 'This course is already added.';</script>";
+} else {
+    // Insert new course
+    $insert_query = "INSERT INTO course_list (course_tag, course_id, staff_id) VALUES (?, ?, ?)";
+    $insert_stmt = $conn->prepare($insert_query);
+    $insert_stmt->bind_param("ssi", $course_tag, $course_id, $user_id);
+    if ($insert_stmt->execute()) {
+        echo "<script>document.getElementById('message').innerText = 'Course added successfully.';</script>";
     } else {
-        echo "Error: " . $stmt->error;
+        echo "<script>document.getElementById('message').innerText = 'Failed to add course.';</script>";
     }
-
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
 }
+
+$stmt->close();
+$insert_stmt->close();
+$conn->close();
 ?>

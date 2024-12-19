@@ -34,28 +34,23 @@ button.openbtn {
 
 .block-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   .event-body {
     align-self: flex-start !important;
-    width: 100%;
+    width: auto;
     margin: 0 2% 0 2%;
   }
 }
 
-.apt-block {
-  margin: auto;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  padding-left: clamp(5px, 15%, 40px);
-  padding-right: clamp(5px, 15%, 40px);
-  box-sizing: border-box;
-  background-color: whitesmoke;
-  border: 2px solid black;
-  align-self: center;
+.no-event-body {
+  margin: 0 2% 0 2%;
   border-radius: 8px;
+  padding: 10px;
+  background-color: #ac9c9c;
+  color: white;
 }
 
 .left-h {
@@ -131,7 +126,6 @@ button.openbtn {
 
 .openbtn {
   text-decoration: none;
-  background: var(--title-text-gradient);
   margin: 0.5rem 0;
   font-family: "Parkinsans", sans-serif;
   font-weight: 600;
@@ -197,6 +191,11 @@ button.openbtn {
   font-weight: 600;
   margin-bottom: 1rem;
   color: var(--title-text);
+}
+
+.courses-block-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .event_name {

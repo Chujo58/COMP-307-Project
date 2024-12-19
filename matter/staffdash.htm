@@ -20,8 +20,7 @@
     <a href="./index.php?Page=Calendar&session=true" id="aval"
       >Availabilities</a
     >
-    <a href="#">Courses</a>
-    <a href="./index.php?Page=AddCourse">Add Course</a>
+    <a href="./index.php?Page=StaffCourses">Courses</a>
   </div>
 
   <!-- Calendar and Appointments -->
@@ -212,10 +211,18 @@
           apt_container.innerHTML = "";
           results = this.responseText.split("\n");
           results = results.slice(0, results.length - 1);
-          results.forEach((row) => {
-            var data = row.split(",");
-            // console.log(data);
-            apt_container.innerHTML += `
+
+          if (
+            results.length === 0 ||
+            (results.length === 1 && results[0] === "")
+          ) {
+            apt_container.innerHTML =
+              "<div class='no-event-body'>No upcoming appointments...</div>";
+          } else {
+            results.forEach((row) => {
+              var data = row.split(",");
+              // console.log(data);
+              apt_container.innerHTML += `
                     <div class='event-body'>
                         <div class="event_inner">
                             <div class='event_name'>
@@ -250,7 +257,8 @@
                         </div>
                     </div>
                     `;
-          });
+            });
+          }
         }
       };
 

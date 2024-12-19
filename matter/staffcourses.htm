@@ -1,0 +1,49 @@
+<header class="staff-header">
+    <div class="left-h">
+      <a class="openbtn" onclick="openNav()">
+        <img src="icons/pulsar_line_menu.png" />
+      </a>
+    </div>
+    <div class="logo">Add Course</div>
+  </header>
+  
+  <div class="container">
+    <div id="staffdash-sidebar" class="sidebar">
+      <div
+        style="display: flex; flex-direction: row-reverse; align-items: center"
+      >
+        <a class="closebtn" onclick="closeNav()">
+          <img src="icons/pulsar_line_close.png" />
+        </a>
+        <a href="./index.php?Page=Dashboard">Main</a>
+      </div>
+      <a href="./index.php?Page=Calendar&session=true" id="aval"
+        >Availabilities</a
+      >
+      <a href="./index.php?Page=AddCourse">Courses</a>
+    </div>
+    <div class="main-wrapper">
+      <div class="main-dashboard-container">
+        <div class="block-container" id="courses-block-container">
+            <h2>Courses</h2>
+            <div id="course-list"></div>
+            <div style="text-align: center; margin-top: 20px;">
+                <br><br><br><br><br><br>
+              <a href="./index.php?Page=AddCourse" style="padding: 10px 20px; background-color: black; color: white; border-radius: 4px; text-decoration: none;">Add Course</a>
+            </div>
+          </div>
+        </div>
+      </div></div>
+  
+      <script>
+        function openNav() {
+          document.getElementById("staffdash-sidebar").style.display = "flex";
+        }
+  
+        function closeNav() {
+          document.getElementById("staffdash-sidebar").style.display = "none";
+        }
+      </script>
+    </div>
+  </div>
+  

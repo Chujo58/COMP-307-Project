@@ -48,6 +48,14 @@ else {
                 echo "<p>No course selected!</p>";
             }
             break;
+        case "StaffCourses":
+            if ($_SESSION['user_type'] == 'staff'){
+                display("matter/staffcourses.htm");
+            }
+            else {
+                echo "Invalid user type";
+            }
+            break;
         case "AddCourse":
             if ($_SESSION['user_type'] == 'staff'){
                 display("matter/addcourse.htm");

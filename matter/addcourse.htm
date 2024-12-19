@@ -20,12 +20,40 @@
     <a href="./index.php?Page=Calendar&session=true" id="aval"
       >Availabilities</a
     >
-    <a href="#">Courses</a>
-    <a href="./index.php?Page=AddCourse">Add Course</a>
+    <a href="./index.php?Page=StaffCourses">Courses</a>
   </div>
   <div class="main-wrapper">
     <div class="main-dashboard-container">
+      <form id="course-form" action="../php/add_course.php" method="POST" style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background: #f9f9f9;">
+        <h2 style="text-align: center;">Course Selection</h2>
         
+        <!-- Message area (for errors or success) -->
+        <div id="message" style="color: red; text-align: center;"></div>
+        
+        <label for="course_tag">Course Tag</label>
+        <input list="course_tags" name="course_tag" id="course_tag" required style="width: auto; padding: 8px; margin: 8px 0;" pattern="[A-Za-z]{4}" title="Course tag must be 4 letters.">
+        <datalist id="course_tags">
+          <option value="COMP">
+          <option value="ATOC">
+          <option value="MATH">
+        </datalist>
+        
+        <label for="course_id">Course ID</label>
+        <input list="course_ids" name="course_id" id="course_id" required style="width: auto; padding: 8px; margin: 8px 0;" pattern="\d{3}" title="Course ID must be 3 digits.">
+        <datalist id="course_ids">
+          <option value="202">
+          <option value="183">
+          <option value="222">
+        </datalist>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+          <!-- Add Course Button -->
+          <input type="submit" value="Add" style="width: 55%; margin: 10px; padding-left: 15px; padding-right: 15px; padding-top: 10px; padding-bottom: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="return confirmAddCourse()">
+          
+          <!-- Remove Course Button -->
+          <input type="button" value="Remove" style="width: 55%; margin: 10px; padding: 10px; background-color: red; color: white; border: none; border-radius: 4px; cursor: pointer;" onclick="return confirmRemoveCourse()">
+        </div>
+      </form>
     </div></div>
 
     <script>
@@ -35,6 +63,14 @@
 
       function closeNav() {
         document.getElementById("staffdash-sidebar").style.display = "none";
+      }
+
+      function confirmAddCourse() {
+        return confirm("Are you sure you want to add this course?");
+      }
+
+      function confirmRemoveCourse() {
+        return confirm("Are you sure you want to remove this course?");
       }
     </script>
   </div>

@@ -61,6 +61,7 @@ else {
         case "AddCourse":
             if ($_SESSION['user_type'] == 'staff'){
                 display("matter/addcourse.htm");
+                echo "<script>window.addEventListener('load', submitForm);</script>";
             }
             else {
                 echo "Invalid user type";

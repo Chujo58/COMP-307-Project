@@ -313,7 +313,7 @@ function showCreate(){
 
     xhttp.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
-            if (this.responseText == "Student"){
+            if (this.responseText !== "Staff"){
                 document.getElementById('add_event_btn').style = 'display: none;';
                 document.getElementById('calendar-add-placeholder').classList.add('hidden');
             }

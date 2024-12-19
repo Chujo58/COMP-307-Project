@@ -117,6 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     if ($_SESSION['user_type'] == 'student'){
         echo "Student";
+    } elseif ($_SESSION['user_type'] == 'staff') {
+        echo "Staff";
+    } else {
+        echo "Guest";
     }
     //For staff:
     //Edit event in php get show_event_details.php to show edit form

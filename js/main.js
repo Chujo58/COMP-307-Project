@@ -1,6 +1,6 @@
 //NAVBAR FUNCTIONS
 var popup_default_inner = '';
-var navbarIds = ['home','signup','login', 'logout', 'dashboard'];
+var navbarIds = ['home','signup','login', 'logout', 'dashboard', 'calendar'];
 
 
 function arrayRemove(array, elem){

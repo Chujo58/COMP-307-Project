@@ -9,6 +9,7 @@
 @import "./list_staff.css";
 @import "./bot.css";
 @import "./event.css";
+@import "./publicBtn.css";
 
 html {
   scrollbar-color: var(--scroll-color) var(--navbar-color);

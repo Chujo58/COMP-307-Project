@@ -1,0 +1,145 @@
+<header class="staff-header">
+  <div class="left-h">
+    <a class="openbtn" onclick="openNav()">
+      <img src="icons/pulsar_line_menu.png" />
+    </a>
+  </div>
+  <div class="logo">Add Course</div>
+</header>
+
+<div class="container">
+  <div id="staffdash-sidebar" class="sidebar">
+    <div class="extra-sidebar"
+      >
+      <a class="closebtn" onclick="closeNav()">
+        <img src="icons/pulsar_line_close.png" />
+      </a>
+      <a href="./index.php?Page=Dashboard">Main</a>
+    </div>
+    <a href="./index.php?Page=Calendar&session=true" id="aval"
+      >Availabilities</a
+    >
+    <a id="staff_course_ln" href="./index.php?Page=StaffCourses">Courses</a>
+    <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
+  </div>
+
+  <div class="main-wrapper">
+    <div class="main-dashboard-container">
+      <form id="course-form" method="POST">
+        <h2>Course Selection</h2>
+
+        <!-- Message area (for errors or success) -->
+        <div id="message"></div>
+
+        <label for="course_tag">Course Tag</label>
+        <input
+          list="course_tags"
+          name="course_tag"
+          id="course_tag"
+          required
+          pattern="[A-Za-z]"
+          title="Course tags should be 4 letters."
+        />
+
+        <label for="course_id">Course ID</label>
+        <input
+          list="course_ids"
+          name="course_id"
+          id="course_id"
+          required
+          pattern="\d"
+          title="Course IDs should be 3 digits."
+        />
+
+        <label for="course_name">Course Name</label>
+        <input
+          list="course_name"
+          name="course_name"
+          id="course_name"
+          
+          pattern="[A-Za-z]"
+          title="Course names should be a short description."
+        />
+
+        <div class="buttons">
+        <div class="addcourse-button" onclick="submitForm('add')">ADD</div>
+        <div class="removecourse-button" onclick="submitForm('remove')">REMOVE</div>
+        </div>
+      </div>
+      </form>
+      
+    </div>
+  </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("staffdash-sidebar").style.display = "flex";
+    }
+
+    function closeNav() {
+      document.getElementById("staffdash-sidebar").style.display = "none";
+    }
+
+    function submitForm(action) {
+      var courseTag = document.getElementById("course_tag").value;
+      var courseId = document.getElementById("course_id").value;
+      var courseName = document.getElementById("course_name").value;
+
+      var messageDiv = document.getElementById("message");
+      messageDiv.innerHTML = "";
+
+      if (action == 'add'){
+          if (!courseTag || !courseId || !courseName) {
+            messageDiv.style.color = "red";
+            messageDiv.innerHTML = "Please fill in all fields.";
+            return;
+          }
+      }
+      if (action == 'remove'){
+        if (!courseTag || !courseId) {
+            messageDiv.style.color = "red";
+            messageDiv.innerHTML = "Please fill in all fields.";
+            return;
+          }
+      }
+
+      // Prepare POST data
+      var formData = new FormData();
+      formData.append("action", action);
+      formData.append("course_tag", courseTag);
+      formData.append("course_id", courseId);
+      formData.append("course_name", courseName);
+
+      // Create AJAX request
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "php/addcourse.php", true);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            var response = xhr.responseText;
+            if (response.includes("success")) {
+              messageDiv.style.color = "green";
+              messageDiv.innerHTML =
+                "Course " +
+                (action === "add" ? "added" : "removed") +
+                " successfully.";
+            } else {
+              messageDiv.style.color = "red";
+              messageDiv.innerHTML = response;
+            }
+            setTimeout(function() {
+                document.getElementById('staff_course_ln').click();
+            }, 500);
+          } else {
+            messageDiv.style.color = "red";
+            messageDiv.innerHTML =
+              "An error occurred while processing the request.";
+          }
+        }
+      };
+
+      xhr.send(formData);
+    }
+  </script>
+</div>

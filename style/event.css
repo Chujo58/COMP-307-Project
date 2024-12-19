@@ -1,0 +1,125 @@
+@import './constants.css';
+
+@media screen and (max-device-width: 850px), screen and (max-width: 850px) {
+    .event_time_infos {
+        flex-direction: column !important;
+    }
+}
+
+#booking-form {
+    background: white;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+#booking-form:hover > .heading-highlight::before {
+    transition: all .3s ease;
+    height: 100%;   
+}
+
+.event-columns-box{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#event-calendar-holder {
+    width: auto;
+    margin: 20px;
+    .calendar-holder {
+        width: auto;
+    }
+}
+
+.event-column-holder {
+    background: var(--background);
+    display: flex;
+    flex-direction: row;
+}
+
+.event-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'Outfit';
+    width: auto;
+
+    background: white;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+.event_inner {
+    padding: 30px;
+    width: 100%;
+}
+
+.event_name {
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.event_time_infos {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    font-size: smaller;
+}
+
+.event_sep {
+    font-weight: 700;
+    margin: 0 8px;
+}
+
+.event_details_holder {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.event_detail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 5% 0 5%;
+
+    span {
+        display: flex;
+        width: 5%;
+        padding: 0 5px 0 5px;
+        align-items: center;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.close_btn,
+.delete_btn {
+    position: relative;
+    width: 5%;
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+    img {
+        width: 100%;
+    }
+}
+
+.close_btn {
+    top: -30px;
+}
+
+.delete_btn {
+    top: 30px;
+}
+
+.calendar-sidebar,
+#calendar-in-event > div,
+#calendar-in-event {
+  border-radius: 8px;
+}

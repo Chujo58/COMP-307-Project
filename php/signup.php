@@ -24,20 +24,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         die("Internal Server Error");
     }
 
+    // Retrieve input values and sanitize
+    $f_name = $_POST['f_name'];
+    $l_name = $_POST['l_name'];
     $username = $_POST['username'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    //Check if it is the same
+    // Check if passwords match
     if ($password !== $confirm_password) {
         echo "Passwords Must Match";
         exit();
     }
 
-    //Check if it is a valid username
+    // Validate email
     $email = explode('@', $username);
     if (count($email) != 2 || ($email[1] != "mail.mcgill.ca" && $email[1] != "mcgill.ca")) {
-        echo "Please Use a Valid Mcgill Email as Username";
+        echo "Please Use a Valid McGill Email as Username";
         exit();
     }
 
@@ -52,24 +55,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         exit();
     }
 
-    //Hash the password
+    // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
     $user_id = gen_uuid(10);
 
+    // Determine user type
+    $user_type = "student";
+    if ($email[1] == "mcgill.ca") {
+        $user_type = "staff";
+    }
     //Validate the sign up
-    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id) VALUES (:user, :pass, :id)");
+    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id, user_type, f_name, l_name) VALUES (:user, :pass, :id, :user_type, :f_name, :l_name)");
     $insert_user->bindParam(':user',$username, SQLITE3_TEXT);
     $insert_user->bindParam(':pass',$hashed_password, SQLITE3_TEXT);
     $insert_user->bindParam(':id',$user_id, SQLITE3_TEXT);
+    $insert_user->bindParam(':user_type',$user_type, SQLITE3_TEXT);
+    $insert_user->bindParam(':f_name',$f_name, SQLITE3_TEXT);
+    $insert_user->bindParam(':l_name',$l_name, SQLITE3_TEXT);
+
 
     if ($insert_user->execute()) {
         echo "User Added";
     } else {
         echo "Failed" . $conn->lastErrorMsg();
     }
-    $insert_user->close();
 
+    $insert_user->close();
     $conn->close();
 }
 

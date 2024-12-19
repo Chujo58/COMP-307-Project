@@ -6,10 +6,17 @@
   --calendar-height: 70vh;
 }
 
-header {
+.calendar-sidebar,
+#calendar-in-staff-dash > div,
+#calendar-in-staff-dash {
+  border-radius: 8px;
+}
+
+header.staff-header {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 25px;
 }
 
 button.openbtn {
@@ -25,6 +32,33 @@ button.openbtn {
   transition: all 0.3s ease; /* Smooth adjustment */
 }
 
+.block-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .event-body {
+    align-self: flex-start !important;
+    width: auto;
+    margin: 0 2% 0 2%;
+  }
+}
+
+.extra-sidebar {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.no-event-body {
+  margin: 0 2% 0 2%;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #ac9c9c;
+  color: white;
+}
+
 .left-h {
   text-align: left;
   margin-left: 1px;
@@ -33,23 +67,26 @@ button.openbtn {
 .logo {
   margin-left: auto;
   margin-right: auto;
+  color: #db292f;
+  font-size: 35px;
+  font-weight: bold;
 }
 
 .sidebar {
   width: var(--sidebar-width);
+  margin: 10px;
   background-color: var(--box-background);
   border: 1px solid var(--box-highlight);
   border-radius: 8px;
   padding: 1rem;
-  height: calc(100vh - 2rem);
-  display: flex;
-  flex-direction: column;
-  position: sticky;
+  /* height: calc(100vh - 2rem); */
+  /*flex-direction: column;*/
+  /*position: relative;*/
   top: 0;
   transition: transform 0.3s ease;
 }
 
-.sidebar a {
+.sidebar a:not(.closebtn) {
   text-decoration: none;
   color: var(--title-text);
   margin: 0.5rem 0;
@@ -67,12 +104,22 @@ button.openbtn {
 }
 
 .sidebar .closebtn {
+  text-decoration: none;
+  margin: 0.5rem 0;
+  font-family: "Parkinsans", sans-serif;
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: block;
+  transition: background 0.3s ease;
+  height: 30px;
+  width: 30px;
   margin-left: auto;
 }
 
 .closebtn > img {
-  width: 30px;
-  height: 30px;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   align-self: center;
   text-align: center;
@@ -84,41 +131,51 @@ button.openbtn {
 }
 
 .openbtn {
-  font-size: 20px;
+  text-decoration: none;
+  margin: 0.5rem 0;
+  font-family: "Parkinsans", sans-serif;
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: block;
+  transition: all 0.3s ease;
+  height: 30px;
+  width: 30px;
+  margin-left: auto;
   cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
+}
+
+.openbtn:hover {
+  background-color: black;
+  color: #fff;
+  img {
+    filter: invert();
+  }
 }
 
 .openbtn > img {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
+  width: 100%;
+  height: 100%;
   align-self: center;
   text-align: center;
   filter: opacity(0.8) drop-shadow(0 0 0);
 }
 
-.openbtn:hover {
-  background-color: #111;
-}
-
-.openbtn:hover > img {
-  filter: invert();
-}
-
-/* Calendar Section */
-.calendar-wrapper {
+/* calendar + appt Section */
+.main-wrapper {
+  margin: 10px;
   width: calc(100% - var(--sidebar-width));
   display: flex;
   flex-direction: column;
-  padding: 1rem;
   flex-grow: 1; /* Automatically adjust width */
 }
 
-.calendar {
+#calendar-in-staff-dash {
+  margin: 15px;
+}
+
+.calendar-container {
+  margin-top: 20px;
   background-color: var(--background);
   border: 1px solid var(--box-highlight);
   border-radius: 8px;
@@ -128,48 +185,105 @@ button.openbtn {
 }
 
 /* Upcoming Appointments Section */
-.upcoming-appointments {
-  margin-top: 1.5rem;
+.main-dashboard-container {
   background-color: var(--box-background);
   border: 1px solid var(--box-highlight);
   border-radius: 8px;
   padding: 1rem;
 }
 
-.upcoming-appointments h2 {
+.main-dashboard-container h2 {
   font-family: "Parkinsans", sans-serif;
   font-weight: 600;
   margin-bottom: 1rem;
   color: var(--title-text);
 }
 
-.appointment {
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  border-bottom: 1px solid var(--box-highlight);
+.staffcourse-wrapper {
+  margin: 10px;
+  width: calc(100% - var(--sidebar-width));
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Automatically adjust width */
 }
 
-.appointment:last-child {
-  border-bottom: none;
+.staffcourse-container {
+  background-color: var(--box-background);
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 100%;
 }
 
-.appointment p {
-  margin: 0.2rem 0;
-  font-size: 0.9rem;
-  color: var(--text);
+.event_name {
+  color: #db292f;
+}
+
+.event_time_infos {
+  /* flex-direction: column !important;
+  justify-content: flex-start !important; */
+  padding-right: 35px;
+  padding-left: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.event_date,
+.event_time {
+  font-size: 13px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.event_sep {
+  margin: 0 4px !important;
+}
+
+.event_detail {
+  font-size: 15px;
 }
 
 /* Responsive Design */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 750px) {
   .container {
+    display: flex;
+    flex-direction: column !important;
+    width: auto;
+    padding: 0rem !important;
+  }
+  .main-wrapper {
+    width: auto;
+  }
+
+  .event-body {
+    margin: 2% 0 2% 0 !important;
+  }
+  .main-dashboard-container h2 {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .block-container {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .staffcourse-block-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .sidebar {
-    width: 100%;
+    width: auto;
     height: auto;
     position: relative;
-    transform: translateX(-100%);
+    /* transform: translateX(-100%); */
   }
 
   .calendar-wrapper {

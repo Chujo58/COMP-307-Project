@@ -8,6 +8,7 @@ let displayedDates = null;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const short_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const weekday_labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const long_weekday_labels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"];
 const sunday_index = 0;
 let first_day_of_week = "Sun";
 let index_first_day = weekday_labels.indexOf(first_day_of_week);
@@ -300,20 +301,157 @@ function onLoad(){
     });
     renderCalender();
     clickDate(`curr_${date.getDate()}`);
+    loadCalendarIcons();
     renderTimes();
     loadFilters();
     displayFiltered(true);
+    showCreate();
 }
 
-window.addEventListener('load', onLoad);
+function showCreate(){
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200){
+            if (this.responseText !== "Staff"){
+                document.getElementById('add_event_btn').style = 'display: none;';
+                document.getElementById('calendar-add-placeholder').classList.add('hidden');
+            }
+            else {
+                document.getElementById('add_event_btn').style = 'display: flex;';
+                document.getElementById('calendar-add-placeholder').classList.remove('hidden');
+            }
+        }
+    }
+
+    xhttp.open("GET", "php/calendar.php");
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();    
+}
+
+function loadCalendarIcons(){
+    var current_day = date.getDate();
+    var icon_path = "icons/calendar/Calendar " + current_day + ".png";
+
+    document.getElementById('calendar-page-icon').innerHTML = `
+        <span><img src='${icon_path}'></span>
+        Calendar
+    `;
+}
+
+function createBooking(){
+    let empty = isFieldEmpty('event_name_book');
+    empty = isFieldEmpty('event_start_book') || empty;
+    empty = isFieldEmpty('event_stop_book') || empty;
+    empty = isFieldEmpty('event_desc_book') || empty;
+    empty = isFieldEmpty('event_filter_book') || empty;
+
+    if (empty){
+        return;
+    }
+
+    var name = getValue('event_name_book');
+    var start = new Date(getValue('event_start_book'));
+    var stop = new Date(getValue('event_stop_book'));
+    var desc = getValue('event_desc_book');
+    var filter = getValue('event_filter_book');
+
+    var fname = getValue('fname_book');
+    var lname = getValue('lname_book');
+    var email = getValue('email_book');
+
+    var eventid = window.location.href.split("event_id=")[1];
+    var event = document.getElementById(eventid);
+    
+    if (start >= new Date(Number(event.getAttribute('event_start'))) && stop <= new Date(Number(event.getAttribute('event_stop')))){
+        var type = 'booking';
+    } else {
+        var type = 'pending';
+    }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        var elem = document.getElementById('event-booking-message');
+        if (this.readyState == 4){
+            if (this.status == 200){
+                if (this.responseText == 'Guest'){
+                    var elems = document.getElementById('booking-form').querySelectorAll('input.hidden-form');
+                    elems.forEach(element => {
+                        element.classList.remove('hidden-form');
+                    });
+                }
+                if (this.responseText == 'Created booking'){
+                    elem.style.color = 'green';
+                    elem.innerHTML = 'Booking created.';
+                    setTimeout(function(){
+                        document.getElementById('calendar').click();
+                    }, 1500);
+                } else {
+                    elem.style.color = 'red';
+                    elem.innerHTML = 'Need additional information';
+                }
+            } else {
+                elem.style.color = 'red';
+                elem.innerHTML = "An error occurred while processing the request.";
+            }
+        }
+    }
+    xhttp.open("POST", "php/show_event_details.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}&fname=${fname}&lname=${lname}&email=${email}&type=${type}&event_id=${eventid}`);
+}
+
+function addEvent(){
+    let empty = isFieldEmpty('event_name');
+    empty = isFieldEmpty('event_start') || empty;
+    empty = isFieldEmpty('event_stop') || empty;
+    empty = isFieldEmpty('event_desc') || empty;
+    empty = isFieldEmpty('event_filter') || empty;
+
+    if (empty){
+        return;
+    }
+
+    var name = getValue('event_name');
+    var start = new Date(getValue('event_start'));
+    var stop = new Date(getValue('event_stop'));
+    var desc = getValue('event_desc');
+    var filter = getValue('event_filter');
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        if (this.readyState == 4 && this.status == 200){
+            console.log(this.responseText);
+            document.getElementById('calendar-create-form').reset();
+            document.getElementById('calendar-popup').className='calendar-popup';
+            window.location.reload();
+        }
+    }
+    xhttp.open("POST", "php/calendar.php");
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}`);
+}
+
+function deleteEvent(id){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        if (this.readyState == 4 && this.status == 200){
+            console.log(this.responseText);
+            document.getElementById('calendar').click();
+        }
+    }
+    
+    xhttp.open("GET", `php/calendar.php?delete=true&event_id=${id}`);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+}
 
 /**
  * Shows all events of selected day.
  * @param {Date} day Day to show events
  * @param {boolean} weeklyView Is weekly view toggled on.
  */
-function showEvents(day, weeklyView, filter){
-    // var eventId = crypto.randomUUID();
+function showEvents(day, weeklyView, filter, user){
     var weekday_index = weeklyView ? day.getDay() : 0;
     var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
     var stop_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()+1).getTime();
@@ -326,8 +464,7 @@ function showEvents(day, weeklyView, filter){
                 results = results.slice(0,results.length - 1);
                 results.forEach(row => {
                     var data = row.split(',');
-                    console.log(data);
-                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4]);
+                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4], data[5]);
                 });
             }
             else {
@@ -336,12 +473,90 @@ function showEvents(day, weeklyView, filter){
         }
     }
 
-    xhttp.open("POST", "../php/calendar.php", 'true');
+    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}`, 'true');
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}`);
+    xhttp.send();
 }
 
-function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter){
+function redirectToEvent(event_id){
+    window.location.href = `index.php?Page=Event&event_id=${event_id}`;
+}
+
+/**
+ * 
+ * @param {Date} date 
+ */
+function formatDate(date){
+    console.log(date);
+    return long_weekday_labels.at(date.getDay()) + ', ' + months.at(date.getMonth()) + ' ' + date.getDate() + ' ' + date.getFullYear();
+}
+
+/**
+ * 
+ * @param {Date} start 
+ * @param {Date} stop 
+ */
+function formatTimes(start, stop){
+    var startstr = start.toTimeString().split(' ')[0];
+    var stopstr = stop.toTimeString().split(' ')[0];
+    return startstr.slice(0,startstr.length-3) + ' - ' + stopstr.slice(0,stopstr.length-3);
+}
+
+function popoutEvent(){
+    var event = "";
+    if (typeof eventID === 'undefined' || !eventID){
+        event = "";
+    } else {
+        event = eventID;
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200){
+            var elem = document.getElementById('event-body');
+            if (elem != null){
+                results = this.responseText.split('\\n');
+                results = results[0];
+                results = results.split(',')
+                elem.innerHTML = `
+                <div class='event_inner' id='${results[5]}' event_start='${results[2]}' event_stop='${results[3]}'>
+                    <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
+                    <div class='event_name'>
+                    ${results[0]}
+                    </div>
+                    <div class='event_time_infos'>
+                    <div class='event_date'>
+                    ${formatDate(new Date(Number(results[2])))}
+                        </div>
+                        <span class='event_sep'>⋅</span>
+                        <div class='event_time'>
+                            ${formatTimes(new Date(Number(results[2])), new Date(Number(results[3])))}
+                        </div>
+                    </div>
+                    <div class='event_details_holder'>
+                        <div class='event_detail'>
+                            <span><img src='icons/pulsar_line_multitext.png'></span>
+                            ${results[1]}
+                        </div>
+                        <div class='event_detail'>
+                            <span><img src='icons/pulsar_line_teacher.png'></span>
+                            ${results[6]}
+                        </div>
+                        <div class='event_detail'>
+                            <span><img src='icons/pulsar_line_calendar.png'></span>
+                            ${results[4]}
+                        </div>
+                    </div>
+                    <span class='delete_btn' style='visibility: ${results[8] == 'staff' ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
+                </div>`;
+            }
+        }
+    }
+    xhttp.open('GET', `php/show_event_details.php?event_id=${event}`, false);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send();
+}
+
+function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID){
     var timeHeight = getCSSvariable('--time-height');
 
     var eventStartTime = new Date(Number(eventStartTimestamp));
@@ -352,7 +567,10 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
 
     var column = document.getElementById(`time-col-${columnid}`);
-    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}'><span>${eventTitle}</span></div>`
+    if (!column) {
+        return;
+    }
+    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='redirectToEvent("${eventID}");'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){
@@ -373,16 +591,16 @@ function generateTimeCols(numCols){
     }
 }
 
-function displayEventForCurrView(weeklyView, filter){
+function displayEventForCurrView(weeklyView, filter, user){
     if (weeklyView){
         var i = 0;
         while (i < 7){
             new_date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay() + i);
-            showEvents(new_date, true, filter);
+            showEvents(new_date, true, filter, user);
             i++;
         }
     } else {
-        showEvents(selectedDate, false, filter);
+        showEvents(selectedDate, false, filter, user);
     }
 }
 
@@ -410,21 +628,31 @@ function toggleSidebar(){
     var sidebar = document.getElementById("sidebar");
     var calendar = document.getElementById('weekly-calendar');
     var sidebar_menu = document.getElementById('sidebar-menu');
+    var add_event = document.getElementById('add_event_btn');
+
     if (sidebar.classList.contains('hidden')){
         sidebar.classList.remove('hidden');
         calendar.classList.remove('full-size');
-        sidebar_menu.innerHTML = `<img src='../icons/icons8-close-win.svg'>`
+        add_event.classList.remove('small');
+        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_close.svg'>`
         return;
     }
     else {
         sidebar.classList.add('hidden');
         calendar.classList.add('full-size');
-        sidebar_menu.innerHTML = `<img src='../icons/icons8-menu-win.svg'>`
+        add_event.classList.add('small');
+        sidebar_menu.innerHTML = `<img src='icons/pulsar_line_menu.svg'>`
         return;
     }
 }
 
 function loadFilters(){
+    var user = "";
+    if (typeof userID === 'undefined' || !userID){
+        user = "";
+    } else {
+        user = userID;
+    }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
@@ -432,12 +660,18 @@ function loadFilters(){
         }
     };
 
-    xhttp.open('GET', `../php/calendar.php?loadFilters=true`, false);
+    xhttp.open('GET', `php/calendar.php?loadFilters=true&user=${user}`, false);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
 
 function displayFiltered(weekly){
+    var user = "";
+    if (typeof userID === 'undefined' || !userID){
+        user = "";
+    } else {
+        user = userID;
+    }
     var filters = document.querySelectorAll('div.filter');
     var clicked_filters = [];
     filters.forEach(filter => {
@@ -449,7 +683,7 @@ function displayFiltered(weekly){
 
     clearView();
     clicked_filters.forEach(filter_id => {
-        displayEventForCurrView(weekly, filter_id);       
+        displayEventForCurrView(weekly, filter_id, user);       
     });
 }
 
@@ -462,3 +696,65 @@ function changeFilter(){
         displayFiltered(false);
     }
 }
+
+function forceMobile(){
+    toggleSidebar();
+    document.getElementById('sidebar-menu').onclick = "";
+    toggleView();
+    document.getElementById('view-selector').onclick = "";
+}
+
+function getUserNames(userID){
+    var user = "";
+    if (typeof userID === 'undefined' || !userID){
+        user = "";
+    } else {
+        user = userID;
+    }
+    if (user == ''){
+        return '';
+    } else {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200){
+                var results = this.responseText.split('\\n');
+                results = results.slice(0, results.length - 1)[0];
+                results = results.split(',');
+                var toAdd = "";
+                if (results[1].endsWith('s')){
+                    toAdd = "' Calendar";
+                } else {
+                    toAdd = "'s Calendar";
+                }
+                document.getElementById('calendar_user_name').innerHTML = results[0] + ' ' + results[1] + toAdd;
+            }
+        };
+
+        xhttp.open('GET', `php/calendar.php?get_name_id=${user}`, false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send();
+    }
+}
+
+function turnMobile(x, daily, sidebar_check=true){
+    if (x.matches){
+        var sidebar = document.getElementById("sidebar");
+        if (!sidebar.classList.contains('hidden') && sidebar_check){
+            document.getElementById("sidebar-menu").click();
+        }
+        if (daily && document.getElementById('view-selector').innerHTML.includes('Week')){
+            document.getElementById('view-selector').click();
+        } else if (!daily && document.getElementById('view-selector').innerHTML.includes('Day')) {
+            document.getElementById('view-selector').click();
+        }
+    }
+}
+
+var mediaUnder750 = window.matchMedia('screen and (max-device-width: 900px), screen and (max-width: 900px)');
+var mediaUnder500 = window.matchMedia('screen and (max-device-width: 550px), screen and (max-width: 550px)');
+
+mediaUnder750.addEventListener("change", function(){ turnMobile(mediaUnder750, false); })
+mediaUnder500.addEventListener("change", function(){ turnMobile(mediaUnder500, true); })
+
+window.addEventListener('load', function(){ turnMobile(mediaUnder750, false); })
+window.addEventListener('load', function(){ turnMobile(mediaUnder500, true); })

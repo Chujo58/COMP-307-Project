@@ -1,0 +1,111 @@
+@import "./constants.css";
+
+/* Container for the page */
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-dashboard-container {
+  padding: 20px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.addcourse-button {
+  display: inline-block;
+  font-weight: bold;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  margin: 10%;
+  color: #fff;
+  background-color: green;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.removecourse-button {
+  display: inline-block;
+  font-weight: bold;
+  padding: 5%;
+  margin: 10%;
+  color: #fff;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#course-form {
+  width: auto;
+  margin: auto;
+  padding: 7%;
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  background: var(--box-background);
+}
+
+#course-form h2 {
+  text-align: center;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--title-text);
+}
+
+#message {
+  color: var(--error);
+  text-align: center;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Form inputs */
+#course-form label {
+  display: block;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1rem;
+  color: black;
+  width: auto;
+}
+
+#course_tag,
+#course_id,
+#course_name {
+  width: 40%;
+  padding: 1%;
+  margin: 3%;
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1rem;
+}
+
+#course_tag:focus,
+#course_id:focus,
+#course_name:focus {
+  outline: 2px solid var(--title-text-gradient);
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    flex-direction: column;
+  }
+
+  #course-form {
+    width: auto;
+  }
+}

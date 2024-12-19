@@ -1,0 +1,86 @@
+<header class="staff-header">
+    <div class="left-h">
+      <a class="openbtn" onclick="openNav()">
+        <img src="icons/pulsar_line_menu.png" />
+      </a>
+    </div>
+    <div class="logo">Course</div>
+  </header>
+  
+  <div class="container">
+    <div id="staffdash-sidebar" class="sidebar">
+      <div class="extra-sidebar"
+        >
+        <a class="closebtn" onclick="closeNav()">
+          <img src="icons/pulsar_line_close.png" />
+        </a>
+        <a href="./index.php?Page=Dashboard">Main</a>
+      </div>
+      <a href="./index.php?Page=Calendar&session=true" id="aval"
+        >Availabilities</a
+      >
+      <a id="staff_course_ln" href="./index.php?Page=StaffCourses">Course</a>
+      <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
+    </div>
+    <div class="staffcourse-wrapper">
+      <div class="staffcourse-container">
+        <div class="staffcourse-block-container"><h2>Course List</h2>
+            <div class="staffcourse-course-container"><div id="course-list"></div></div>
+            <div class="addremovebutton">
+            
+              <a href="./index.php?Page=AddCourse" >Add/Remove Course</a>
+            </div>
+          </div>
+        </div>
+      </div></div>
+  
+      <script>
+        function openNav() {
+          document.getElementById("staffdash-sidebar").style.display = "flex";
+        }
+  
+        function closeNav() {
+          document.getElementById("staffdash-sidebar").style.display = "none";
+        }
+        // Fetch courses for the current user
+        function fetchCourses() {
+            var xhttp = new XMLHttpRequest();
+            const courseContainer = document.getElementById("course-list");
+        
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    courseContainer.innerHTML = "";  // Clear previous content
+                    var results = this.responseText.split("\n");
+                    results = results.slice(0, results.length - 1);  // Remove the last empty line
+
+                    if (results.length === 0 || (results.length === 1 && results[0] === "")) {
+                        courseContainer.innerHTML = "<div class='no-course-body'>No courses found...</div>";
+                    } else {
+                        results.forEach((row) => {
+                            var data = row.split(",");
+                            // Append each course as a block
+                            courseContainer.innerHTML += `
+                                <div class='course-body'>
+                                    <div class="course_inner">
+                                        <div class='course_tag'>
+                                            ${data[0]}
+                                        </div>
+                                        <div class='course_id'>
+                                            ${data[1]}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                }
+            };
+
+            xhttp.open("GET", "php/staffcourse.php", true);  // Modify the path if needed
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send();
+        }
+    </script>
+    </div>
+  </div>
+  

@@ -1,56 +1,53 @@
 <?php
-session_start();
+    session_start();
 
-// Check for cookies
-try {
-    $conn = new SQLite3('../comp307project.db');
-
-    if (!$conn) {
-        die("Internal Server Error: Unable to connect to the SQLite database.");
-    }
-
-    if (!isset($_COOKIE['ticket_id'])) {
-        header('Content-Type: application/json');
-        echo json_encode(["status" => "failed", "message" => "Please log in."]);
-        exit();
-    }
-
-    $ticket_id = $_COOKIE['ticket_id'];
-
-    // Use a prepared statement to select user data based on ticket_id
-    $stmt = $conn->prepare("SELECT user, user_id, exp_date FROM valid_users WHERE ticket_id = :ticket_id");
-    $stmt->bindValue(':ticket_id', $ticket_id, SQLITE3_TEXT);
-    $result = $stmt->execute();
+    function authenticate($conn) {
+        if (!isset($_COOKIE['ticket_id'])) {
+            $_SESSION['user_type'] = "guest";
+            return ["status" => "failed", "message" => "No ticket found. Please log in."];
+        }
     
-    // Fetch user data
-    $user_data = $result->fetchArray(SQLITE3_ASSOC);
-
-    if (!$user_data || time() > $user_data['exp_date'] || is_null($user_data['exp_date'])) {
-        // Check if expired
-        setcookie('ticket_id', '', time() - 3600, '/');
-        $_SESSION['expired_ticket'] = true;
-        unset($_SESSION['expired_ticket']);
-        unset($_SESSION['user_id']);
-        header('Content-Type: application/json');
-        echo json_encode(["status" => "failed", "message" => "Redirecting to home because ticket is expired."]);
-        exit();
-    }
-
-    // Set session variables
-    $_SESSION['user'] = $user_data['user'];
-    $_SESSION['user_id'] = $user_data['user_id'];
-    echo json_encode(["status" => "success", "message" => "Logged in automatically.", "user" => $user_data['user']]);
-
-    // Close the statement
-    $stmt->close();
-
-    // Close the database connection
-    $conn->close();
+        $ticket_id = $_COOKIE['ticket_id'];
     
-} catch (Exception $e) {
-    // Handle any errors
+        $stmt = $conn->prepare("SELECT user, user_id, exp_date, user_type FROM valid_users WHERE ticket_id = ?");
+        $stmt->bind_param("s", $ticket_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user_data = $result->fetch_assoc();
+    
+        if ($result->num_rows == 0 || time() > $user_data['exp_date'] || is_null($user_data['exp_date'])) {
+            // Expired or invalid ticket
+            setcookie('ticket_id', '', time() - 3600, '/'); // Clear the cookie
+            unset($_SESSION['user'], $_SESSION['user_id']);
+            $_SESSION['user_type'] = "guest";
+            return ["status" => "failed", "message" => "Session expired. Please log in again."];
+        }
+    
+        // Valid session
+        $_SESSION['user'] = $user_data['user'];
+        $_SESSION['user_id'] = $user_data['user_id'];
+        $_SESSION['user_type'] = $user_data['user_type'];
+    
+        return [
+            "status" => "success",
+            "message" => "Authenticated successfully.",
+            "user" => $user_data['user'],
+            "user_type" => $user_data['user_type']
+        ];
+    }
+    
     header('Content-Type: application/json');
-    echo json_encode(["status" => "failed", "message" => "Internal Server Error: " . $e->getMessage()]);
-    exit();
-}
+    
+    // Database connection
+    $conn = new mysqli("localhost", "root", "", "comp307project");
+    if ($conn->connect_error) {
+        echo json_encode(["status" => "error", "message" => "Internal Server Error."]);
+        exit();
+    }
+    
+    // Authenticate the user
+    $response = authenticate($conn);
+    echo json_encode($response);
+    
+    $conn->close();
 ?>

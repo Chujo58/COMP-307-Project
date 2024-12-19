@@ -1,6 +1,6 @@
 //NAVBAR FUNCTIONS
 var popup_default_inner = '';
-var navbarIds = ['home','signup','login', 'logout', 'dashboard'];
+var navbarIds = ['home','signup','login', 'logout', 'dashboard', 'calendar'];
 
 
 function arrayRemove(array, elem){
@@ -19,6 +19,7 @@ function navbarClick(id){
         xhttp.onreadystatechange= function(){
             if (this.readyState == 4 && this.status == 200){
                 document.getElementById('popup').innerHTML = popup_default_inner + this.responseText;
+                setEvent(document.getElementById(id+"_form"));
             }
         };
         
@@ -82,15 +83,19 @@ function isFieldEmpty(id) {
 
 	if (field.value === '') {
 		field.classList.add('missing');
-		error.classList.add('missing');
-		error.innerText = "Required";
+        if (error.tagName.toLowerCase() == 'div'){
+            error.classList.add('missing');
+            error.innerText = "Required";
+        }
 
 		return true;
 
 	} else {
 		field.classList.remove('missing');
-		error.classList.remove('missing');
-		error.innerText = "";
+        if (error.tagName.toLowerCase() == 'div'){
+            error.classList.remove('missing');
+            error.innerText = "";
+        }
 
 		return false;
 	}
@@ -98,7 +103,7 @@ function isFieldEmpty(id) {
 
 //CHANGE IF YOU WANT
 function redirect(page){
-	window.location = `./index.php?Page=${page}`;
+	window.location = `./index.php?Page=${page}&reload=true`;
 }
 
 function sendLogoutRequest() {
@@ -164,57 +169,61 @@ function sendLoginRequest(){
 	xhttp.send(`username=${user}&password=${pass}`);
 }
 
-function sendSignUpRequest(){
-	// Make sure user cannot sign up with empty fields
-	let empty = isFieldEmpty('username');
-	empty = isFieldEmpty('password') || empty;
-	empty = isFieldEmpty('confirm_password') || empty;
+function sendSignUpRequest() {
+    // Make sure user cannot sign up with empty fields
+    let empty = isFieldEmpty('f_name');
+    empty = isFieldEmpty('l_name') || empty;
+    empty = isFieldEmpty('username') || empty;
+    empty = isFieldEmpty('password') || empty;
+    empty = isFieldEmpty('confirm_password') || empty;
 
-	if (empty) {
-		return
-	}
+    if (empty) {
+        return;
+    }
 
-	var user = getValue('username');
-	var pass = getValue('password');
-	var c_pass = getValue('confirm_password');
+    var firstName = getValue('f_name');
+    var lastName = getValue('l_name');
+    var user = getValue('username');
+    var pass = getValue('password');
+    var c_pass = getValue('confirm_password');
 
-	//Check if it is mcgill email
-	let email = user.split('@');
-	if (email.length != 2 || (email[1] != "mail.mcgill.ca" && email[1] != "mcgill.ca")) {
-		document.getElementById('username').classList.add('missing');
-		document.getElementById('username_div').classList.add('missing');
-		document.getElementById('username_div').innerText = "Please Use a Valid Mcgill Email as Username";
-		return;
-	}
+    // Check if it is McGill email
+    let email = user.split('@');
+    if (email.length != 2 || (email[1] != "mail.mcgill.ca" && email[1] != "mcgill.ca")) {
+        document.getElementById('username').classList.add('missing');
+        document.getElementById('username_div').classList.add('missing');
+        document.getElementById('username_div').innerText = "Please Use a Valid McGill Email as Username";
+        return;
+    }
 
-	// Check if both passwords match
-	if (pass !== c_pass) {
-		document.getElementById('confirm_password').classList.add('missing');
-		document.getElementById('confirm_password_div').classList.add('missing');
-		document.getElementById("confirm_password_div").innerText = "Passwords Must Match";
-		return;
-	}
+    // Check if both passwords match
+    if (pass !== c_pass) {
+        document.getElementById('confirm_password').classList.add('missing');
+        document.getElementById('confirm_password_div').classList.add('missing');
+        document.getElementById("confirm_password_div").innerText = "Passwords Must Match";
+        return;
+    }
 
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function(){
-		if (this.readyState == 4){
-			console.log(this.responseText);
-			if (this.status == 200){
-				if (this.responseText === "User Added"){
-					document.getElementById('test').innerHTML = "Signed up!";
-					setTimeout(function(){navbarClick("login")}, redirect_delay);
-				} else {
-					document.getElementById('test').innerHTML = this.responseText;
-				}
-			} else {
-				console.log("Request failed with status: " + this.status);
-			}
-		}
-	}
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            console.log(this.responseText);
+            if (this.status == 200) {
+                if (this.responseText === "User Added") {
+                    document.getElementById('test').innerHTML = "Signed up!";
+                    setTimeout(function () { navbarClick("login") }, redirect_delay);
+                } else {
+                    document.getElementById('test').innerHTML = this.responseText;
+                }
+            } else {
+                console.log("Request failed with status: " + this.status);
+            }
+        }
+    };
 
-	xhttp.open("POST","php/signup.php", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send(`username=${user}&password=${pass}&confirm_password=${c_pass}`);
+    xhttp.open("POST", "php/signup.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`f_name=${encodeURIComponent(firstName)}&l_name=${encodeURIComponent(lastName)}&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}&confirm_password=${encodeURIComponent(c_pass)}`);
 }
 
 // 1. Load course levels dynamically
@@ -222,7 +231,10 @@ function loadLevels() {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('course-level').innerHTML += this.responseText;
+            var elem = document.getElementById('course-level');
+            if (elem != null){
+                elem.innerHTML += this.responseText;
+            }
         }
     };
     xhttp.open('GET', 'php/dashboard.php?loadLevels=true', true);
@@ -241,7 +253,10 @@ function filterCourses() {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('course-list').innerHTML = this.responseText;
+            var elem = document.getElementById('student-course-list');
+            if (elem != null){
+                elem.innerHTML = this.responseText;
+            }
         }
     };
     xhttp.open('POST', `php/dashboard.php`, true);
@@ -249,9 +264,6 @@ function filterCourses() {
     xhttp.send(queryParams);
 }
 
-// Attach event listeners
-window.addEventListener('load', loadLevels);
-window.addEventListener('load', filterCourses);
 
 // Load staff for a selected course
 function loadStaff() {
@@ -266,16 +278,16 @@ function loadStaff() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             // Populate the staff list container with the response
-            document.getElementById('staff-list').innerHTML = this.responseText;
+            var elem = document.getElementById('staff-list');
+            if (elem != null){
+                elem.innerHTML = this.responseText;
+            }
         }
     };
     xhttp.open('GET', `php/list_staff.php?course_id=${courseID}`, true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send();
 }
-
-// Attach the `loadStaff` function to the `list_staff.htm` page
-window.addEventListener('load', loadStaff);
 
 function redirectToStaffList(courseID) {
     // Use window.location.href for redirection
@@ -297,4 +309,74 @@ function toggleNavbar(){
 		icon.classList.add('show');
 		return;
 	}
+}
+
+/**
+ * Setup event listener for enter keypress
+ * @param {HTMLElement|null} form 
+ */
+function setEvent(form){
+    var inputs = form.querySelectorAll("input");
+    inputs.forEach(input => {
+        if (input.type != "button"){
+            input.addEventListener("keypress", function(event){
+                if (event.key === "Enter"){
+                    event.preventDefault();
+                    document.getElementById("form_button").click();
+                }
+            });
+        }
+    });
+}
+
+// Function to fetch and display pending requests for staff
+function loadPendingRequests() {
+    const container = document.getElementById('pending-requests-container');
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            container.innerHTML = this.responseText; // Populate pending requests
+        } else if (this.readyState == 4) {
+            container.innerHTML = "<p>Failed to load pending requests.</p>";
+        }
+    };
+
+    xhttp.open('GET', 'php/pending.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+}
+
+function acceptRequest(eventID) {
+    if (!eventID) return;
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            alert(this.responseText);
+            // Reload the pending requests after successful acceptance
+            loadPendingRequests();
+        }
+    };
+
+    xhttp.open("POST", "php/accept_request.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`event_id=${eventID}`);
+}
+
+function denyRequest(eventID) {
+    if (!eventID) return;
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            alert(this.responseText);
+            // Reload the pending requests after successful denial
+            loadPendingRequests();
+        }
+    };
+
+    xhttp.open("POST", "php/deny_request.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`event_id=${eventID}`);
 }

@@ -6,8 +6,13 @@
 @import "./form.css";
 @import "./dashboard.css";
 @import "./staffdash.css";
+@import "./staffcourses.css";
+@import "./addcourse.css";
 @import "./list_staff.css";
 @import "./bot.css";
+@import "./event.css";
+@import "./publicBtn.css";
+@import "./pending.css";
 
 html {
   scrollbar-color: var(--scroll-color) var(--navbar-color);
@@ -18,9 +23,19 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
   margin: 0;
   font-family: "Parkinsans", sans-serif;
   font-weight: 300;
   font-style: normal;
   font-optical-sizing: auto !important;
+  z-index: 0;
+}
+
+video {
+  max-width: 100%;
+  max-height: 100%;
 }

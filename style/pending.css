@@ -1,0 +1,104 @@
+@import './constants.css';
+
+.pending-container {
+    padding: 2rem;
+    font-family: 'Parkinsans', sans-serif;
+    /* color: var(--text);
+  display: flex;
+  flex-direction: row; */
+}
+
+/* .pending-request {
+    border: 1px solid var(--box-highlight);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: var(--box-background);
+} */
+
+/* Pending request card */
+.pending-request {
+    width: 90%;
+    max-width: 600px;
+    /* background-color: var(--title-text); */
+    border: 1px solid var(--box-highlight);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+/* .pending-request h3 {
+    font-size: 1.5rem;
+    color: var(--title-text);
+}
+
+.pending-request p {
+    font-size: 1rem;
+    color: var(--text);
+} */
+
+/* Request details */
+.pending-request h3 {
+    color: var(--title-text);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .pending-request p {
+    margin: 0.25rem 0;
+    font-size: 1rem;
+    color: var(--text);
+  }
+  
+  /* Buttons container */
+  .pending-request-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  /* Accept button styling */
+  .accept-btn {
+    padding: 0.5rem 1.5rem;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Parkinsans', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .accept-btn:hover {
+    background-color: #218838;
+  }
+  
+  /* Deny button styling */
+  .deny-btn {
+    padding: 0.5rem 1.5rem;
+    background-color: #dc3545;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Parkinsans', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .deny-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* No pending requests message */
+  .container > p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text);
+    text-align: center;
+    margin-top: 2rem;
+  }

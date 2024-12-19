@@ -1,0 +1,82 @@
+.staffcourse-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+}
+
+@media screen and (max-device-width: 750px), screen and (max-width: 750px) {
+    #course-list {
+        flex-wrap: wrap;
+    }
+
+    .staffcourse-wrapper {
+        width: auto;
+    }
+}
+
+#course-list {
+    display: flex;
+    flex-direction: row;    
+}
+
+.course-body {
+    background: white;
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.course_inner {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.staffcourse-block-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #db292f;
+    align-items: center;
+    width: 100%;
+}
+
+.staffcourse-course-container {
+    color: black;
+    margin: 3%;
+    min-height: 15rem;
+    height: auto;
+    width: 100%;
+}
+
+.addremovebutton {
+    text-align: center;
+    margin: auto;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+}
+
+.addremovebutton:hover,
+.addremovebutton:focus,
+.addremovebutton:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.course_tag,
+.course_tag {
+    width: fit-content;
+}

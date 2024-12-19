@@ -1,4 +1,7 @@
-<?php
+<?php 
+session_start();
+
+
 // Id generating function
 function gen_uuid($len = 8)
 {
@@ -79,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         setcookie("ticket_id", $ticket_id, $cookie_expiry, "/", "", true, true);
         $_SESSION['expired_ticket'] = false;
         $_SESSION['user_id'] = $user_data["user_id"];
+        $_SESSION['user_type'] = $user_data['user_type'];
 
         $stmt->close();
         $conn->close();

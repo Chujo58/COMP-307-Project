@@ -23,6 +23,7 @@ if (isset($_COOKIE['ticket_id'])) {
 // Unset session variables
 unset($_SESSION['expired_ticket']);
 unset($_SESSION['user_id']);
+    unset($_SESSION['user_type']);
 
 session_unset();
 session_destroy();

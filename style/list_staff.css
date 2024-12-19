@@ -7,7 +7,7 @@ body {
     padding: 0;
 }
 
-header {
+header.staff-list-header {
     padding: 2rem;
     text-align: center;
     background-color: var(--box-background);
@@ -43,6 +43,7 @@ header {
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
 }
 
 .staff-card h3 {

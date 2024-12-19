@@ -1,47 +1,285 @@
-<header>
+<header class="staff-header">
   <div class="left-h">
-    <button class="openbtn" onclick="openNav()">
-      <img src="icons/icons8-menu-win.svg" />
-    </button>
+    <a class="openbtn" onclick="openNav()">
+      <img src="icons/pulsar_line_menu.png" />
+    </a>
   </div>
-  <div class="logo">Staff Dashboard</div>
+  <div class="logo">Main Dashboard</div>
 </header>
 
 <div class="container">
   <div id="staffdash-sidebar" class="sidebar">
-    <div
-      style="display: flex; flex-direction: row-reverse; align-items: center"
-    >
-      <a class="closebtn" onclick="closeNav()"
-        ><img src="icons/icons8-close-win.svg" />
+    <div class="extra-sidebar">
+      <a class="closebtn" onclick="closeNav()">
+        <img src="icons/pulsar_line_close.png" />
       </a>
-      <a href="#">Main Page</a>
+      <a href="./index.php?Page=Dashboard">Main</a>
     </div>
-    <a href="#">Availabilities</a>
-    <a href="#">Course</a>
+    <a href="./index.php?Page=Calendar&session=true" id="aval"
+      >Availabilities</a
+    >
+    <a href="./index.php?Page=StaffCourses">Courses</a>
+    <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
   </div>
 
   <!-- Calendar and Appointments -->
-  <div class="calendar-wrapper">
+  <div class="main-wrapper">
     <!-- Upcoming Appointments -->
-    <div class="upcoming-appointments">
+    <div class="main-dashboard-container">
       <h2>Upcoming Appointments</h2>
-      <div id="appointments"></div>
-    </div>
+      <div class="block-container" id="apt-block-container"></div>
 
-    <!-- Weekly Calendar -->
-    <div class="calendar" id="calendar">
+      <!-- Weekly Calendar -->
+      <br />
       <h2>Weekly Calendar</h2>
+      <div class="calendar-body" id="calendar-in-staff-dash">
+        <div class="calendar-holder" id="topbar">
+          <a onclick="toggleSidebar();" id="sidebar-menu">
+            <img src="icons/pulsar_line_close.svg" />
+          </a>
+          <div id="calendar-page-icon"></div>
+          <a onclick="toToday();"> Today </a>
+          <div class="icons" id="week_btns">
+            <span id="prev_week" class="material-symbols-rounded"
+              >chevron_left</span
+            >
+            <span id="next_week" class="material-symbols-rounded"
+              >chevron_right</span
+            >
+          </div>
+          <p
+            class="current-month calendar-heading-highlight"
+            id="current-week"
+          ></p>
+          <a
+            style="margin-left: auto"
+            onclick="toggleView();"
+            id="view-selector"
+          >
+            Week
+          </a>
+        </div>
+        <div
+          class="add-event"
+          id="add_event_btn"
+          style="display: none"
+          onclick="document.getElementById('calendar-popup').className += ' active';"
+        >
+          <span>
+            <img src="icons/pulsar_line_add.png" />
+          </span>
+          <div class="add-event-text">Create</div>
+        </div>
+        <div class="calendar-holder" id="botbar">
+          <div class="calendar-sidebar" id="sidebar">
+            <div class="add-event hidden" id="calendar-add-placeholder"></div>
+            <div class="wrapper">
+              <header class="calendar-header">
+                <p
+                  class="current-month calendar-heading-highlight"
+                  id="current-month"
+                ></p>
+                <div class="icons">
+                  <span id="prev" class="material-symbols-rounded"
+                    >chevron_left</span
+                  >
+                  <span id="next" class="material-symbols-rounded"
+                    >chevron_right</span
+                  >
+                </div>
+              </header>
+              <div class="calendar">
+                <ul class="weekday">
+                  <li>Sun</li>
+                  <li>Mon</li>
+                  <li>Tue</li>
+                  <li>Wed</li>
+                  <li>Thu</li>
+                  <li>Fri</li>
+                  <li>Sat</li>
+                </ul>
+                <ul class="days" id="days"></ul>
+              </div>
+            </div>
+            <div>
+              <div class="filters-holder">
+                <span>
+                  <img src="icons/pulsar_color_calendar.png" />
+                </span>
+                <div class="calendar-heading-highlight" id="filters-header">
+                  Calendars
+                </div>
+              </div>
+              <div id="filters"></div>
+            </div>
+          </div>
+          <div class="calendar-popup" id="calendar-popup">
+            <img
+              src="icons/pulsar_line_close.png"
+              onclick="document.getElementById('calendar-popup').className='calendar-popup';"
+            />
+            <form
+              id="calendar-create-form"
+              action="php/calendar.php"
+              method="post"
+            >
+              <div class="heading-highlight form-heading">
+                Create availability
+              </div>
+              <input
+                type="text"
+                name="event_name"
+                id="event_name"
+                placeholder="Event Name"
+                onfocusout="isFieldEmpty('event_name')"
+              />
+              <div></div>
+              <input
+                type="datetime-local"
+                name="event_start"
+                id="event_start"
+                onfocusout="isFieldEmpty('event_start')"
+              />
+              <div></div>
+              <input
+                type="datetime-local"
+                name="event_stop"
+                id="event_stop"
+                onfocusout="isFieldEmpty('event_stop')"
+              />
+              <div></div>
+              <input
+                type="text"
+                name="event_desc"
+                id="event_desc"
+                placeholder="Description"
+                onfocusout="isFieldEmpty('event_desc')"
+              />
+              <div></div>
+              <input
+                type="text"
+                name="event_filter"
+                id="event_filter"
+                placeholder="Course Name"
+                onfocusout="isFieldEmpty('event_filter')"
+              />
+              <div></div>
+              <input
+                type="button"
+                value="Create"
+                style="cursor: pointer"
+                onclick="addEvent();"
+              />
+            </form>
+          </div>
+          <div class="calendar" id="weekly-calendar">
+            <ul class="weekday" id="weekly-calendar-label"></ul>
+            <ul class="days" id="weekly-days"></ul>
+            <div class="timetable-wrapper">
+              <div class="timetable" id="timetable">
+                <div
+                  class="times"
+                  id="timestamps"
+                  aria-hidden="true"
+                  tabindex="-1"
+                ></div>
+                <div id="time-sep"></div>
+                <div class="time-row" id="time-row" role="row"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("staffdash-sidebar").style.display = "flex";
+    }
+
+    function closeNav() {
+      document.getElementById("staffdash-sidebar").style.display = "none";
+    }
+
+    function fetchApt() {
+      var xhttp = new XMLHttpRequest();
+      const apt_container = document.getElementById("apt-block-container");
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          apt_container.innerHTML = "";
+          results = this.responseText.split("\n");
+          results = results.slice(0, results.length - 1);
+
+          if (
+            results.length === 0 ||
+            (results.length === 1 && results[0] === "")
+          ) {
+            apt_container.innerHTML =
+              "<div class='no-event-body'>There are currently no upcoming appointments.</div>";
+          } else {
+            results.forEach((row) => {
+              var data = row.split(",");
+              apt_container.innerHTML += `
+                    <div class='event-body'>
+                        <div class="event_inner">
+                            <div class='event_name'>
+                                ${data[0]}
+                            </div>
+                            <div class='event_time_infos'>
+                                <div class='event_date'>
+                                    ${formatDate(new Date(Number(data[1])))}
+                                </div>
+                              <span class='event_sep'>⋅</span>
+                                <div class='event_time'>
+                                    ${formatTimes(
+                                      new Date(Number(data[1])),
+                                      new Date(Number(data[2]))
+                                    )}
+                                </div>
+                            </div>
+                            <div class='event_details_holder'>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_multitext.png'></span>
+                                    ${data[6]}
+                                </div>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_account.png'></span>
+                                    ${data[3]} ${data[4]}
+                                </div>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_email.png'></span>
+                                    ${data[7]}
+                                </div>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_calendar.png'></span>
+                                    ${data[5]}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+            });
+          }
+        }
+      };
+
+      var tempDate = new Date();
+
+      xhttp.open(
+        "GET",
+        `php/get_apt.php?date=${new Date(
+          tempDate.getFullYear(),
+          tempDate.getMonth(),
+          tempDate.getDate()
+        ).getTime()}`,
+        true
+      );
+      xhttp.setRequestHeader(
+        "Content-type",
+        "application/x-www-form-urlencoded"
+      );
+      xhttp.send();
+    }
+  </script>
 </div>
-
-<script>
-  function openNav() {
-    document.getElementById("staffdash-sidebar").style.display = "block";
-  }
-
-  function closeNav() {
-    document.getElementById("staffdash-sidebar").style.display = "none";
-  }
-</script>

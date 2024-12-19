@@ -1,0 +1,48 @@
+@import './constants.css';
+.public-btn {
+    display: flex;
+    padding: 20px;
+    justify-content: space-around;
+}
+
+.public-btn button {
+    background-color: hsl(358 71% 51%);
+    border: none;
+    border-radius: 12px;
+    color: black;
+    padding: 20px 35px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-family: "DM Serif Text", serif;;
+    transition-duration: 0.3s;
+    box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    /* width: 100%;
+    max-width: 300px */
+}
+
+.public-btn button:hover {
+    background-color: white;
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.public-btn button:active {
+    transform: scale(0.95);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: var(--title-text);
+}
+
+@media (max-width: 750px) {
+    .public-btn {
+        padding: 5px;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .public-btn button {
+        font-size: 1.4rem;
+        padding: 10px 20px;
+    }
+}

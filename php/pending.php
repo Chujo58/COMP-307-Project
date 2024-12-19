@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
 session_start();
+date_default_timezone_set('America/New_York');
 
 $conn = new mysqli("localhost", "root", "", "comp307project");
 
@@ -32,13 +33,12 @@ if ($result->num_rows == 0) {
         echo "<div class='pending-request'>";
         echo "<h3>" . htmlspecialchars($row['event_name']) . "</h3>";
         echo "<p>Description: " . htmlspecialchars($row['event_desc']) . "</p>";
-        echo "<p>Start: " . htmlspecialchars(date('Y-m-d H:i:s', $row['event_start'])) . "</p>";
-        echo "<p>End: " . htmlspecialchars(date('Y-m-d H:i:s', $row['event_stop'])) . "</p>";
+        echo "<p>Start: " . htmlspecialchars(date('Y-m-d H:i:s', floor($row['event_start'] / 1000))) . "</p>";
+        echo "<p>End: " . htmlspecialchars(date('Y-m-d H:i:s', floor($row['event_stop'] / 1000))) . "</p>";
         echo "</div>";
     }
 }
 
 $stmt->close();
 $conn->close();
-
 ?>

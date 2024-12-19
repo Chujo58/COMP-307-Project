@@ -350,3 +350,48 @@ function loadPendingRequests() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
+
+// // Function to accept a request
+// function acceptRequest(eventID, studentID) {
+//     const xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function () {
+//         if (this.readyState === 4 && this.status === 200) {
+//             console.log(this.responseText);
+//             // Reload pending requests after action
+//             loadPendingRequests();
+//         }
+//     };
+//     xhttp.open("POST", "php/pending.php", true);
+//     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//     xhttp.send(`action=accept&event_id=${eventID}&student_id=${studentID}`);
+// }
+
+// // Function to deny a request
+// function denyRequest(eventID) {
+//     const xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function () {
+//         if (this.readyState === 4 && this.status === 200) {
+//             console.log(this.responseText);
+//             // Reload pending requests after action
+//             loadPendingRequests();
+//         }
+//     };
+//     xhttp.open("POST", "php/pending.php", true);
+//     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//     xhttp.send(`action=deny&event_id=${eventID}`);
+// }
+
+// // Function to load pending requests dynamically
+// function loadPendingRequests() {
+//     const xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function () {
+//         if (this.readyState === 4 && this.status === 200) {
+//             document.getElementById("pending-list").innerHTML = this.responseText;
+//         }
+//     };
+//     xhttp.open("GET", "php/pending.php?action=load", true);
+//     xhttp.send();
+// }
+
+// // Load pending requests when the page loads
+// window.addEventListener("load", loadPendingRequests);

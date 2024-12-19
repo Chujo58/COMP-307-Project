@@ -4,7 +4,7 @@
       <img src="icons/icons8-menu-win.svg" />
     </button>
   </div>
-  <div class="logo">Staff Dashboard</div>
+  <div class="logo">Main Dashboard</div>
 </header>
 
 <div class="container">
@@ -15,12 +15,13 @@
       <a class="closebtn" onclick="closeNav()"
         ><img src="icons/icons8-close-win.svg" />
       </a>
-      <a href="#">Main Page</a>
+      <a href="#">Main</a>
     </div>
     <a href="./index.php?Page=Calendar&session=true" id="aval"
       >Availabilities</a
     >
-    <a href="#">Course</a>
+    <a href="#">Courses</a>
+    <a href="#">Add Course</a>
   </div>
 
   <!-- Calendar and Appointments -->
@@ -31,38 +32,44 @@
       <div class="block-container" id="apt-block-container"></div>
 
       <!-- Weekly Calendar -->
+      <br />
       <h2>Weekly Calendar</h2>
       <div class="calendar-body" id="calendar-in-staff-dash">
         <div class="calendar-holder" id="topbar">
-            <a onclick="toggleSidebar();" id="sidebar-menu">
-                <img src="icons/pulsar_line_close.svg">
-            </a>
-            <div id="calendar-page-icon">
-    
-            </div>
-            <a onclick="toToday();">
-                Today
-            </a>
-            <div class="icons" id="week_btns">
-                <span id="prev_week"
-                    class="material-symbols-rounded">chevron_left</span>
-                <span id="next_week"
-                    class="material-symbols-rounded">chevron_right</span>
-            </div>
-            <p class="current-month calendar-heading-highlight"
-                id="current-week"></p>
-            <a style="margin-left: auto;" onclick="toggleView();"
-                id="view-selector">
-                Week
-            </a>
+          <a onclick="toggleSidebar();" id="sidebar-menu">
+            <img src="icons/pulsar_line_close.svg" />
+          </a>
+          <div id="calendar-page-icon"></div>
+          <a onclick="toToday();"> Today </a>
+          <div class="icons" id="week_btns">
+            <span id="prev_week" class="material-symbols-rounded"
+              >chevron_left</span
+            >
+            <span id="next_week" class="material-symbols-rounded"
+              >chevron_right</span
+            >
+          </div>
+          <p
+            class="current-month calendar-heading-highlight"
+            id="current-week"
+          ></p>
+          <a
+            style="margin-left: auto"
+            onclick="toggleView();"
+            id="view-selector"
+          >
+            Week
+          </a>
         </div>
-        <div class="add-event" id="add_event_btn" onclick="document.getElementById('calendar-popup').className += ' active';">
-            <span>
-                <img src="icons/pulsar_line_add.png">
-            </span>
-            <div class="add-event-text">
-                Create
-            </div>
+        <div
+          class="add-event"
+          id="add_event_btn"
+          onclick="document.getElementById('calendar-popup').className += ' active';"
+        >
+          <span>
+            <img src="icons/pulsar_line_add.png" />
+          </span>
+          <div class="add-event-text">Create</div>
         </div>
         <div class="calendar-holder" id="botbar">
             <div class="calendar-sidebar" id="sidebar">
@@ -135,7 +142,7 @@
                 </div>
             </div>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 

@@ -32,7 +32,7 @@
 
       <!-- Weekly Calendar -->
       <h2>Weekly Calendar</h2>
-      <div class="calendar-body">
+      <div class="calendar-body" id="calendar-in-staff-dash">
         <div class="calendar-holder" id="topbar">
             <a onclick="toggleSidebar();" id="sidebar-menu">
                 <img src="icons/pulsar_line_close.svg">
@@ -105,7 +105,7 @@
             </div>
             <div class="calendar-popup" id="calendar-popup">
                 <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup';">
-                <form id="calendar-create-form">
+                <form id="calendar-create-form" action="php/calendar.php" method="post">
                     <div class="heading-highlight form-heading">
                         Create availability
                     </div>
@@ -158,7 +158,7 @@
           results = results.slice(0, results.length - 1);
           results.forEach((row) => {
             var data = row.split(",");
-            console.log(data);
+            // console.log(data);
             apt_container.innerHTML += `
                     <div class='event-body'>
                         <div class="event_inner">

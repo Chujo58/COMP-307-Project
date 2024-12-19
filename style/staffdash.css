@@ -6,6 +6,12 @@
   --calendar-height: 70vh;
 }
 
+.calendar-sidebar,
+#calendar-in-staff-dash > div,
+#calendar-in-staff-dash {
+  border-radius: 8px;
+}
+
 header.staff-header {
   display: flex;
   align-items: center;

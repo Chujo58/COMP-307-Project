@@ -314,11 +314,11 @@ function showCreate(){
     xhttp.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
             if (this.responseText == "Student"){
-                document.getElementById('add_event_btn').style = 'visibility: hidden;';
+                document.getElementById('add_event_btn').style = 'display: none;';
                 document.getElementById('calendar-add-placeholder').classList.add('hidden');
             }
             else {
-                document.getElementById('add_event_btn').style = 'visibility: visible;';
+                document.getElementById('add_event_btn').style = 'display: flex;';
                 document.getElementById('calendar-add-placeholder').classList.remove('hidden');
             }
         }
@@ -345,6 +345,10 @@ function addEvent(){
     empty = isFieldEmpty('event_stop') || empty;
     empty = isFieldEmpty('event_desc') || empty;
     empty = isFieldEmpty('event_filter') || empty;
+
+    if (empty){
+        return;
+    }
 
     var name = getValue('event_name');
     var start = new Date(getValue('event_start'));

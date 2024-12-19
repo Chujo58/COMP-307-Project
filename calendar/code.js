@@ -324,7 +324,7 @@ function showCreate(){
         }
     }
 
-    xhttp.open("POST", "php/calendar.php");
+    xhttp.open("GET", "php/calendar.php");
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();    
 }

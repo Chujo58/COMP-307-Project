@@ -9,70 +9,57 @@ const login = `<a class="utility-navbar nav-item"  id="login" onclick="navbarCli
 const logout = `<a class="utility-navbar nav-item"  id="logout" onclick="sendLogoutRequest(); navbarClick('logout');">Log Out</a>`
 
 
-function loadNavbar(){
-    function reloadActive(){
-        var elems = site_navbar.querySelectorAll(".site-navbar");
-        elems.forEach(element => {
-            if (element.classList.contains("active")){
-                element.classList.remove("active");
-            }
-            if (element.id == currentPage){
-                element.classList.add("active");
-            }
-        });
-    }
-    var tempPage = window.location.href;
-    if (tempPage.includes("?")){
-        tempPage = tempPage.split("?")[1]
-    }
-    if (tempPage.includes("&")){
-        tempPage = tempPage.split("&")[0];
-    }
-    let currentPage = "home";
-    if (tempPage && !tempPage.endsWith('/')){
-        currentPage = tempPage.split("Page=")[1].toLowerCase();
-    }
+function loadNavbar() {
+    const publicPages = ["home", "calendar", "event"];
+    const currentPage = getCurrentPage();
+    const siteNavbar = document.getElementById("site-navbar");
+    const utilityNavbar = document.getElementById("utility-navbar");
 
-    let site_navbar = document.getElementById("site-navbar");
-    let utility_navbar = document.getElementById("utility-navbar");
+    // Set default public navbar
+    siteNavbar.innerHTML = logo + home + calendar;
+    utilityNavbar.innerHTML = signup + login;
 
-    site_navbar.innerHTML = logo + home + calendar;
-    utility_navbar.innerHTML = signup + login;
-    reloadActive();
+    // Reload active state for public pages
+    reloadActive(currentPage);
 
-    if (window.sessionStorage.getItem("ticketExpired")) {
-        // Prevent making further requests if already redirected
-        window.sessionStorage.removeItem("ticketExpired");
-        if (currentPage != "home"){
-            window.location.href = "./index.php?Page=Home";
-        }
-        return;
-    }
-
-    // check if cookies is valid
+    // Check for valid session
     var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function(){
-		if (this.readyState == 4 && this.status == 200){
-            let response = JSON.parse(this.responseText);
-            if (response.status !== "success"){
-                if (currentPage !== 'calendar') {
-                    window.sessionStorage.setItem("ticketExpired", true); 
-                    window.location.href = "./index.php?Page=Home"; 
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                if (response.status === "success") {
+                    // Load authenticated navbar
+                    siteNavbar.innerHTML = logo + home + calendar_logged + dashboard;
+                    utilityNavbar.innerHTML = `<div id='user_display'>${response.user}</div>` + logout;
+                } else if (!publicPages.includes(currentPage)) {
+                    // If not authenticated, redirect unless on a public page
+                    window.location.href = "./index.php?Page=Home";
                 }
+                reloadActive(currentPage);
             } else {
-                site_navbar.innerHTML = logo + home + calendar_logged + dashboard;
-                utility_navbar.innerHTML = `<div id='user_display'>${response.user}</div>` + logout;
-                reloadActive();
+                console.error("Failed to validate session:", this.status);
             }
-        } else {
-            console.log("Request failed with status: " + this.status);
-		}
-	}
+        }
+    };
 
-	xhttp.open("GET", "php/auth.php", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send();
+    xhttp.open("GET", "php/auth.php", true);
+    xhttp.send();
 }
 
+function getCurrentPage() {
+    const tempPage = window.location.href.split("?")[1]?.split("&")[0];
+    return tempPage?.split("Page=")[1]?.toLowerCase() || "home";
+}
 
-window.addEventListener("load",loadNavbar);
+function reloadActive(currentPage) {
+    const elements = document.querySelectorAll(".site-navbar");
+    elements.forEach((element) => {
+        element.classList.remove("active");
+        if (element.id === currentPage) {
+            element.classList.add("active");
+        }
+    });
+}
+
+window.addEventListener("load", loadNavbar);

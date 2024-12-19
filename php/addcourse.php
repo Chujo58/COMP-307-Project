@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL); 
+ini_set('display_errors', 1);
 
 // Ensure user is logged in (session should be set)
 if (!isset($_SESSION["user_id"])) {
@@ -25,6 +27,13 @@ $conn = new mysqli("localhost", "root", "", "comp307project");
 if ($conn->connect_error) {
     echo "error=Database connection failed: " . $conn->connect_error;
     exit();
+}
+
+if (isset($stmt)) {
+    $stmt->close();
+}
+if (isset($delete_stmt)) {
+    $delete_stmt->close();
 }
 
 // Check if the course already exists for the user

@@ -8,12 +8,22 @@ form {
     justify-content: flex-start;
 }
 
+.form-label {
+    font-family: 'Outfit';
+    font-weight: 400;
+    font-size: 12px;
+}
+
 .form-heading {
     font-family: "DM Serif Text", serif;
     font-weight: 400;
     font-style: normal;
     font-optical-sizing: auto;
     font-size: 4vh;
+}
+
+.hidden-form {
+    display: none;
 }
 
 form > input {

@@ -29,4 +29,5 @@ body {
   font-weight: 300;
   font-style: normal;
   font-optical-sizing: auto !important;
+  z-index: 0;
 }

@@ -1,10 +1,31 @@
 <header class="staff-header">
-    <h1>Pending Requests</h1>
-  </header>
-  
+  <div class="left-h">
+    <a class="openbtn" onclick="openNav()">
+      <img src="icons/pulsar_line_menu.png" />
+    </a>
+  </div>
+  <div class="logo">Pending Requests</div>
+</header>
+
+<div class="container">
+  <div id="staffdash-sidebar" class="sidebar">
+    <div class="extra-sidebar">
+      <a class="closebtn" onclick="closeNav()">
+        <img src="icons/pulsar_line_close.png" />
+      </a>
+      <a href="./index.php?Page=Dashboard">Main</a>
+    </div>
+    <a href="./index.php?Page=Calendar&session=true" id="aval"
+      >Availabilities</a
+    >
+    <a href="./index.php?Page=StaffCourses">Courses</a>
+    <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
+  </div>
+
   <div class="pending-container">
     <!-- <div id="pending-requests-container"> -->
     <div class="pending-requests-container" id="pending-requests-container">
       <!-- Pending requests will be loaded here dynamically -->
     </div>
-  </div>   
+  </div>
+</div>

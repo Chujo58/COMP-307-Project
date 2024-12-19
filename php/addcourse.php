@@ -31,14 +31,14 @@ if ($conn->connect_error) {
 if ($action === 'add') {
     $query = "SELECT * FROM course_list WHERE course_tag = ? AND course_id = ? AND staff_id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("ssi", $course_tag, $course_id, $user_id);
+    $stmt->bind_param("sss", $course_tag, $course_id, $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         echo "error=This course is already added.";
     } else {
-        // Insert new course
+   
         $insert_query = "INSERT INTO course_list (course_tag, course_id, staff_id) VALUES (?, ?, ?)";
         $insert_stmt = $conn->prepare($insert_query);
         $insert_stmt->bind_param("sss", $course_tag, $course_id, $user_id);
@@ -49,7 +49,7 @@ if ($action === 'add') {
         }
     }
 } elseif ($action === 'remove') {
-    // Remove course logic
+
     $delete_query = "DELETE FROM course_list WHERE course_tag = ? AND course_id = ? AND staff_id = ?";
     $delete_stmt = $conn->prepare($delete_query);
     $delete_stmt->bind_param("sss", $course_tag, $course_id, $user_id);

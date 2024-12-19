@@ -12,13 +12,14 @@ if (!isset($_SESSION["user_id"])) {
 $user_id = $_SESSION["user_id"];
 
 // Check if required POST data is available
-if (!isset($_POST['course_tag']) || !isset($_POST['course_id']) || !isset($_POST['action'])) {
+if (!isset($_POST['course_tag']) || !isset($_POST['course_id']) || !isset($_POST['action']) || !isset($_POST['course_name'])) {
     echo "Missing required data.";
     exit();
 }
 
 $course_tag = $_POST['course_tag'];
 $course_id = $_POST['course_id'];
+$course_name = $_POST['course_name'];
 $action = $_POST['action'];  // action could be 'add' or 'remove'
 
 // Create DB connection
@@ -39,9 +40,9 @@ if ($action === 'add') {
     if ($result->num_rows > 0) {
         echo "This course is already added.";
     } else {
-        $insert_query = "INSERT INTO course_list (course_tag, course_id, staff_id) VALUES (?, ?, ?)";
+        $insert_query = "INSERT INTO course_list (course_tag, course_id, staff_id, course_name) VALUES (?, ?, ?, ?)";
         $insert_stmt = $conn->prepare($insert_query);
-        $insert_stmt->bind_param("sss", $course_tag, $course_id, $user_id);
+        $insert_stmt->bind_param("ssss", $course_tag, $course_id, $user_id, $course_name);
         if ($insert_stmt->execute()) {
             echo "Course added successfully.";
         } else {

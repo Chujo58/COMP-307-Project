@@ -60,7 +60,17 @@
           <option value="183"></option>
           <option value="222"></option>
         </datalist> -->
-
+        
+        <label for="course_tag">Course Name</label>
+        <input
+          name="course_name"
+          id="course_name"
+          required
+          style="width: auto; padding: 8px; margin: 8px 0"
+          pattern="[A-Za-z]"
+          title="Course name must be a short description."
+        />
+        
         <div
           style="
             display: flex;
@@ -121,11 +131,12 @@
     function submitForm(action) {
       var courseTag = document.getElementById("course_tag").value;
       var courseId = document.getElementById("course_id").value;
+      var courseName = document.getElementById("course_name").value;
 
       var messageDiv = document.getElementById("message");
       messageDiv.innerHTML = ""; // Clear any previous message
 
-      if (!courseTag || !courseId) {
+      if (!courseTag || !courseId || !courseName) {
         messageDiv.style.color = "red";
         messageDiv.innerHTML = "Please fill in all fields.";
         return;
@@ -136,6 +147,7 @@
       formData.append("action", action);
       formData.append("course_tag", courseTag);
       formData.append("course_id", courseId);
+      formData.append("course_name", courseName);
 
       // Create AJAX request
       var xhr = new XMLHttpRequest();

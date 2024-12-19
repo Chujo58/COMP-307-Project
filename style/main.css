@@ -10,6 +10,7 @@
 @import "./bot.css";
 @import "./event.css";
 @import "./publicBtn.css";
+@import "./pending.css";
 
 html {
   scrollbar-color: var(--scroll-color) var(--navbar-color);

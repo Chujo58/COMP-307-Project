@@ -17,10 +17,10 @@ function gen_uuid($len=8) {
     return substr($uid, 0, $len);
 }
 
-$conn = new mysqli("localhost", "root", "", "comp307project");
-
-if ($conn->connect_error){
-    die("Internal Server Error: " . $conn->connect_error);
+try {
+    $conn = new SQLite3('../comp307project.db');
+} catch (Exception $e) {
+    die("Internal Server Error: " . $e->getMessage());
 }
 
 function echoLikeCSV($array){
@@ -29,36 +29,38 @@ function echoLikeCSV($array){
 
 function showData($query, $conn){
     $result = $conn->query($query);
-
-    if ($result->num_rows == 0){
+    if (!$result) {
         echo "No events";
+        return;
     }
-    else {
-        while ($row = $result->fetch_assoc()){
-            echoLikeCSV($row);
-        }
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        echoLikeCSV($row);
     }
 }
 
 if (isset($_GET['get_name_id'])){
     $id = $_GET['get_name_id'];
 
-    $query = "SELECT f_name, l_name from valid_users WHERE user_id='$id'";
-    $result = $conn->query($query);
+    $stmt = $conn->prepare("SELECT f_name, l_name FROM valid_users WHERE user_id = :id");
+    $stmt->bindValue(':id', $id, SQLITE3_TEXT);
+    $result = $stmt->execute();
 
-    if ($result->num_rows == 0){
+    if (!$result || !$result->fetchArray(SQLITE3_ASSOC)) {
         echo "";
         exit();
-    }    
-    $result = $result->fetch_assoc();
+    }  
+
+    $result = $result->fetchArray(SQLITE3_ASSOC);
 
     echo $result['f_name'] . ',' . $result['l_name'] . '\n';
     exit();
 }
 
 if (isset($_GET['delete'])){
-    $query = "DELETE FROM events WHERE event_id='" . $_GET["event_id"] . "'";
-    $conn->query($query);
+    $stmt = $conn->prepare("DELETE FROM events WHERE event_id = :event_id");
+    $stmt->bindValue(':event_id', $_GET['event_id'], SQLITE3_TEXT);
+    $stmt->execute();
     echo "Deleted event";
 }
 
@@ -66,17 +68,17 @@ if (isset($_GET['loadFilters'])) {
     $user = $_GET['user'] ?? '';
     $query = "SELECT DISTINCT event_filter FROM events";
     if (!empty($user)) {
-        $query .= " WHERE (staff_id='" . $user . "' OR student_id='" . $user . "')";
+        $query .= " WHERE (staff_id = :user OR student_id = :user)";
     }
     $query .= " ORDER BY event_filter";
 
-    $result = $conn->query($query);
-
-    if (!$result){
-        die("Query failed: " . $conn->error);
+    $stmt = $conn->prepare($query);
+    if (!empty($user)) {
+        $stmt->bindValue(':user', $user, SQLITE3_TEXT);
     }
+    $result = $stmt->execute();
 
-    while ($row = $result->fetch_assoc()){
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         echo '<div class="filter"><input type="checkbox" checked="true" event_filter="' . $row['event_filter'] . '" onclick="changeFilter();"><span>' . $row['event_filter'] . '</span></div>';
     }
 
@@ -88,23 +90,36 @@ if (isset($_GET['loadFilters'])) {
 if (isset($_GET['start']) && isset($_GET['stop'])){
     $start = $_GET['start'];
     $stop = $_GET['stop'];
-    $query = "SELECT * FROM events WHERE event_start BETWEEN '" . $start ."' AND '" . $stop . "'";
+    $query = "SELECT * FROM events WHERE event_start BETWEEN :start AND :stop";
 
     $filter = $_GET['filter'] ?? '';
     $user = $_GET['user'] ?? '';
     $type = $_GET['type'] ?? '';
     
-    if (!empty($filter)){
-        $query .= " AND event_filter='" . $filter . "'";
+    if (!empty($filter)) {
+        $query .= " AND event_filter = :filter";
     }
-    if (!empty($user)){
-        $query .= " AND (staff_id='" . $user . "' OR student_id='" . $user . "')";   
+    if (!empty($user)) {
+        $query .= " AND (staff_id = :user OR student_id = :user)";
     }
-    if (!empty($type)){
-        $query .= " AND event_type='" . $type . "'";
+    if (!empty($type)) {
+        $query .= " AND event_type = :type";
     }
 
-    showData($query, $conn);
+    $stmt = $conn->prepare($query);
+    $stmt->bindValue(':start', $start, SQLITE3_TEXT);
+    $stmt->bindValue(':stop', $stop, SQLITE3_TEXT);
+    if (!empty($filter)) {
+        $stmt->bindValue(':filter', $filter, SQLITE3_TEXT);
+    }
+    if (!empty($user)) {
+        $stmt->bindValue(':user', $user, SQLITE3_TEXT);
+    }
+    if (!empty($type)) {
+        $stmt->bindValue(':type', $type, SQLITE3_TEXT);
+    }
+
+    showData($stmt->execute(), $conn);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -130,9 +145,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             exit();
         }
 
-        $query = "INSERT INTO `events`(`event_name`, `event_id`, `event_recurrance`, `event_type`, `event_desc`, `event_start`, `event_stop`, `event_filter`, `staff_id`, `student_id`) VALUES ('$name','$id','','$type','$desc','$start','$stop','$filter','$s_id','')";
+        $stmt = $conn->prepare("INSERT INTO events (event_name, event_id, event_recurrance, event_type, event_desc, event_start, event_stop, event_filter, staff_id, student_id) VALUES (:name, :id, '', :type, :desc, :start, :stop, :filter, :staff_id, '')");
+        $stmt->bindValue(':name', $name, SQLITE3_TEXT);
+        $stmt->bindValue(':id', $id, SQLITE3_TEXT);
+        $stmt->bindValue(':type', $type, SQLITE3_TEXT);
+        $stmt->bindValue(':desc', $desc, SQLITE3_TEXT);
+        $stmt->bindValue(':start', $start, SQLITE3_TEXT);
+        $stmt->bindValue(':stop', $stop, SQLITE3_TEXT);
+        $stmt->bindValue(':filter', $filter, SQLITE3_TEXT);
+        $stmt->bindValue(':staff_id', $s_id, SQLITE3_TEXT);
 
-        $conn->query($query);
+        $stmt->execute();
         echo "Created event";
     }
     

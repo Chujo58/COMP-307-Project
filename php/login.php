@@ -20,17 +20,17 @@ function gen_uuid($len=8) {
 
 function generateTicket($conn, $user_id, $exp_date){
     $ticket_id = gen_uuid(30);
-    $stmt = $conn->prepare("UPDATE valid_users SET ticket_id = :ticket_id, exp_date = :exp_date WHERE user_id = :user_id");
+    $stmt = $conn->prepare("UPDATE valid_users SET ticket_id=:ticket_id, exp_date=:exp_date WHERE user_id=:user_id");
     $stmt->bindValue(':ticket_id', $ticket_id, SQLITE3_TEXT);
-    $stmt->bindValue(':exp_date', $exp_date, SQLITE3_INTEGER);
-    $stmt->bindValue(':user_id', $user_id, SQLITE3_INTEGER);
+    $stmt->bindValue(':exp_date', $exp_date, SQLITE3_TEXT);
+    $stmt->bindValue(':user_id', $user_id, SQLITE3_TEXT);
     $stmt->execute();
 
     return $ticket_id;
 }
 
 // Check for cookies
-$conn = new SQLite3('comp307project.db'); // SQLite3 database file
+$conn = new SQLite3('../comp307project.db'); // SQLite3 database file
 
 if (!$conn) {
     die("Internal Server Error: Unable to connect to database");

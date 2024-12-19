@@ -4,6 +4,10 @@
     .event_time_infos {
         flex-direction: column !important;
     }
+    .event-column-holder {
+        flex-direction: column !important;
+    }
+
 }
 
 #booking-form {

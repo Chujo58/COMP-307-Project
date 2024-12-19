@@ -113,7 +113,7 @@ $query = "
 
 // Prepare and bind parameters
 $stmt = $conn->prepare($query);
-$stmt->bindValue(':staff_id', $current_staff_id, SQLITE3_INTEGER);
+$stmt->bindValue(':staff_id', $current_staff_id, SQLITE3_TEXT);
 $stmt->bindValue(':current_date', $current_date, SQLITE3_TEXT);
 
 // Execute the query

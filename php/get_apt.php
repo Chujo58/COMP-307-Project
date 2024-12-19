@@ -37,9 +37,11 @@ $query = "
     FROM events e
     JOIN valid_users u ON e.student_id = u.user_id"; 
 
-$query .= " WHERE e.staff_id ='" . $current_staff_id . "' AND e.event_stop >='" . $current_date . "'";
+// $query .= " WHERE e.staff_id ='" . $current_staff_id . "' AND e.event_stop >='" . $current_date . "'";
+$query .= " WHERE e.staff_id ='" . $current_staff_id . "' AND e.event_stop >='" . $current_date . "' AND e.event_type = 'booking'";
 
 $query .= "ORDER BY e.event_start ASC LIMIT 3";
+
 // $query->bind_param("ss", $current_staff_id, $current_date); // Bind staff_id and current date parameters
 // $query->execute();
 

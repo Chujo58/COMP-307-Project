@@ -17,18 +17,17 @@ function gen_uuid($len=8) {
     return substr($uid, 0, $len);
 }
 
-try {
-    $conn = new SQLite3('../comp307project.db');
-} catch (Exception $e) {
-    die("Internal Server Error: " . $e->getMessage());
+
+$conn = new SQLite3('../comp307project.db');
+if (!$conn) {
+    die("Connection failed: " . $conn->lastErrorMsg());
 }
 
 function echoLikeCSV($array){
     echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . '\n';
 }
 
-function showData($query, $conn){
-    $result = $conn->query($query);
+function showData($result) {
     if (!$result) {
         echo "No events";
         return;
@@ -122,7 +121,7 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
         $stmt->bindValue(':type', $type, SQLITE3_TEXT);
     }
 
-    showData($stmt->execute(), $conn);
+    showData($stmt->execute());
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){

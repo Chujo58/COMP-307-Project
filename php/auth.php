@@ -3,6 +3,7 @@
 
     function authenticate($conn) {
         if (!isset($_COOKIE['ticket_id'])) {
+            $_SESSION['user_type'] = "guest";
             return ["status" => "failed", "message" => "No ticket found. Please log in."];
         }
     
@@ -17,7 +18,8 @@
         if ($result->num_rows == 0 || time() > $user_data['exp_date'] || is_null($user_data['exp_date'])) {
             // Expired or invalid ticket
             setcookie('ticket_id', '', time() - 3600, '/'); // Clear the cookie
-            unset($_SESSION['user'], $_SESSION['user_id'], $_SESSION['user_type']);
+            unset($_SESSION['user'], $_SESSION['user_id']);
+            $_SESSION['user_type'] = "guest";
             return ["status" => "failed", "message" => "Session expired. Please log in again."];
         }
     

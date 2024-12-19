@@ -1,5 +1,23 @@
 <?php
 session_start();
+
+function gen_uuid($len=8) {
+
+    $hex = md5("yourSaltHere" . uniqid("", true));
+
+    $pack = pack('H*', $hex);
+    $tmp =  base64_encode($pack);
+
+    $uid = preg_replace("#(*UTF8)[^A-Za-z0-9]#", "", $tmp);
+
+    $len = max(4, min(128, $len));
+
+    while (strlen($uid) < $len)
+        $uid .= gen_uuid(22);
+
+    return substr($uid, 0, $len);
+}
+
 // Database Connection
 $conn = new mysqli("localhost", "root", "", "comp307project");
 if ($conn->connect_error) {
@@ -58,7 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $desc = $_POST['desc'] ?? '';
     $filter = $_POST['filter'] ?? '';
     $type = $_POST['type'] ?? '';
+    $eventID = $_POST['event_id'] ?? '';
     $s_id = $_POST['staff_id'] ?? '';
+
+    $query = "SELECT staff_id from events WHERE event_id='" . $eventID . "'";
+    $s_id = $conn->query($query)->fetch_assoc();
 
     $id = gen_uuid(10);
 

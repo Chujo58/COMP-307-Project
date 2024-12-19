@@ -340,25 +340,25 @@ function loadCalendarIcons(){
 }
 
 function createBooking(){
-    let empty = isFieldEmpty('event_name');
-    empty = isFieldEmpty('event_start') || empty;
-    empty = isFieldEmpty('event_stop') || empty;
-    empty = isFieldEmpty('event_desc') || empty;
-    empty = isFieldEmpty('event_filter') || empty;
+    let empty = isFieldEmpty('event_name_book');
+    empty = isFieldEmpty('event_start_book') || empty;
+    empty = isFieldEmpty('event_stop_book') || empty;
+    empty = isFieldEmpty('event_desc_book') || empty;
+    empty = isFieldEmpty('event_filter_book') || empty;
 
     if (empty){
         return;
     }
 
-    var name = getValue('event_name');
-    var start = new Date(getValue('event_start'));
-    var stop = new Date(getValue('event_stop'));
-    var desc = getValue('event_desc');
-    var filter = getValue('event_filter');
+    var name = getValue('event_name_book');
+    var start = new Date(getValue('event_start_book'));
+    var stop = new Date(getValue('event_stop_book'));
+    var desc = getValue('event_desc_book');
+    var filter = getValue('event_filter_book');
 
-    var fname = getValue('fname');
-    var lname = getValue('lname');
-    var email = getValue('email');
+    var fname = getValue('fname_book');
+    var lname = getValue('lname_book');
+    var email = getValue('email_book');
 
     var eventid = window.location.href.split("event_id=")[1];
     var event = document.getElementById(eventid);
@@ -383,7 +383,7 @@ function createBooking(){
     }
     xhttp.open("POST", "php/show_event_details.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}&fname=${fname}&lname=${lname}&email=${email}&type=${type}`);
+    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}&fname=${fname}&lname=${lname}&email=${email}&type=${type}&event_id=${eventid}`);
 }
 
 function addEvent(){

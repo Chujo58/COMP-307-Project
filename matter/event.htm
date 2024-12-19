@@ -118,24 +118,24 @@
             <div class="heading-highlight form-heading">
                 Create booking
             </div>
-            <input type="text" name="event_name" id="event_name" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
+            <input type="text" name="event_name" id="event_name_book" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
             <div></div>
             <div class="form-label">Event Start Date</div>
-            <input type="datetime-local" name="event_start" id="event_start" onfocusout="isFieldEmpty('event_start')">
+            <input type="datetime-local" name="event_start" id="event_start_book" onfocusout="isFieldEmpty('event_start')">
             <div></div>
             <div class="form-label">Event Stop Date</div>
-            <input type="datetime-local" name="event_stop" id="event_stop" onfocusout="isFieldEmpty('event_stop')">
+            <input type="datetime-local" name="event_stop" id="event_stop_book" onfocusout="isFieldEmpty('event_stop')">
             <div></div>
-            <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
+            <input type="text" name="event_desc" id="event_desc_book" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
             <div></div>
-            <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+            <input type="text" name="event_filter" id="event_filter_book" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
             <div></div>
 
-            <input type="text" class="hidden-form" name="fname" id="fname" placeholder="First Name" onfocusout="isFieldEmpty('fname')">
+            <input type="text" class="hidden-form" name="fname" id="fname_book" placeholder="First Name" onfocusout="isFieldEmpty('fname')">
             <div></div>
-            <input type="text" class="hidden-form" name="lname" id="lname" placeholder="Last Name" onfocusout="isFieldEmpty('lname')">
+            <input type="text" class="hidden-form" name="lname" id="lname_book" placeholder="Last Name" onfocusout="isFieldEmpty('lname')">
             <div></div>
-            <input type="email" class="hidden-form" name="email" id="email" placeholder="Email" onfocusout="isFieldEmpty('email')">
+            <input type="email" class="hidden-form" name="email" id="email_book" placeholder="Email" onfocusout="isFieldEmpty('email')">
             <div></div>
 
             <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">

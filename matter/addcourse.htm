@@ -144,35 +144,37 @@
         return;
       }
 
+      var formData = new FormData();
+      formData.append("action", action);
+      formData.append("course_tag", courseTag);
+      formData.append("course_id", courseId);
+
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "../php/addcourse.php", true);
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
       xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          var response = xhr.responseText;
-          if (response.includes("success")) {
-            messageDiv.style.color = "green";
-            messageDiv.innerHTML =
-              "Course " +
-              (action === "add" ? "added" : "removed") +
-              " successfully.";
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            var response = xhr.responseText;
+            if (response.includes("success")) {
+              messageDiv.style.color = "green";
+              messageDiv.innerHTML =
+                "Course " +
+                (action === "add" ? "added" : "removed") +
+                " successfully.";
+            } else {
+              messageDiv.style.color = "red";
+              messageDiv.innerHTML = response;
+            }
           } else {
             messageDiv.style.color = "red";
             messageDiv.innerHTML =
-              "Failed to " + (action === "add" ? "add" : "remove") + " course.";
+              "An error occurred while processing the request.";
           }
         }
       };
 
-      xhr.send(
-        "action=" +
-          action +
-          "&course_tag=" +
-          courseTag +
-          "&course_id=" +
-          courseId
-      );
+      xhr.send(formData);
     }
   </script>
 </div>

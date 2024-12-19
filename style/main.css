@@ -34,3 +34,8 @@ body {
   font-optical-sizing: auto !important;
   z-index: 0;
 }
+
+video {
+  max-width: 100%;
+  max-height: 100%;
+}

@@ -1,4 +1,5 @@
 <?php 
+session_start();
 //Id generating from here: https://stackoverflow.com/questions/307486/short-unique-id-in-php
 function gen_uuid($len=8) {
 
@@ -43,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $password = $_POST["password"];
 
     // Verify if user exists and get hashed password + user_id
-    $stmt = $conn->prepare("SELECT user, pass, user_id, ticket_id, exp_date FROM valid_users WHERE user = ?");
+    $stmt = $conn->prepare("SELECT user, pass, user_id, user_type, ticket_id, exp_date FROM valid_users WHERE user = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -74,6 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     setcookie("ticket_id", $ticket_id, $cookie_expiry, "/", "", true, true);
     $_SESSION['expired_ticket'] = false;
     $_SESSION['user_id'] = $user_data["user_id"];
+    $_SESSION['user_type'] = $user_data['user_type'];
 
     $stmt->close();
 }

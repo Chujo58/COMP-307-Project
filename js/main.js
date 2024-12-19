@@ -257,7 +257,7 @@ function filterCourses() {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var elem = document.getElementById('course-list');
+            var elem = document.getElementById('student-course-list');
             if (elem != null){
                 elem.innerHTML = this.responseText;
             }

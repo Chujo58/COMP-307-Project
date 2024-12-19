@@ -85,7 +85,7 @@ button.openbtn {
   transition: transform 0.3s ease;
 }
 
-.sidebar a {
+.sidebar a:not(.closebtn) {
   text-decoration: none;
   color: var(--title-text);
   margin: 0.5rem 0;
@@ -103,12 +103,22 @@ button.openbtn {
 }
 
 .sidebar .closebtn {
+  text-decoration: none;
+  margin: 0.5rem 0;
+  font-family: "Parkinsans", sans-serif;
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: block;
+  transition: background 0.3s ease;
+  height: 30px;
+  width: 30px;
   margin-left: auto;
 }
 
 .closebtn > img {
-  width: 30px;
-  height: 30px;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   align-self: center;
   text-align: center;
@@ -120,22 +130,36 @@ button.openbtn {
 }
 
 .openbtn {
-  font-size: 20px;
+  text-decoration: none;
+  background: var(--title-text-gradient);
+  margin: 0.5rem 0;
+  font-family: "Parkinsans", sans-serif;
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: block;
+  transition: all 0.3s ease;
+  height: 30px;
+  width: 30px;
+  margin-left: auto;
   cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
+}
+
+.openbtn:hover {
+  background-color: black;
+  color: #fff;
+  img {
+    filter: invert();
+  }
 }
 
 .openbtn > img {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  
   align-self: center;
   text-align: center;
   filter: opacity(0.8) drop-shadow(0 0 0);
-  filter: invert();
 }
 
 /* calendar + appt Section */

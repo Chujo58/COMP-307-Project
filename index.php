@@ -86,6 +86,16 @@ else {
             display('matter/event.htm');
             break;
 
+        case "PendingRequests":
+            if ($_SESSION['user_type'] == 'staff') {
+                // Add the Pending Requests page and load the corresponding JS function
+                echo "<script>window.addEventListener('load', loadPendingRequests);</script>";
+                display("matter/pending.htm");
+            } else {
+                echo "<p>Unauthorized access!</p>";
+            }
+            break;
+            
         default:
             echo "<p>Page not found!</p>";
             break;

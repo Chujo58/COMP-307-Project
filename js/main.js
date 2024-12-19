@@ -332,3 +332,21 @@ function setEvent(form){
         }
     });
 }
+
+// Function to fetch and display pending requests for staff
+function loadPendingRequests() {
+    const container = document.getElementById('pending-requests-container');
+
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            container.innerHTML = this.responseText; // Populate pending requests
+        } else if (this.readyState == 4) {
+            container.innerHTML = "<p>Failed to load pending requests.</p>";
+        }
+    };
+
+    xhttp.open('GET', 'php/pending.php', true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
+}

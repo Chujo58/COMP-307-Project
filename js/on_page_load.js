@@ -43,7 +43,7 @@ function loadNavbar() {
         }
     };
 
-    xhttp.open("GET", "php/auth.php", true);
+    xhttp.open("GET", "php/auth.php");
     xhttp.send();
 }
 

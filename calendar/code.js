@@ -339,6 +339,53 @@ function loadCalendarIcons(){
     `;
 }
 
+function createBooking(){
+    let empty = isFieldEmpty('event_name');
+    empty = isFieldEmpty('event_start') || empty;
+    empty = isFieldEmpty('event_stop') || empty;
+    empty = isFieldEmpty('event_desc') || empty;
+    empty = isFieldEmpty('event_filter') || empty;
+
+    if (empty){
+        return;
+    }
+
+    var name = getValue('event_name');
+    var start = new Date(getValue('event_start'));
+    var stop = new Date(getValue('event_stop'));
+    var desc = getValue('event_desc');
+    var filter = getValue('event_filter');
+
+    var fname = getValue('fname');
+    var lname = getValue('lname');
+    var email = getValue('email');
+
+    var eventid = window.location.href.split("event_id=")[1];
+    var event = document.getElementById(eventid);
+    
+    if (start >= event.getAttribute('event_start') && stop <= event.getAttribute('event_stop')){
+        var type = 'booking';
+    } else {
+        var type = 'pending';
+    }
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        if (this.readyState == 4 && this.status == 200){
+            console.log(this.responseText)
+            if (this.responseText == 'Guest'){
+                var elems = document.getElementById('booking-form').querySelectorAll('hidden-form');
+                elems.forEach(element => {
+                    element.classList.remove('hidden-form');
+                });
+            }
+        }
+    }
+    xhttp.open("POST", "php/show_event_details.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}&fname=${fname}&lname=${lname}&email=${email}`);
+}
+
 function addEvent(){
     let empty = isFieldEmpty('event_name');
     empty = isFieldEmpty('event_start') || empty;
@@ -457,7 +504,7 @@ function popoutEvent(){
                 results = results[0];
                 results = results.split(',')
                 elem.innerHTML = `
-                <div class='event_inner' event_id='${results[8]}'>
+                <div class='event_inner' id='${results[5]}' event_start='${results[2]}' event_stop='${results[3]}'>
                     <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
                     <div class='event_name'>
                     ${results[0]}

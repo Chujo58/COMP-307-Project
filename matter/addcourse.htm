@@ -150,7 +150,7 @@
       formData.append("course_id", courseId);
 
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "../php/addcourse.php", true);
+      xhr.open("POST", "php/addcourse.php", true);
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {

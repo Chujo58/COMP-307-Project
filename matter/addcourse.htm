@@ -46,20 +46,10 @@
         <input list="course_tags" name="course_tag" id="course_tag" required
           style="width: auto; padding: 8px; margin: 8px 0" pattern="[A-Za-z]{4}"
           title="Course tag must be 4 letters." />
-        <!-- <datalist id="course_tags">
-          <option value="COMP"></option>
-          <option value="ATOC"></option>
-          <option value="MATH"></option>
-        </datalist> -->
 
         <label for="course_id">Course ID</label>
         <input list="course_ids" name="course_id" id="course_id" required
-          style="width: auto; padding: 8px; margin: 8px 0" pattern="\d{3}" title="Course ID must be 3 digits." />
-        <!-- <datalist id="course_ids">
-          <option value="202"></option>
-          <option value="183"></option>
-          <option value="222"></option>
-        </datalist> -->
+          style="width: auto; padding: 8px; margin: 8px 0" pattern="\d{3}" />
         
         <label for="course_tag">Course Name</label>
         <input
@@ -70,7 +60,7 @@
           pattern="[A-Za-z]"
           title="Course name must be a short description."
         />
-        
+
         <div
           style="
             display: flex;

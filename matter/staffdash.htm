@@ -1,62 +1,63 @@
 <header class="staff-header">
-    <div class="left-h">
-        <button class="openbtn" onclick="openNav()">
-            <img src="icons/icons8-menu-win.svg" />
-        </button>
-    </div>
-    <div class="logo">Staff Dashboard</div>
+  <div class="left-h">
+    <button class="openbtn" onclick="openNav()">
+      <img src="icons/icons8-menu-win.svg" />
+    </button>
+  </div>
+  <div class="logo">Staff Dashboard</div>
 </header>
 
 <div class="container">
-    <div id="staffdash-sidebar" class="sidebar">
-        <div
-            style="display: flex; flex-direction: row-reverse; align-items: center">
-            <a class="closebtn" onclick="closeNav()"><img
-                    src="icons/icons8-close-win.svg" />
-            </a>
-            <a href="#">Main Page</a>
-        </div>
-        <a href="./index.php?Page=Calendar&session=true" id="aval">Availabilities</a>
-        <a href="#">Course</a>
+  <div id="staffdash-sidebar" class="sidebar">
+    <div
+      style="display: flex; flex-direction: row-reverse; align-items: center"
+    >
+      <a class="closebtn" onclick="closeNav()"
+        ><img src="icons/icons8-close-win.svg" />
+      </a>
+      <a href="#">Main Page</a>
     </div>
+    <a href="./index.php?Page=Calendar&session=true" id="aval"
+      >Availabilities</a
+    >
+    <a href="#">Course</a>
+  </div>
 
-    <!-- Calendar and Appointments -->
-    <div class="main-wrapper">
-        <!-- Upcoming Appointments -->
-        <div class="upcoming-appointments">
-            <h2>Upcoming Appointments</h2>
-            <div class="block-container" id="apt-block-container">
-            </div>
+  <!-- Calendar and Appointments -->
+  <div class="main-wrapper">
+    <!-- Upcoming Appointments -->
+    <div class="upcoming-appointments">
+      <h2>Upcoming Appointments</h2>
+      <div class="block-container" id="apt-block-container"></div>
 
-            <!-- Weekly Calendar -->
-            <div class="calendar-container" id="calendar">
-                <h2>Weekly Calendar</h2>
-            </div>
-        </div>
+      <!-- Weekly Calendar -->
+      <div class="calendar-container" id="calendar">
+        <h2>Weekly Calendar</h2>
+      </div>
     </div>
+  </div>
 
-    <script>
+  <script>
     function openNav() {
-        document.getElementById("staffdash-sidebar").style.display = "flex";
+      document.getElementById("staffdash-sidebar").style.display = "flex";
     }
 
     function closeNav() {
-        document.getElementById("staffdash-sidebar").style.display = "none";
+      document.getElementById("staffdash-sidebar").style.display = "none";
     }
 
-
-    function fetchApt(){
-        var xhttp = new XMLHttpRequest();
-        const apt_container = document.getElementById("apt-block-container");
-        xhttp.onreadystatechange = function(){
-            if (this.readyState == 4 && this.status == 200){
-                apt_container.innerHTML = "";
-                results = this.responseText.split('\n');
-                results = results.slice(0, results.length-1);
-                results.forEach(row => {
-                    var data = row.split(',');
-                    console.log(data);
-                    apt_container.innerHTML += `
+    function fetchApt() {
+      var xhttp = new XMLHttpRequest();
+      const apt_container = document.getElementById("apt-block-container");
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          apt_container.innerHTML = "";
+          results = this.responseText.split("\n");
+          results = results.slice(0, results.length - 1);
+          results.forEach((row) => {
+            var data = row.split(",");
+            console.log(data);
+            apt_container.innerHTML += `
                     <div class='event-body'>
                         <div class="event_inner">
                             <div class='event_name'>
@@ -66,9 +67,12 @@
                                 <div class='event_date'>
                                     ${formatDate(new Date(Number(data[1])))}
                                 </div>
-                                <span class='event_sep'>⋅</span>
+                              
                                 <div class='event_time'>
-                                    ${formatTimes(new Date(Number(data[1])), new Date(Number(data[2])))}
+                                    ${formatTimes(
+                                      new Date(Number(data[1])),
+                                      new Date(Number(data[2]))
+                                    )}
                                 </div>
                             </div>
                             <div class='event_details_holder'>
@@ -88,15 +92,26 @@
                         </div>
                     </div>
                     `;
-                });
-            }
+          });
         }
+      };
 
-        var tempDate = new Date();
+      var tempDate = new Date();
 
-        xhttp.open("GET", `php/get_apt.php?date=${new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate()).getTime()}`, true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send();
+      xhttp.open(
+        "GET",
+        `php/get_apt.php?date=${new Date(
+          tempDate.getFullYear(),
+          tempDate.getMonth(),
+          tempDate.getDate()
+        ).getTime()}`,
+        true
+      );
+      xhttp.setRequestHeader(
+        "Content-type",
+        "application/x-www-form-urlencoded"
+      );
+      xhttp.send();
     }
   </script>
 </div>

@@ -173,11 +173,41 @@ button.openbtn {
   color: var(--title-text);
 }
 
+.event_name {
+  color: #db292f;
+}
+
+.event_time_infos {
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding: 10px;
+}
+
+.event_date,
+.event_time {
+  font-size: 13px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.event_detail {
+  font-size: 15px;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 840px) {
   .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column !important;
+    width: 100%;
+    padding: 0rem !important;
+  }
+
+  .upcoming-appointments h2 {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
   }
 
   .block-container {
@@ -191,7 +221,7 @@ button.openbtn {
     width: 100%;
     height: auto;
     position: relative;
-    transform: translateX(-100%);
+    /* transform: translateX(-100%); */
   }
 
   .calendar-wrapper {

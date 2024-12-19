@@ -1,185 +1,111 @@
-@import './constants.css';
+@import "./constants.css";
 
 /* Container for the page */
 .container {
-    display: flex;
-    flex-direction: row;
-}
-
-.main-wrapper {
-    flex-grow: 1;
+  display: flex;
+  flex-direction: row;
 }
 
 .main-dashboard-container {
-    padding: 20px;
+  padding: 20px;
 }
 
-/* Form container */
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.addcourse-button {
+  display: inline-block;
+  font-weight: bold;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  margin: 10%;
+  color: #fff;
+  background-color: green;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.removecourse-button {
+  display: inline-block;
+  font-weight: bold;
+  padding: 5%;
+  margin: 10%;
+  color: #fff;
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
 #course-form {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid var(--box-highlight);
-    border-radius: 8px;
-    background: var(--box-background);
+  width: auto;
+  margin: auto;
+  padding: 7%;
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  background: var(--box-background);
 }
 
 #course-form h2 {
-    text-align: center;
-    font-family: 'Parkinsans', sans-serif;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--title-text);
+  text-align: center;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--title-text);
 }
 
 #message {
-    color: var(--error);
-    text-align: center;
-    font-family: 'Parkinsans', sans-serif;
-    font-size: 1rem;
-    margin-bottom: 1rem;
+  color: var(--error);
+  text-align: center;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* Form inputs */
 #course-form label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-family: 'Parkinsans', sans-serif;
-    font-size: 1rem;
-    color: var(--title-text);
+  display: block;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1rem;
+  color: black;
+  width: auto;
 }
 
-#course_tag, 
-#course_id, 
+#course_tag,
+#course_id,
 #course_name {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid var(--box-highlight);
-    border-radius: 4px;
-    font-family: 'Parkinsans', sans-serif;
-    font-size: 1rem;
+  width: 40%;
+  padding: 1%;
+  margin: 3%;
+  border: 1px solid var(--box-highlight);
+  border-radius: 8px;
+  font-family: "Parkinsans", sans-serif;
+  font-size: 1rem;
 }
 
-#course_tag:focus, 
-#course_id:focus, 
+#course_tag:focus,
+#course_id:focus,
 #course_name:focus {
-    outline: 2px solid var(--title-text-gradient);
-}
-
-/* Form Buttons */
-#course-form input[type="button"] {
-    width: 45%;
-    margin: 10px;
-    padding: 10px;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    font-family: 'Parkinsans', sans-serif;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-#course-form input[type="button"]:hover {
-    opacity: 0.9;
-}
-
-#course-form input[value="Add"] {
-    background-color: #4caf50;
-}
-
-#course-form input[value="Add"]:hover {
-    background-color: #3e8e41;
-}
-
-#course-form input[value="Remove"] {
-    background-color: #dc3545;
-}
-
-#course-form input[value="Remove"]:hover {
-    background-color: #c82333;
-}
-
-/* Layout for Add and Remove Buttons */
-#course-form div {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-/* Header Styling */
-.staff-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.left-h {
-    display: flex;
-}
-
-.openbtn img {
-    width: 30px;
-    height: 30px;
-}
-
-.logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--title-text);
-    font-family: 'Parkinsans', sans-serif;
-}
-
-/* Sidebar Styling */
-#staffdash-sidebar {
-    display: none;
-    flex-direction: column;
-    width: 250px;
-    background-color: var(--box-background);
-    position: fixed;
-    height: 100%;
-    z-index: 1;
-    top: 0;
-    left: 0;
-}
-
-.sidebar a {
-    padding: 10px 15px;
-    text-decoration: none;
-    color: var(--text);
-    font-family: 'Parkinsans', sans-serif;
-    font-size: 1rem;
-}
-
-.sidebar a:hover {
-    background-color: var(--title-text-gradient);
-    color: white;
-}
-
-.sidebar .closebtn img {
-    width: 30px;
-    height: 30px;
-}
-
-.sidebar .closebtn {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px 15px;
-}
-
-.sidebar .closebtn:hover img {
-    filter: invert(1);
+  outline: 2px solid var(--title-text-gradient);
 }
 
 @media screen and (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
+  .container {
+    flex-direction: column;
+  }
 
-    #course-form {
-        width: 100%;
-    }
+  #course-form {
+    width: auto;
+  }
 }

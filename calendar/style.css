@@ -314,10 +314,11 @@ header .current-month {
 }
 
 #weekly-calendar {
+    margin-left: calc(-1* calc(100% - var(--sidebar-width)));
     background-color: var(--calendar-color);
     width: calc(100% - var(--sidebar-width));
     padding: var(--default-padding) 0vh var(--default-padding) 0vh;;
-    /* font-size: var(--week-font-size); */
+    
     font-size: 0.75em;
     border-radius: 30px;
 }
@@ -562,4 +563,38 @@ header .current-month {
 
 .filter span {
     width: 100%;
+}
+
+/* POPUP */
+.calendar-popup {
+    width: calc(100% - var(--sidebar-width));
+    display: flex;
+    flex-direction: column;
+
+    z-index: -10;
+
+    img {
+        width: 5%;
+        cursor: pointer;
+    }
+}
+
+.calendar-popup > form > .heading-highlight {
+    font-size: var(--calendar-font-size) !important;
+}
+
+.calendar-popup > form > input {
+    font-family: 'Outfit';
+    padding: 1%;
+    margin: 1%;
+}
+
+.calendar-popup.active{
+    z-index: 10;
+    background-color: white;
+}
+
+.calendar-popup:hover > form > .heading-highlight::before {
+    transition: all .3s ease;
+    height: 100%;   
 }

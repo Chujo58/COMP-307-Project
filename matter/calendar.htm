@@ -22,7 +22,7 @@
             Week
         </a>
     </div>
-    <div class="add-event" id="add_event_btn">
+    <div class="add-event" id="add_event_btn" onclick="document.getElementById('calendar-popup').className += ' active';">
         <span>
             <img src="icons/pulsar_line_add.png">
         </span>
@@ -68,6 +68,25 @@
                 </div>
                     <div id="filters"></div>
             </div>
+        </div>
+        <div class="calendar-popup" id="calendar-popup">
+            <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup';">
+            <form id="calendar-create-form">
+                <div class="heading-highlight form-heading">
+                    Create availability
+                </div>
+                <input type="text" name="event_name" id="event_name" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
+                <div></div>
+                <input type="datetime-local" name="event_start" id="event_start" onfocusout="isFieldEmpty('event_start')">
+                <div></div>
+                <input type="datetime-local" name="event_stop" id="event_stop" onfocusout="isFieldEmpty('event_stop')">
+                <div></div>
+                <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
+                <div></div>
+                <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+                <div></div>
+                <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
+            </form>
         </div>
         <div class="calendar" id="weekly-calendar">
             <ul class="weekday" id="weekly-calendar-label"></ul>

@@ -83,15 +83,19 @@ function isFieldEmpty(id) {
 
 	if (field.value === '') {
 		field.classList.add('missing');
-		error.classList.add('missing');
-		error.innerText = "Required";
+        if (error.tagName.toLowerCase() == 'div'){
+            error.classList.add('missing');
+            error.innerText = "Required";
+        }
 
 		return true;
 
 	} else {
 		field.classList.remove('missing');
-		error.classList.remove('missing');
-		error.innerText = "";
+        if (error.tagName.toLowerCase() == 'div'){
+            error.classList.remove('missing');
+            error.innerText = "";
+        }
 
 		return false;
 	}
@@ -306,7 +310,6 @@ function toggleNavbar(){
 		return;
 	}
 }
-
 
 /**
  * Setup event listener for enter keypress

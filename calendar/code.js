@@ -317,7 +317,32 @@ function loadCalendarIcons(){
     `;
 }
 
-window.addEventListener('load', onLoad);
+function addEvent(){
+    let empty = isFieldEmpty('event_name');
+    empty = isFieldEmpty('event_start') || empty;
+    empty = isFieldEmpty('event_stop') || empty;
+    empty = isFieldEmpty('event_desc') || empty;
+    empty = isFieldEmpty('event_filter') || empty;
+
+    var name = getValue('event_name');
+    var start = new Date(getValue('event_start'));
+    var stop = new Date(getValue('event_stop'));
+    var desc = getValue('event_desc');
+    var filter = getValue('event_filter');
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        if (this.readyState == 4 && this.status == 200){
+            console.log(this.responseText);
+            document.getElementById('calendar-create-form').reset();
+            document.getElementById('calendar-popup').className='calendar-popup';
+            toToday();
+        }
+    }
+    xhttp.open("POST", "php/calendar.php");
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}`);
+}
 
 /**
  * Shows all events of selected day.
@@ -325,7 +350,6 @@ window.addEventListener('load', onLoad);
  * @param {boolean} weeklyView Is weekly view toggled on.
  */
 function showEvents(day, weeklyView, filter, user){
-    // var eventId = crypto.randomUUID();
     var weekday_index = weeklyView ? day.getDay() : 0;
     var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
     var stop_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()+1).getTime();
@@ -338,7 +362,6 @@ function showEvents(day, weeklyView, filter, user){
                 results = results.slice(0,results.length - 1);
                 results.forEach(row => {
                     var data = row.split(',');
-                    console.log(data);
                     addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4], data[5]);
                 });
             }
@@ -348,9 +371,9 @@ function showEvents(day, weeklyView, filter, user){
         }
     }
 
-    xhttp.open("POST", "php/calendar.php", 'true');
+    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}`, 'true');
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}`);
+    xhttp.send();
 }
 
 function redirectToEvent(event_id){
@@ -438,7 +461,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
 
     var column = document.getElementById(`time-col-${columnid}`);
-    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='redirectToEvent(${eventID});'><span>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='redirectToEvent("${eventID}");'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){

@@ -93,6 +93,10 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     session_start();
+    
+    if (!isset($_SESSION['user_type'])){
+        echo "Guest";
+    }
 
     if ($_SESSION['user_type'] == 'staff'){
         $name = $_POST['name'] ?? '';

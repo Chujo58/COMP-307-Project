@@ -43,16 +43,19 @@ if (isset($_GET['get_name_id'])){
     $id = $_GET['get_name_id'];
 
     $stmt = $conn->prepare("SELECT f_name, l_name FROM valid_users WHERE user_id = :id");
+    $count = $conn->prepare("SELECT COUNT(f_name) AS count FROM valid_users WHERE user_id = :id");
     $stmt->bindValue(':id', $id, SQLITE3_TEXT);
+    $count->bindValue(':id', $id, SQLITE3_TEXT);
     $result = $stmt->execute();
+    $count = $count->execute();
+    $numRows = $count->fetchArray(SQLITE3_ASSOC)['count'];
 
-    if (!$result || !$result->fetchArray(SQLITE3_ASSOC)) {
+    if ($numRows == 0){
         echo "";
         exit();
-    }  
-
+    }
+    
     $result = $result->fetchArray(SQLITE3_ASSOC);
-
     echo $result['f_name'] . ',' . $result['l_name'] . '\n';
     exit();
 }

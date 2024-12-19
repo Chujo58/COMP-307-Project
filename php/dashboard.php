@@ -30,7 +30,7 @@ $nameFilter = $_POST['course-name'] ?? '';
 $idFilter = $_POST['course-id'] ?? '';
 $levelFilter = $_POST['course-level'] ?? '';
 
-$query = "SELECT course_name, course_id FROM course_list WHERE 1";
+$query = "SELECT DISTINCT course_name, course_id FROM course_list WHERE 1";
 
 // Apply filters if provided
 if (!empty($nameFilter)) {

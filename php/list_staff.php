@@ -13,7 +13,7 @@ if (empty($courseID)) {
 }
 
 $query = "
-    SELECT vu.l_name, vu.f_name, vu.user_id 
+    SELECT DISTINCT vu.l_name, vu.f_name, vu.user_id 
     FROM course_list cl 
     INNER JOIN valid_users vu 
     ON cl.staff_id = vu.user_id 

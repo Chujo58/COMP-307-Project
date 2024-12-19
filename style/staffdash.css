@@ -129,13 +129,6 @@ button.openbtn {
   align-self: center;
   text-align: center;
   filter: opacity(0.8) drop-shadow(0 0 0);
-}
-
-.openbtn:hover {
-  background-color: #111;
-}
-
-.openbtn:hover > img {
   filter: invert();
 }
 

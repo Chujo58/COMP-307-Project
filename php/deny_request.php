@@ -25,9 +25,12 @@
 
 
 
-try {
-    $conn = new SQLite3('comp307project.db');  // Replace with the actual path to your SQLite3 database file
 
+    $conn = new SQLite3('comp307project.db');  // Replace with the actual path to your SQLite3 database file
+    if (!$conn) {
+        die("Internal Server Error");
+    }
+    
     $eventID = $_POST['event_id'] ?? null;
 
     if ($eventID) {
@@ -46,11 +49,6 @@ try {
 
         $stmt->close();
     }
-
-} catch (Exception $e) {
-    http_response_code(500);
-    echo "Database connection failed: " . $e->getMessage();
-}
 
 $conn->close();
 ?>

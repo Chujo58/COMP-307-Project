@@ -76,12 +76,9 @@ header('Content-Type: application/json');
 session_start();
 
 // Connect to SQLite database
-try {
-    $conn = new SQLite3('comp307project.db'); // Assuming the database file is named 'comp307project.db'
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(["error" => "Connection failed: " . $e->getMessage()]);
-    exit();
+$conn = new SQLite3('../comp307project.db'); // Assuming the database file is named 'comp307project.db'
+if (!$conn) {
+    die("Internal Server Error");
 }
 
 $current_date = $_GET['date'];

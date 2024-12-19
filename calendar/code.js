@@ -383,7 +383,7 @@ function createBooking(){
     }
     xhttp.open("POST", "php/show_event_details.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}&fname=${fname}&lname=${lname}&email=${email}`);
+    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}&fname=${fname}&lname=${lname}&email=${email}&type=${type}`);
 }
 
 function addEvent(){

@@ -1,171 +1,51 @@
-<header class="staff-header">
-  <div class="left-h">
-    <a class="openbtn" onclick="openNav()">
-      <img src="icons/pulsar_line_menu.png" />
-    </a>
-  </div>
-  <div class="logo">Add/Remove Course</div>
-</header>
-
-<div class="container">
-  <div id="staffdash-sidebar" class="sidebar">
-    <div
-      style="display: flex; flex-direction: row-reverse; align-items: center"
-    >
-      <a class="closebtn" onclick="closeNav()">
-        <img src="icons/pulsar_line_close.png" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add/Remove Course</title>
+  <link rel="stylesheet" href="css/addcourse.css"> <!-- Link to the new CSS file -->
+</head>
+<body>
+  <header class="staff-header">
+    <div class="left-h">
+      <a class="openbtn" onclick="openNav()">
+        <img src="icons/pulsar_line_menu.png" />
       </a>
-      <a href="./index.php?Page=Dashboard">Main</a>
     </div>
-    <a href="./index.php?Page=Calendar&session=true" id="aval"
-      >Availabilities</a
-    >
-    <a href="./index.php?Page=StaffCourses">Courses</a>
-    <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
-  </div>
-  <div class="main-wrapper">
-    <div class="main-dashboard-container">
-      <form
-        id="course-form"
-        method="POST"
-        style="
-          max-width: 400px;
-          margin: auto;
-          padding: 20px;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          background: #f9f9f9;
-        "
-      >
-        <h2 style="text-align: center">Course Selection</h2>
+    <div class="logo">Add/Remove Course</div>
+  </header>
 
-        <!-- Message area (for errors or success) -->
-        <div id="message" style="color: red; text-align: center"></div>
-
-        <label for="course_tag">Course Tag</label>
-        <input list="course_tags" name="course_tag" id="course_tag" required
-          style="width: auto; padding: 8px; margin: 8px 0" pattern="[A-Za-z]{4}"
-          title="Course tag must be 4 letters." />
-
-        <label for="course_id">Course ID</label>
-        <input list="course_ids" name="course_id" id="course_id" required
-          style="width: auto; padding: 8px; margin: 8px 0" pattern="\d{3}" />
-        
-        <label for="course_tag">Course Name</label>
-        <input
-          name="course_name"
-          id="course_name"
-          required
-          style="width: auto; padding: 8px; margin: 8px 0"
-          pattern="[A-Za-z]"
-          title="Course name must be a short description."
-        />
-
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-          "
-        >
-          <!-- Add Course Button -->
-          <input
-            type="button"
-            value="Add"
-            style="
-              width: 55%;
-              margin: 10px;
-              padding-left: 15px;
-              padding-right: 15px;
-              padding-top: 10px;
-              padding-bottom: 10px;
-              background-color: #4caf50;
-              color: white;
-              border: none;
-              border-radius: 4px;
-              cursor: pointer;
-            "
-            onclick="submitForm('add')"
-          />
-
-          <!-- Remove Course Button -->
-          <input
-            type="button"
-            value="Remove"
-            style="
-              width: 55%;
-              margin: 10px;
-              padding: 10px;
-              background-color: red;
-              color: white;
-              border: none;
-              border-radius: 4px;
-              cursor: pointer;
-            "
-            onclick="submitForm('remove')"
-          />
-        </div>
-      </form>
+  <div class="container">
+    <div id="staffdash-sidebar" class="sidebar">
+      <div style="display: flex; flex-direction: row-reverse; align-items: center">
+        <a class="closebtn" onclick="closeNav()">
+          <img src="icons/pulsar_line_close.png" />
+        </a>
+        <a href="./index.php?Page=Dashboard">Main</a>
+      </div>
+      <a href="./index.php?Page=Calendar&session=true" id="aval">Availabilities</a>
+      <a href="./index.php?Page=StaffCourses">Courses</a>
+      <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
     </div>
-  </div>
 
-  <script>
-    function openNav() {
-      document.getElementById("staffdash-sidebar").style.display = "flex";
-    }
+    <div class="main-wrapper">
+      <div class="main-dashboard-container">
+        <form id="course-form" method="POST">
+          <h2>Course Selection</h2>
 
-    function closeNav() {
-      document.getElementById("staffdash-sidebar").style.display = "none";
-    }
+          <!-- Message area (for errors or success) -->
+          <div id="message"></div>
 
-    function submitForm(action) {
-      var courseTag = document.getElementById("course_tag").value;
-      var courseId = document.getElementById("course_id").value;
-      var courseName = document.getElementById("course_name").value;
+          <label for="course_tag">Course Tag</label>
+          <input list="course_tags" name="course_tag" id="course_tag" required pattern="[A-Za-z]{4}" title="Course tag must be 4 letters." />
 
-      var messageDiv = document.getElementById("message");
-      messageDiv.innerHTML = ""; // Clear any previous message
+          <label for="course_id">Course ID</label>
+          <input list="course_ids" name="course_id" id="course_id" required pattern="\d{3}" title="Course ID must be 3 digits." />
+          
+          <label for="course_name">Course Name</label>
+          <input name="course_name" id="course_name" required pattern="[A-Za-z]+" title="Course name must be a short description." />
 
-      if (!courseTag || !courseId || !courseName) {
-        messageDiv.style.color = "red";
-        messageDiv.innerHTML = "Please fill in all fields.";
-        return;
-      }
-
-      // Prepare POST data
-      var formData = new FormData();
-      formData.append("action", action);
-      formData.append("course_tag", courseTag);
-      formData.append("course_id", courseId);
-      formData.append("course_name", courseName);
-
-      // Create AJAX request
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "php/addcourse.php", true);
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
-            var response = xhr.responseText;
-            if (response.includes("success")) {
-              messageDiv.style.color = "green";
-              messageDiv.innerHTML =
-                "Course " +
-                (action === "add" ? "added" : "removed") +
-                " successfully.";
-            } else {
-              messageDiv.style.color = "red";
-              messageDiv.innerHTML = response;
-            }
-          } else {
-            messageDiv.style.color = "red";
-            messageDiv.innerHTML =
-              "An error occurred while processing the request.";
-          }
-        }
-      };
-
-      xhr.send(formData);
-    }
-  </script>
-</div>
+          <div>
+            <!-- Add Course Button -->
+            <input type="button" value="Add" onclic

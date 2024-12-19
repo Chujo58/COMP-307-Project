@@ -1,0 +1,144 @@
+/* General Styling for the Header */
+.staff-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .left-h {
+    display: flex;
+  }
+  
+  .openbtn img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Sidebar Styling */
+  #staffdash-sidebar {
+    display: none;
+    flex-direction: column;
+    width: 250px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+  
+  .sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .sidebar .closebtn img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  /* Main Content */
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .main-wrapper {
+    flex-grow: 1;
+  }
+  
+  .main-dashboard-container {
+    padding: 20px;
+  }
+  
+  #course-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+  
+  #course-form h2 {
+    text-align: center;
+  }
+  
+  #message {
+    color: red;
+    text-align: center;
+  }
+  
+  /* Form Inputs */
+  #course-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  #course-form input[type="text"],
+  #course-form input[type="number"],
+  #course-form input[list] {
+    width: auto;
+    padding: 8px;
+    margin: 8px 0;
+  }
+  
+  #course_tag, 
+  #course_id, 
+  #course_name {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  #course_tag:focus, 
+  #course_id:focus, 
+  #course_name:focus {
+    outline: 2px solid #4caf50;
+  }
+  
+  /* Form Buttons */
+  #course-form input[type="button"] {
+    width: 55%;
+    margin: 10px;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  #course-form input[type="button"]:hover {
+    opacity: 0.9;
+  }
+  
+  #course-form input[value="Add"] {
+    background-color: #4caf50;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  #course-form input[value="Remove"] {
+    background-color: red;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  /* Layout for Add and Remove Buttons */
+  #course-form div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  

@@ -61,9 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $user_id = gen_uuid(10);
 
+    // Determine user type
+    $user_type = "student";
+    if ($email[1] == "mcgill.ca") {
+        $user_type = "staff";
+    }
+
     // Insert user data into database
-    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id, f_name, l_name) VALUES (?, ?, ?, ?, ?)");
-    $insert_user->bind_param("sssss", $username, $hashed_password, $user_id, $f_name, $l_name);
+    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id, user_type, f_name, l_name) VALUES (?, ?, ?, ?, ?, ?)");
+    $insert_user->bind_param("ssssss", $username, $hashed_password, $user_id, $user_type, $f_name, $l_name);
 
     if ($insert_user->execute()) {
         echo "User Added";

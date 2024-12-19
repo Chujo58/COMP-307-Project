@@ -23,60 +23,62 @@ $course_name = $_POST['course_name'];
 $action = $_POST['action'];  // action could be 'add' or 'remove'
 
 // Create DB connection
-$conn = new mysqli("localhost", "root", "", "comp307project");
-
-if ($conn->connect_error) {
-    echo "Database connection failed: " . $conn->connect_error;
+try {
+    $conn = new SQLite3('../comp307project.db');
+} catch (Exception $e) {
+    echo "Database connection failed: " . $e->getMessage();
     exit();
 }
 
 if ($action === 'add') {
-    $query = "SELECT * FROM course_list WHERE course_tag = ? AND course_id = ? AND staff_id = ?";
+    $query = "SELECT * FROM course_list WHERE course_tag = :course_tag AND course_id = :course_id AND staff_id = :staff_id";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("sss", $course_tag, $course_id, $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);
+    $stmt->bindValue(':course_id', $course_id, SQLITE3_TEXT);
+    $stmt->bindValue(':staff_id', $user_id, SQLITE3_TEXT);
+    $result = $stmt->execute();
 
-    if ($result->num_rows > 0) {
+    if ($result->fetchArray(SQLITE3_ASSOC)) {
         echo "This course is already added.";
     } else {
-        $insert_query = "INSERT INTO course_list (course_tag, course_id, staff_id, course_name) VALUES (?, ?, ?, ?)";
+        $insert_query = "INSERT INTO course_list (course_tag, course_id, staff_id, course_name) VALUES (:course_tag, :course_id, :staff_id, :course_name)";
         $insert_stmt = $conn->prepare($insert_query);
-        $insert_stmt->bind_param("ssss", $course_tag, $course_id, $user_id, $course_name);
+        $insert_stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);
+        $insert_stmt->bindValue(':course_id', $course_id, SQLITE3_TEXT);
+        $insert_stmt->bindValue(':staff_id', $user_id, SQLITE3_TEXT);
+        $insert_stmt->bindValue(':course_name', $course_name, SQLITE3_TEXT);
+
         if ($insert_stmt->execute()) {
             echo "Course added successfully.";
         } else {
             echo "Failed to add course.";
         }
-        $insert_stmt->close();
     }
-    $stmt->close();
-    
+
 } elseif ($action === 'remove') {
     // Check if the course exists for this staff before trying to delete it
-    $check_query = "SELECT * FROM course_list WHERE course_tag = ? AND course_id = ? AND staff_id = ?";
+    $check_query = "SELECT * FROM course_list WHERE course_tag = :course_tag AND course_id = :course_id AND staff_id = :staff_id";
     $check_stmt = $conn->prepare($check_query);
-    $check_stmt->bind_param("sss", $course_tag, $course_id, $user_id);
-    $check_stmt->execute();
-    $check_result = $check_stmt->get_result();
+    $check_stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);
+    $check_stmt->bindValue(':course_id', $course_id, SQLITE3_TEXT);
+    $check_stmt->bindValue(':staff_id', $user_id, SQLITE3_TEXT);
+    $check_result = $check_stmt->execute();
 
-    if ($check_result->num_rows === 0) {
-        // If the course does not exist for this staff, return an appropriate message
+    if (!$check_result->fetchArray(SQLITE3_ASSOC)) {
         echo "This course is not in your list.";
     } else {
-        // If the course exists, proceed with the deletion
-        $delete_query = "DELETE FROM course_list WHERE course_tag = ? AND course_id = ? AND staff_id = ?";
+        $delete_query = "DELETE FROM course_list WHERE course_tag = :course_tag AND course_id = :course_id AND staff_id = :staff_id";
         $delete_stmt = $conn->prepare($delete_query);
-        $delete_stmt->bind_param("sss", $course_tag, $course_id, $user_id);
+        $delete_stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);
+        $delete_stmt->bindValue(':course_id', $course_id, SQLITE3_TEXT);
+        $delete_stmt->bindValue(':staff_id', $user_id, SQLITE3_TEXT);
+
         if ($delete_stmt->execute()) {
             echo "Course removed successfully.";
         } else {
             echo "Failed to remove course.";
         }
-        $delete_stmt->close();
     }
-
-    $check_stmt->close();
 }
 
 $conn->close();

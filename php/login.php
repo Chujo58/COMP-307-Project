@@ -20,41 +20,38 @@ function gen_uuid($len=8) {
 
 function generateTicket($conn, $user_id, $exp_date){
     $ticket_id = gen_uuid(30);
-    $conn->query("UPDATE valid_users SET ticket_id='" . $ticket_id . "', exp_date='" . $exp_date . "' WHERE user_id='" . $user_id . "'"); 
-    
+    $stmt = $conn->prepare("UPDATE valid_users SET ticket_id = :ticket_id, exp_date = :exp_date WHERE user_id = :user_id");
+    $stmt->bindValue(':ticket_id', $ticket_id, SQLITE3_TEXT);
+    $stmt->bindValue(':exp_date', $exp_date, SQLITE3_INTEGER);
+    $stmt->bindValue(':user_id', $user_id, SQLITE3_INTEGER);
+    $stmt->execute();
 
     return $ticket_id;
 }
 
 // Check for cookies
-$conn = new mysqli("localhost", "root", "", "comp307project");
+$conn = new SQLite3('comp307project.db'); // SQLite3 database file
 
-if ($conn->connect_error) {
-    die("Internal Server Error: " . $conn->connect_error);
+if (!$conn) {
+    die("Internal Server Error: Unable to connect to database");
 }
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
-    //Connect to the SQL database
-    if ($conn->connect_error) {
-        die("Internal Server Error: " . $conn->connect_error);
-    }
-
     // Sanitize input
     $username = $_POST["username"];
     $password = $_POST["password"];
 
     // Verify if user exists and get hashed password + user_id
-    $stmt = $conn->prepare("SELECT user, pass, user_id, user_type, ticket_id, exp_date FROM valid_users WHERE user = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = $conn->prepare("SELECT user, pass, user_id, user_type, ticket_id, exp_date FROM valid_users WHERE user = :username");
+    $stmt->bindValue(':username', $username, SQLITE3_TEXT);
+    $result = $stmt->execute();
 
-    if ($result->num_rows == 0) {
+    if (!$result) {
         echo "Invalid user";
         exit();
     }
 
-    $user_data = $result->fetch_assoc();
+    $user_data = $result->fetchArray(SQLITE3_ASSOC);
 
     // Verify password
     if (!password_verify($password, $user_data["pass"])) {
@@ -76,8 +73,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $_SESSION['expired_ticket'] = false;
     $_SESSION['user_id'] = $user_data["user_id"];
     $_SESSION['user_type'] = $user_data['user_type'];
-
-    $stmt->close();
 }
+
 $conn->close();
 ?>

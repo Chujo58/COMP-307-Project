@@ -1,31 +1,34 @@
 <?php
-    session_start();
+session_start();
 
-    if (isset($_COOKIE['ticket_id'])) {
-        $token = $_COOKIE['ticket_id'];
+if (isset($_COOKIE['ticket_id'])) {
+    $token = $_COOKIE['ticket_id'];
 
-        $conn = new mysqli("localhost", "root", "", "comp307project");
+    // Connect to SQLite3 database
+    $db = new SQLite3('../comp307project.db');
 
-        if ($conn->connect_error) {
-            die("Internal Server Error: " . $conn->connect_error);
-        }
+    // Prepare and execute the UPDATE query
+    $stmt = $db->prepare("UPDATE valid_users SET ticket_id = NULL, exp_date = NULL WHERE ticket_id = :token");
+    $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+    $stmt->execute();
 
-        $stmt = $conn->prepare("UPDATE valid_users SET ticket_id = NULL, exp_date = NULL WHERE ticket_id = ?");
-        $stmt->bind_param('s', $token);
-        $stmt->execute();
-        $stmt->close();
+    // Clean up and close the statement and database connection
+    $stmt->close();
+    $db->close();
 
-        setcookie('ticket_id', "", time() - 3600, "/", "", true, true);
+    // Expire the 'ticket_id' cookie
+    setcookie('ticket_id', "", time() - 3600, "/", "", true, true);
+}
 
-        $conn->close();
-    }
-    unset($_SESSION['expired_ticket']);
-    unset($_SESSION['user_id']);
+// Unset session variables
+unset($_SESSION['expired_ticket']);
+unset($_SESSION['user_id']);
     unset($_SESSION['user_type']);
 
-    session_unset();
-    session_destroy();
+session_unset();
+session_destroy();
 
-    // header("Location: ../index.php?Page=Home&reload=true");
-    exit();
+// Optionally redirect to a page
+// header("Location: ../index.php?Page=Home&reload=true");
+exit();
 ?>

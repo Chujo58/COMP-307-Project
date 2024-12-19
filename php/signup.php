@@ -18,17 +18,16 @@ function gen_uuid($len=8) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
-    // Connect to the SQL database
-    $conn = new mysqli("localhost", "root", "", "comp307project");
-
-    if ($conn->connect_error) {
-        die("Internal Server Error: " . $conn->connect_error);
+    //Connect to the SQL database:
+    $conn = new SQLite3('../comp307project.db');
+    if (!$conn){
+        die("Internal Server Error");
     }
 
     // Retrieve input values and sanitize
-    $f_name = $conn->real_escape_string($_POST['f_name']);
-    $l_name = $conn->real_escape_string($_POST['l_name']);
-    $username = $conn->real_escape_string($_POST['username']);
+    $f_name = $_POST['f_name'];
+    $l_name = $_POST['l_name'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
@@ -45,17 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         exit();
     }
 
-    // Verify if user exists
-    $verify_user = $conn->prepare("SELECT user FROM valid_users WHERE user = ?");
-    $verify_user->bind_param("s", $username);
-    $verify_user->execute();
-    $verify_user->store_result();
-    if ($verify_user->num_rows > 0) {
+    //Verify is user exists
+    $verify_user = $conn->prepare("SELECT COUNT(*) AS count FROM valid_users WHERE user = :user");
+    $verify_user->bindParam(":user", $username);
+    $verify_user = $verify_user->execute();
+
+    $numAccs = $verify_user->fetchArray(SQLITE3_ASSOC)['count'];
+    if ($numAccs > 0) {
         echo "User Already Exists.";
-        $verify_user->close();
         exit();
     }
-    $verify_user->close();
 
     // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -66,15 +64,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
     if ($email[1] == "mcgill.ca") {
         $user_type = "staff";
     }
+    //Validate the sign up
+    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id, user_type, f_name, l_name) VALUES (:user, :pass, :id, :user_type, :f_name, :l_name)");
+    $insert_user->bindParam(':user',$username, SQLITE3_TEXT);
+    $insert_user->bindParam(':pass',$hashed_password, SQLITE3_TEXT);
+    $insert_user->bindParam(':id',$user_id, SQLITE3_TEXT);
+    $insert_user->bindParam(':user_type',$user_type, SQLITE3_TEXT);
+    $insert_user->bindParam(':f_name',$f_name, SQLITE3_TEXT);
+    $insert_user->bindParam(':l_name',$l_name, SQLITE3_TEXT);
 
-    // Insert user data into database
-    $insert_user = $conn->prepare("INSERT INTO valid_users (user, pass, user_id, user_type, f_name, l_name) VALUES (?, ?, ?, ?, ?, ?)");
-    $insert_user->bind_param("ssssss", $username, $hashed_password, $user_id, $user_type, $f_name, $l_name);
 
     if ($insert_user->execute()) {
         echo "User Added";
     } else {
-        echo "Failed to add user: " . $conn->error;
+        echo "Failed" . $conn->lastErrorMsg();
     }
 
     $insert_user->close();

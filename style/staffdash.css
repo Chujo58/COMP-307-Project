@@ -196,14 +196,13 @@ button.openbtn {
 }
 
 /* Responsive Design */
-@media screen and (max-device-width: 750px), screen and (max-width: 750px) {
+@media screen and (max-width: 750px) {
   .container {
     display: flex;
     flex-direction: column !important;
     width: auto;
     padding: 0rem !important;
   }
-
   .main-wrapper {
     width: auto;
   }
@@ -211,7 +210,6 @@ button.openbtn {
   .event-body {
     margin: 2% 0 2% 0 !important;
   }
-
   .upcoming-appointments h2 {
     display: flex !important;
     justify-content: center;
@@ -226,7 +224,7 @@ button.openbtn {
   }
 
   .sidebar {
-    width: 100%;
+    width: auto;
     height: auto;
     position: relative;
     /* transform: translateX(-100%); */

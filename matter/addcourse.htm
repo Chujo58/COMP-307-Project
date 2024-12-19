@@ -131,51 +131,6 @@
       document.getElementById("staffdash-sidebar").style.display = "none";
     }
 
-    // function submitForm(action) {
-    //   var courseTag = document.getElementById("course_tag").value;
-    //   var courseId = document.getElementById("course_id").value;
-
-    //   var messageDiv = document.getElementById("message");
-    //   messageDiv.innerHTML = ""; // Clear any previous message
-
-    //   if (!courseTag || !courseId) {
-    //     messageDiv.style.color = "red";
-    //     messageDiv.innerHTML = "Please fill in all fields.";
-    //     return;
-    //   }
-
-    //   var formData = new FormData();
-    //   formData.append("action", action);
-    //   formData.append("course_tag", courseTag);
-    //   formData.append("course_id", courseId);
-
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open("POST", "php/addcourse.php", true);
-
-    //   xhr.onreadystatechange = function () {
-    //     if (xhr.readyState == 4) {
-    //       if (xhr.status == 200) {
-    //         var response = xhr.responseText;
-    //         if (response.includes("success")) {
-    //           messageDiv.style.color = "green";
-    //           messageDiv.innerHTML =
-    //             "Course " +
-    //             (action === "add" ? "added" : "removed") +
-    //             " successfully.";
-    //         } else {
-    //           messageDiv.style.color = "red";
-    //           messageDiv.innerHTML = response;
-    //         }
-    //       } else {
-    //         messageDiv.style.color = "red";
-    //         messageDiv.innerHTML =
-    //           "An error occurred while processing the request.";
-    //       }
-    //     }
-    //   };
-
-    //   xhr.send(formData);
-    // }
     function submitForm(action) {
       var courseTag = document.getElementById("course_tag").value;
       var courseId = document.getElementById("course_id").value;

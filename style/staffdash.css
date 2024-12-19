@@ -147,6 +147,10 @@ button.openbtn {
   flex-grow: 1; /* Automatically adjust width */
 }
 
+.calendar-body {
+  margin: 15px;
+}
+
 .calendar-container {
   margin-top: 20px;
   background-color: var(--background);

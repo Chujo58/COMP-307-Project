@@ -553,6 +553,9 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
 
     var column = document.getElementById(`time-col-${columnid}`);
+    if (!column) {
+        return;
+    }
     column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='redirectToEvent("${eventID}");'><span>${eventTitle}</span></div>`
 }
 

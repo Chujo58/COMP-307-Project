@@ -16,7 +16,7 @@ if ($conn->connect_error) {
     exit();
 }
 
-$query = "SELECT course_tag, course_id FROM course_list WHERE staff_id = ?";
+$query = "SELECT DISTINCT course_tag, course_id FROM course_list WHERE staff_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $current_user_id);
 $stmt->execute();

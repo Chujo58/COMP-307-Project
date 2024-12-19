@@ -20,9 +20,15 @@ function loadNavbar(){
             }
         });
     }
-    var tempPage = window.location.href.split("?")[1].split("&")[0];
+    var tempPage = window.location.href;
+    if (tempPage.includes("?")){
+        tempPage = tempPage.split("?")[1]
+    }
+    if (tempPage.includes("&")){
+        tempPage = tempPage.split("&")[0];
+    }
     let currentPage = "home";
-    if (tempPage){
+    if (tempPage && !tempPage.endsWith('/')){
         currentPage = tempPage.split("Page=")[1].toLowerCase();
     }
 

@@ -30,7 +30,7 @@ else {
                 echo "<script>window.addEventListener('load', loadLevels); window.addEventListener('load', filterCourses);</script>";
                 display("matter/dashboard.htm");
             }
-            if ($_SESSION['user_type'] == 'staff'){
+            elseif ($_SESSION['user_type'] == 'staff'){
                 display("matter/staffdash.htm");
                 echo "<script>window.addEventListener('load', fetchApt);</script>";
             }

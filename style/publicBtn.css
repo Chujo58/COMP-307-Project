@@ -18,8 +18,8 @@
     transition-duration: 0.3s;
     box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    width: 100%;
-    max-width: 300px
+    /* width: 100%;
+    max-width: 300px */
 }
 
 .public-btn button:hover {

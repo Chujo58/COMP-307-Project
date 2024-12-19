@@ -24,9 +24,21 @@
     --text-highlight: hsl(2 47% 74%);
 }
 
-@media screen and (max-width: 750px) {
+#calendar_user_name {
+    display: flex;
+    justify-content: center;
+    background: white;
+    font-family: 'DM Serif Text';
+    font-size: var(--calendar-font-size);
+}
+
+@media screen and (max-device-width: 750px), screen and (max-width: 750px) {
     #topbar > a:not(#sidebar-menu):not(#view-selector) {
         margin-left: 0 !important;
+    }
+
+    #calendar-page-icon {
+        display: none !important;
     }
 
 }
@@ -192,9 +204,6 @@
     height: 100%;
 }
 
-#botbar {
-    height: calc(100vh - var(--height-topbar));
-}
 
 /* Sidebar code */
 .calendar-sidebar {
@@ -327,6 +336,8 @@ header .current-month {
     
     font-size: 0.75em;
     border-radius: 30px;
+
+    height: calc(22* var(--calendar-font-size))
 }
 
 #weekly-calendar.full-size {
@@ -447,7 +458,7 @@ header .current-month {
 .timetable-wrapper {
     display: block;
     overflow: hidden;
-    height: 75vh;
+    height: calc(18.75 * var(--calendar-font-size));
     padding-left: var(--default-padding);
 }
 
@@ -538,6 +549,7 @@ header .current-month {
     border-radius: 10px;
     width: 95%;
     cursor: pointer;
+    text-wrap: pretty;
 }
 
 .event span {
@@ -580,7 +592,7 @@ header .current-month {
     z-index: -10;
 
     img {
-        width: 5%;
+        width: clamp(30px, 5%, 5%);
         cursor: pointer;
     }
 }
@@ -598,6 +610,7 @@ header .current-month {
 .calendar-popup.active{
     z-index: 10;
     background-color: white;
+    border-radius: 8px;
 }
 
 .calendar-popup:hover > form > .heading-highlight::before {

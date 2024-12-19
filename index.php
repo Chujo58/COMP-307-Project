@@ -31,6 +31,7 @@ else {
             }
             elseif ($_SESSION['user_type'] == 'staff'){
                 display("matter/staffdash.htm");
+                echo "<script>const userID ='" . $_SESSION['user_id'] . "';</script>";
                 echo "<script>window.addEventListener('load', fetchApt);</script>";
                 echo "<script>window.addEventListener('load', onLoad);</script>";
             }
@@ -52,7 +53,6 @@ else {
             if ($_SESSION['user_type'] == 'staff'){
                 display("matter/staffcourses.htm");
                 echo "<script>window.addEventListener('load', fetchCourses);</script>";
-                
             }
             else {
                 echo "Invalid user type";
@@ -75,7 +75,7 @@ else {
             if ($userID){
                 echo "<script>const userID ='" . $userID . "';</script>";
             }
-            echo "<script>window.addEventListener('load', onLoad);</script>";
+            echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', function(){ getUserNames('$userID'); });</script>";
             display('matter/calendar.htm');
             break;
 

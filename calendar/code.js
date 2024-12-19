@@ -409,7 +409,7 @@ function addEvent(){
             console.log(this.responseText);
             document.getElementById('calendar-create-form').reset();
             document.getElementById('calendar-popup').className='calendar-popup';
-            toToday();
+            window.location.reload();
         }
     }
     xhttp.open("POST", "php/calendar.php");
@@ -422,8 +422,7 @@ function deleteEvent(id){
     xhttp.onreadystatechange = function (){
         if (this.readyState == 4 && this.status == 200){
             console.log(this.responseText);
-            window.history.back();
-            toToday();
+            document.getElementById('calendar').click();
         }
     }
     
@@ -615,6 +614,7 @@ function toggleSidebar(){
     var calendar = document.getElementById('weekly-calendar');
     var sidebar_menu = document.getElementById('sidebar-menu');
     var add_event = document.getElementById('add_event_btn');
+
     if (sidebar.classList.contains('hidden')){
         sidebar.classList.remove('hidden');
         calendar.classList.remove('full-size');
@@ -688,3 +688,58 @@ function forceMobile(){
     toggleView();
     document.getElementById('view-selector').onclick = "";
 }
+
+function getUserNames(userID){
+    var user = "";
+    if (typeof userID === 'undefined' || !userID){
+        user = "";
+    } else {
+        user = userID;
+    }
+    if (user == ''){
+        return '';
+    } else {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200){
+                var results = this.responseText.split('\\n');
+                results = results.slice(0, results.length - 1)[0];
+                results = results.split(',');
+                var toAdd = "";
+                if (results[1].endsWith('s')){
+                    toAdd = "' Calendar";
+                } else {
+                    toAdd = "'s Calendar";
+                }
+                document.getElementById('calendar_user_name').innerHTML = results[0] + ' ' + results[1] + toAdd;
+            }
+        };
+
+        xhttp.open('GET', `php/calendar.php?get_name_id=${user}`, false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send();
+    }
+}
+
+function turnMobile(x, daily, sidebar_check=true){
+    if (x.matches){
+        var sidebar = document.getElementById("sidebar");
+        if (!sidebar.classList.contains('hidden') && sidebar_check){
+            document.getElementById("sidebar-menu").click();
+        }
+        if (daily && document.getElementById('view-selector').innerHTML.includes('Week')){
+            document.getElementById('view-selector').click();
+        } else if (!daily && document.getElementById('view-selector').innerHTML.includes('Day')) {
+            document.getElementById('view-selector').click();
+        }
+    }
+}
+
+var mediaUnder750 = window.matchMedia('screen and (max-device-width: 900px), screen and (max-width: 900px)');
+var mediaUnder500 = window.matchMedia('screen and (max-device-width: 550px), screen and (max-width: 550px)');
+
+mediaUnder750.addEventListener("change", function(){ turnMobile(mediaUnder750, false); })
+mediaUnder500.addEventListener("change", function(){ turnMobile(mediaUnder500, true); })
+
+window.addEventListener('load', function(){ turnMobile(mediaUnder750, false); })
+window.addEventListener('load', function(){ turnMobile(mediaUnder500, true); })

@@ -28,9 +28,9 @@
   border-radius: 4px;
 }
 
-.addremovebutton a:hover,
-a:focus,
-a:visited {
+.addremovebutton:hover,
+.addremovebutton:focus,
+.addremovebutton:visited {
   text-decoration: none;
   color: white;
 }

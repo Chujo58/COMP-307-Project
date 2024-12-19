@@ -40,6 +40,22 @@ function showData($query, $conn){
     }
 }
 
+if (isset($_GET['get_name_id'])){
+    $id = $_GET['get_name_id'];
+
+    $query = "SELECT f_name, l_name from valid_users WHERE user_id='$id'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows == 0){
+        echo "";
+        exit();
+    }    
+    $result = $result->fetch_assoc();
+
+    echo $result['f_name'] . ',' . $result['l_name'] . '\n';
+    exit();
+}
+
 if (isset($_GET['delete'])){
     $query = "DELETE FROM events WHERE event_id='" . $_GET["event_id"] . "'";
     $conn->query($query);

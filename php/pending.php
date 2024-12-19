@@ -44,7 +44,8 @@ if ($result->num_rows > 0) {
         echo "</div>";
     }
 } else {
-    echo "<p>There are currently no pending requests.</p>";
+    // echo "<p>There are currently no pending requests.</p>";
+    echo "<div class='no-event-body' style='width: 100%;'>There are currently no pending requests.</div>";
 }
 
 $stmt->close();

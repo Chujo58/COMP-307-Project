@@ -50,8 +50,9 @@ else {
             break;
         case "StaffCourses":
             if ($_SESSION['user_type'] == 'staff'){
-                echo "<script>const courseID = '$courseID'; window.addEventListener('load', fetchCourses);</script>";
                 display("matter/staffcourses.htm");
+                echo "<script>window.addEventListener('load', fetchCourses);</script>";
+                
             }
             else {
                 echo "Invalid user type";

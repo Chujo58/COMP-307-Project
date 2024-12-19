@@ -10,16 +10,14 @@
 <div class="container">
   <div id="staffdash-sidebar" class="sidebar">
     <div
-      style="display: flex; flex-direction: row-reverse; align-items: center"
-    >
-      <a class="closebtn" onclick="closeNav()"
-        ><img src="icons/icons8-close-win.svg" />
+      style="display: flex; flex-direction: row-reverse; align-items: center">
+      <a class="closebtn" onclick="closeNav()"><img
+          src="icons/icons8-close-win.svg" />
       </a>
       <a href="#">Main</a>
     </div>
-    <a href="./index.php?Page=Calendar&session=true" id="aval"
-      >Availabilities</a
-    >
+    <a href="./index.php?Page=Calendar&session=true"
+      id="aval">Availabilities</a>
     <a href="#">Courses</a>
     <a href="#">Add Course</a>
   </div>
@@ -42,105 +40,111 @@
           <div id="calendar-page-icon"></div>
           <a onclick="toToday();"> Today </a>
           <div class="icons" id="week_btns">
-            <span id="prev_week" class="material-symbols-rounded"
-              >chevron_left</span
-            >
-            <span id="next_week" class="material-symbols-rounded"
-              >chevron_right</span
-            >
+            <span id="prev_week"
+              class="material-symbols-rounded">chevron_left</span>
+            <span id="next_week"
+              class="material-symbols-rounded">chevron_right</span>
           </div>
           <p
             class="current-month calendar-heading-highlight"
-            id="current-week"
-          ></p>
+            id="current-week"></p>
           <a
             style="margin-left: auto"
             onclick="toggleView();"
-            id="view-selector"
-          >
+            id="view-selector">
             Week
           </a>
         </div>
         <div
           class="add-event"
           id="add_event_btn"
-          onclick="document.getElementById('calendar-popup').className += ' active';"
-        >
+          onclick="document.getElementById('calendar-popup').className += ' active';">
           <span>
             <img src="icons/pulsar_line_add.png" />
           </span>
           <div class="add-event-text">Create</div>
         </div>
         <div class="calendar-holder" id="botbar">
-            <div class="calendar-sidebar" id="sidebar">
-                <div class="add-event" id="calendar-add-placeholder"></div>
-                <div class="wrapper">
-                    <header class="calendar-header">
-                        <p class="current-month calendar-heading-highlight"
-                            id="current-month"></p>
-                        <div class="icons">
-                            <span id="prev"
-                                class="material-symbols-rounded">chevron_left</span>
-                            <span id="next"
-                                class="material-symbols-rounded">chevron_right</span>
-                        </div>
-                    </header>
-                    <div class="calendar">
-                        <ul class="weekday">
-                            <li>Sun</li>
-                            <li>Mon</li>
-                            <li>Tue</li>
-                            <li>Wed</li>
-                            <li>Thu</li>
-                            <li>Fri</li>
-                            <li>Sat</li>
-                        </ul>
-                        <ul class="days" id="days"></ul>
-                    </div>
+          <div class="calendar-sidebar" id="sidebar">
+            <div class="add-event" id="calendar-add-placeholder"></div>
+            <div class="wrapper">
+              <header class="calendar-header">
+                <p class="current-month calendar-heading-highlight"
+                  id="current-month"></p>
+                <div class="icons">
+                  <span id="prev"
+                    class="material-symbols-rounded">chevron_left</span>
+                  <span id="next"
+                    class="material-symbols-rounded">chevron_right</span>
                 </div>
-                <div>
-                    <div class="filters-holder">
-                        <span>
-                            <img src="icons/pulsar_color_calendar.png">
-                        </span>
-                        <div class="calendar-heading-highlight" id="filters-header">
-                            Calendars
-                        </div>
-                    </div>
-                        <div id="filters"></div>
+              </header>
+              <div class="calendar">
+                <ul class="weekday">
+                  <li>Sun</li>
+                  <li>Mon</li>
+                  <li>Tue</li>
+                  <li>Wed</li>
+                  <li>Thu</li>
+                  <li>Fri</li>
+                  <li>Sat</li>
+                </ul>
+                <ul class="days" id="days"></ul>
+              </div>
+            </div>
+            <div>
+              <div class="filters-holder">
+                <span>
+                  <img src="icons/pulsar_color_calendar.png">
+                </span>
+                <div class="calendar-heading-highlight" id="filters-header">
+                  Calendars
                 </div>
+              </div>
+              <div id="filters"></div>
             </div>
-            <div class="calendar-popup" id="calendar-popup">
-                <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup';">
-                <form id="calendar-create-form" action="php/calendar.php" method="post">
-                    <div class="heading-highlight form-heading">
-                        Create availability
-                    </div>
-                    <input type="text" name="event_name" id="event_name" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
-                    <div></div>
-                    <input type="datetime-local" name="event_start" id="event_start" onfocusout="isFieldEmpty('event_start')">
-                    <div></div>
-                    <input type="datetime-local" name="event_stop" id="event_stop" onfocusout="isFieldEmpty('event_stop')">
-                    <div></div>
-                    <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
-                    <div></div>
-                    <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
-                    <div></div>
-                    <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
-                </form>
+          </div>
+          <div class="calendar-popup" id="calendar-popup">
+            <img src="icons/pulsar_line_close.png"
+              onclick="document.getElementById('calendar-popup').className='calendar-popup';">
+            <form id="calendar-create-form" action="php/calendar.php"
+              method="post">
+              <div class="heading-highlight form-heading">
+                Create availability
+              </div>
+              <input type="text" name="event_name" id="event_name"
+                placeholder="Event Name"
+                onfocusout="isFieldEmpty('event_name')">
+              <div></div>
+              <input type="datetime-local" name="event_start" id="event_start"
+                onfocusout="isFieldEmpty('event_start')">
+              <div></div>
+              <input type="datetime-local" name="event_stop" id="event_stop"
+                onfocusout="isFieldEmpty('event_stop')">
+              <div></div>
+              <input type="text" name="event_desc" id="event_desc"
+                placeholder="Description"
+                onfocusout="isFieldEmpty('event_desc')">
+              <div></div>
+              <input type="text" name="event_filter" id="event_filter"
+                placeholder="Course Name"
+                onfocusout="isFieldEmpty('event_filter')">
+              <div></div>
+              <input type="button" value="Create" style="cursor: pointer;"
+                onclick="addEvent();">
+            </form>
+          </div>
+          <div class="calendar" id="weekly-calendar">
+            <ul class="weekday" id="weekly-calendar-label"></ul>
+            <ul class="days" id="weekly-days"></ul>
+            <div class="timetable-wrapper">
+              <div class="timetable" id="timetable">
+                <div class="times" id="timestamps" aria-hidden="true"
+                  tabindex="-1"></div>
+                <div id="time-sep"></div>
+                <div class="time-row" id="time-row" role="row"></div>
+              </div>
             </div>
-            <div class="calendar" id="weekly-calendar">
-                <ul class="weekday" id="weekly-calendar-label"></ul>
-                <ul class="days" id="weekly-days"></ul>
-                <div class="timetable-wrapper">
-                    <div class="timetable" id="timetable">
-                        <div class="times" id="timestamps" aria-hidden="true"
-                            tabindex="-1"></div>
-                        <div id="time-sep"></div>
-                        <div class="time-row" id="time-row" role="row"></div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>

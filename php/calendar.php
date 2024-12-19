@@ -95,15 +95,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     session_start();
 
     if ($_SESSION['user_type'] == 'staff'){
-        $name = $_POST['name'];
-        $start = $_POST['start'];
-        $stop = $_POST['stop'];
-        $desc = $_POST['desc'];
-        $filter = $_POST['filter'];
+        $name = $_POST['name'] ?? '';
+        $start = $_POST['start'] ?? '';
+        $stop = $_POST['stop'] ?? '';
+        $desc = $_POST['desc'] ?? '';
+        $filter = $_POST['filter'] ?? '';
 
         $id = gen_uuid(10);
         $type = 'availability';
         $s_id = $_SESSION['user_id'];
+
+        if (empty($name) || empty($start) || empty($stop) || empty($desc) || empty($filter)){
+            echo "Cannot add empty event";
+            exit();
+        }
 
         $query = "INSERT INTO `events`(`event_name`, `event_id`, `event_recurrance`, `event_type`, `event_desc`, `event_start`, `event_stop`, `event_filter`, `staff_id`, `student_id`) VALUES ('$name','$id','','$type','$desc','$start','$stop','$filter','$s_id','')";
 

@@ -1,0 +1,31 @@
+<h2>Add Staff to Course</h2>
+    <form action="add_staff.php" method="POST">
+        <label for="course_tag">Select Course Tag:</label>
+        <select name="course_tag" id="course_tag">
+            <!-- Populate with course tags from the database -->
+            <?php
+            // Database connection
+            $conn = new mysqli('localhost', 'root', '', 'comp307project');
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // Query to get course tags
+            $result = $conn->query("SELECT DISTINCT course_tag FROM course_list");
+
+            // Loop through and display course tags
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='" . $row['course_tag'] . "'>" . $row['course_tag'] . "</option>";
+            }
+
+            $conn->close();
+            ?>
+        </select>
+        <br><br>
+        <label for="staff_id">Enter Staff ID:</label>
+        <input type="text" name="staff_id" id="staff_id" required>
+        <br><br>
+        <input type="submit" value="Add Staff">
+    </form>

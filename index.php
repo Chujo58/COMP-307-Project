@@ -33,6 +33,7 @@ else {
             elseif ($_SESSION['user_type'] == 'staff'){
                 display("matter/staffdash.htm");
                 echo "<script>window.addEventListener('load', fetchApt);</script>";
+                echo "<script>window.addEventListener('load', onLoad);</script>";
             }
             else {
                 echo "Invalid user type";

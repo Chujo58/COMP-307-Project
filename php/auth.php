@@ -40,11 +40,9 @@ function authenticate($conn) {
 header('Content-Type: application/json');
 
 // Database connection
-try {
-    $conn = new SQLite3('../comp307project.db');
-} catch (Exception $e) {
-    echo json_encode(["status" => "error", "message" => "Internal Server Error: Unable to connect to the database."]);
-    exit();
+$conn = new SQLite3('../comp307project.db');
+if (!$conn) {
+    die("Internal Server Error");
 }
 
 // Authenticate the user

@@ -119,13 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $conn->query($query);
         echo "Created event";
     }
-    if ($_SESSION['user_type'] == 'student'){
-        echo "Student";
-    } elseif ($_SESSION['user_type'] == 'staff') {
-        echo "Staff";
-    } else {
-        echo "Guest";
-    }
+    
     //For staff:
     //Edit event in php get show_event_details.php to show edit form
     
@@ -135,6 +129,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     //Show booking form with get show_event_details.php
     //auto complete all aside start, stop
 
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    session_start();
+    if ($_SESSION['user_type'] == 'student'){
+        echo "Student";
+    } elseif ($_SESSION['user_type'] == 'staff') {
+        echo "Staff";
+    } else {
+        echo "Guest";
+    }
 }
 
 ?>

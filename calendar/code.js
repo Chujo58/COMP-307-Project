@@ -457,7 +457,7 @@ function popoutEvent(){
                 results = results[0];
                 results = results.split(',')
                 elem.innerHTML = `
-                <div class='event_inner' event_id=''>
+                <div class='event_inner' event_id='${results[8]}'>
                     <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
                     <div class='event_name'>
                     ${results[0]}
@@ -490,9 +490,9 @@ function popoutEvent(){
             }
         }
     }
-    xhttp.open('POST', `php/show_event_details.php`, false);
+    xhttp.open('GET', `php/show_event_details.php?event_id=${event}`, false);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send(`event_id=${event}`);
+	xhttp.send();
 }
 
 function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID){

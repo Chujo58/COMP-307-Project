@@ -32,7 +32,7 @@
     flex-direction: column;
 }
 
-.course-inner {
+.course_inner {
     display: flex;
     flex-direction: row;
     column-gap: 10px;
@@ -74,4 +74,9 @@
 .addremovebutton:visited {
     text-decoration: none;
     color: white;
+}
+
+.course_tag,
+.course_tag {
+    width: fit-content;
 }

@@ -49,6 +49,14 @@ else {
                 echo "<p>No course selected!</p>";
             }
             break;
+        case "AddCourse":
+            if ($_SESSION['user_type'] == 'staff'){
+                display("matter/addcourse.htm");
+            }
+            else {
+                echo "Invalid user type";
+            }
+            break;
         case "Calendar":
             $userID = isset($_GET['user_id']) ? $_GET["user_id"] : null;
             $use_session = isset($_GET['session']) ? $_GET['session'] : null;

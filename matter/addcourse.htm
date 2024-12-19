@@ -1,48 +1,8 @@
 <header class="staff-header">
-    <div class="left-h">
-        <button class="openbtn" onclick="openNav()">
-            <img src="icons/icons8-menu-win.svg" />
-        </button>
-    </div>
-    <div class="logo">Add Course</div>
+  <div class="left-h">
+    <button class="openbtn" onclick="openNav()">
+      <img src="icons/icons8-menu-win.svg" />
+    </button>
+  </div>
+  <div class="logo">Add Course</div>
 </header>
-
-<div class="container">
-    <div class="main-wrapper">
-        <h2>Add Staff to Course</h2>
-        <form action="php/add_course.php" method="POST">
-            <label for="course_tag">Select Course Tag:</label>
-            <select name="course_tag" id="course_tag" required>
-                <?php
-                // Populate course tags from the database
-                $conn = new mysqli('localhost', 'root', '', 'comp307project');
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-                $result = $conn->query("SELECT DISTINCT course_tag FROM course_list");
-                while ($row = $result->fetch_assoc()) {
-                    echo "<option value='" . $row['course_tag'] . "'>" . $row['course_tag'] . "</option>";
-                }
-                $conn->close();
-                ?>
-            </select>
-            <br><br>
-            
-            <label for="staff_id">Enter Staff ID:</label>
-            <input type="text" name="staff_id" id="staff_id" required>
-            <br><br>
-            
-            <input type="submit" value="Add Staff">
-        </form>
-    </div>
-</div>
-
-<script>
-    function openNav() {
-        document.getElementById("staffdash-sidebar").style.display = "flex";
-    }
-
-    function closeNav() {
-        document.getElementById("staffdash-sidebar").style.display = "none";
-    }
-</script>

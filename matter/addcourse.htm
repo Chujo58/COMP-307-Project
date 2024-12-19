@@ -4,7 +4,7 @@
       <img src="icons/pulsar_line_menu.png" />
     </a>
   </div>
-  <div class="logo">Add/Remove Course</div>
+  <div class="logo">Add Course</div>
 </header>
 
 <div class="container">
@@ -43,22 +43,36 @@
         <div id="message" style="color: red; text-align: center"></div>
 
         <label for="course_tag">Course Tag</label>
-        <input list="course_tags" name="course_tag" id="course_tag" required
-          style="width: auto; padding: 8px; margin: 8px 0" pattern="[A-Za-z]{4}"
-          title="Course tag must be 4 letters." />
+        <input
+          list="course_tags"
+          name="course_tag"
+          id="course_tag"
+          required
+          style="width: auto; padding: 8px; margin: 8px 0"
+          pattern="[A-Za-z]{4}"
+          title="Course tags should be 4 letters."
+        />
 
         <label for="course_id">Course ID</label>
-        <input list="course_ids" name="course_id" id="course_id" required
-          style="width: auto; padding: 8px; margin: 8px 0" pattern="\d{3}" />
-        
-        <label for="course_tag">Course Name</label>
         <input
+          list="course_ids"
+          name="course_id"
+          id="course_id"
+          required
+          style="width: auto; padding: 8px; margin: 8px 0"
+          pattern="\d{3}"
+          title="Course IDs should be 3 digits."
+        />
+
+        <label for="course_name">Course Name</label>
+        <input
+          list="course_name"
           name="course_name"
           id="course_name"
           required
           style="width: auto; padding: 8px; margin: 8px 0"
           pattern="[A-Za-z]"
-          title="Course name must be a short description."
+          title="Course names should be a short description."
         />
 
         <div

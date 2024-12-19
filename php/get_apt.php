@@ -33,7 +33,8 @@ $query = "
         e.event_filter,
         u.f_name, 
         u.l_name,
-        u.user_id
+        u.user_id,
+        u.user
     FROM events e
     JOIN valid_users u ON e.student_id = u.user_id"; 
 
@@ -61,7 +62,8 @@ function echoLikeCSV($array){
     $lname = $array['l_name'];
     $filter = $array['event_filter'];
     $desc = $array['event_desc'];
-    echo "$e_name,$start,$stop,$fname,$lname,$filter,$desc\n";
+    $user = $array['user'];
+    echo "$e_name,$start,$stop,$fname,$lname,$filter,$desc,$user\n";
 }
 
 $result = $conn->query($query);

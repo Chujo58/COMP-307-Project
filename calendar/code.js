@@ -363,7 +363,7 @@ function createBooking(){
     var eventid = window.location.href.split("event_id=")[1];
     var event = document.getElementById(eventid);
     
-    if (start >= event.getAttribute('event_start') && stop <= event.getAttribute('event_stop')){
+    if (start >= new Date(Number(event.getAttribute('event_start'))) && stop <= new Date(Number(event.getAttribute('event_stop')))){
         var type = 'booking';
     } else {
         var type = 'pending';
@@ -371,13 +371,28 @@ function createBooking(){
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
-        if (this.readyState == 4 && this.status == 200){
-            console.log(this.responseText)
-            if (this.responseText == 'Guest'){
-                var elems = document.getElementById('booking-form').querySelectorAll('hidden-form');
-                elems.forEach(element => {
-                    element.classList.remove('hidden-form');
-                });
+        var elem = document.getElementById('event-booking-message');
+        if (this.readyState == 4){
+            if (this.status == 200){
+                if (this.responseText == 'Guest'){
+                    var elems = document.getElementById('booking-form').querySelectorAll('input.hidden-form');
+                    elems.forEach(element => {
+                        element.classList.remove('hidden-form');
+                    });
+                }
+                if (this.responseText == 'Created booking'){
+                    elem.style.color = 'green';
+                    elem.innerHTML = 'Booking created.';
+                    setTimeout(function(){
+                        document.getElementById('calendar').click();
+                    }, 1500);
+                } else {
+                    elem.style.color = 'red';
+                    elem.innerHTML = 'Need additional information';
+                }
+            } else {
+                elem.style.color = 'red';
+                elem.innerHTML = "An error occurred while processing the request.";
             }
         }
     }

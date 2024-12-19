@@ -220,7 +220,6 @@
           } else {
             results.forEach((row) => {
               var data = row.split(",");
-              // console.log(data);
               apt_container.innerHTML += `
                     <div class='event-body'>
                         <div class="event_inner">
@@ -247,6 +246,10 @@
                                 <div class='event_detail'>
                                     <span><img src='icons/pulsar_line_account.png'></span>
                                     ${data[3]} ${data[4]}
+                                </div>
+                                <div class='event_detail'>
+                                    <span><img src='icons/pulsar_line_email.png'></span>
+                                    ${data[7]}
                                 </div>
                                 <div class='event_detail'>
                                     <span><img src='icons/pulsar_line_calendar.png'></span>

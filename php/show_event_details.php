@@ -95,18 +95,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'] ?? '';
 
     // Check responseText and see if Guest or not and add stuff to form if yes
-    if (empty($f_name) || empty($l_name) || $empty($email)){
-        if ($_SESSION['user_type'] == 'staff' || $_SESSION['user_type'] == 'student'){
-            echo 'Logged user';
-        } else {
+    if (empty($f_name) || empty($l_name) || empty($email)){
+        if (!($_SESSION['user_type'] == 'staff' || $_SESSION['user_type'] == 'student')){
             echo 'Guest';
             exit();
         }
     }
 
-    //make fname lname and  email part of desc;
+    if ($_SESSION['user_type'] == 'staff' || $_SESSION['user_type'] == 'student'){
+        $other_id = $_SESSION['user_id'];
+    } else {
+        $other_id = gen_uuid(10);
+        $conn->query("INSERT INTO `valid_users`(`user`,`f_name`,`l_name`,`user_type`,`user_id`) VALUES ('$email','$f_name','$l_name','guest','$other_id')");
+    }
 
-    $query = "INSERT INTO `events`(`event_name`,`event_id`,`event_type`,`event_desc`,`event_start`, `event_stop`, `event_filter`,`staff_id`) VALUES ('$name','$id','$type','$desc','$start','$stop','$filter','$s_id')";
+    $query = "INSERT INTO `events`(`event_name`,`event_id`,`event_type`,`event_desc`,`event_start`, `event_stop`, `event_filter`,`staff_id`, `student_id`) VALUES ('$name','$id','$type','$desc','$start','$stop','$filter','$s_id','$other_id')";
 
     $conn->query($query);
     echo "Created booking";

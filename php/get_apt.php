@@ -76,7 +76,7 @@ header('Content-Type: application/json');
 session_start();
 
 // Connect to SQLite database
-$conn = new SQLite3('comp307project.db'); // Assuming the database file is named 'comp307project.db'
+$conn = new SQLite3('../comp307project.db'); // Assuming the database file is named 'comp307project.db'
 if (!$conn) {
     die("Internal Server Error");
 }

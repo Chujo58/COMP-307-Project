@@ -1,33 +1,35 @@
 <header class="staff-header">
-    <div class="left-h">
-        <button class="openbtn" onclick="openNav()">
-            <img src="icons/icons8-menu-win.svg" />
-        </button>
-    </div>
-    <div class="logo">Main Dashboard</div>
+  <div class="left-h">
+    <button class="openbtn" onclick="openNav()">
+      <img src="icons/icons8-menu-win.svg" />
+    </button>
+  </div>
+  <div class="logo">Main Dashboard</div>
 </header>
 
 <div class="container">
-    <div id="staffdash-sidebar" class="sidebar">
-        <div
-            style="display: flex; flex-direction: row-reverse; align-items: center">
-            <a class="closebtn" onclick="closeNav()">
-                <img src="icons/pulsar_line_close.png" />
-            </a>
-            <a href="#">Main</a>
-        </div>
-        <a href="./index.php?Page=Calendar&session=true"
-            id="aval">Availabilities</a>
-        <a href="#">Courses</a>
-        <a href="#">Add Course</a>
+  <div id="staffdash-sidebar" class="sidebar">
+    <div
+      style="display: flex; flex-direction: row-reverse; align-items: center"
+    >
+      <a class="closebtn" onclick="closeNav()">
+        <img src="icons/pulsar_line_close.png" />
+      </a>
+      <a href="#">Main</a>
     </div>
+    <a href="./index.php?Page=Calendar&session=true" id="aval"
+      >Availabilities</a
+    >
+    <a href="#">Courses</a>
+    <a href="../htm/addcourse.htm">Add Course</a>
+  </div>
 
-    <!-- Calendar and Appointments -->
-    <div class="main-wrapper">
-        <!-- Upcoming Appointments -->
-        <div class="upcoming-appointments">
-            <h2>Upcoming Appointments</h2>
-            <div class="block-container" id="apt-block-container"></div>
+  <!-- Calendar and Appointments -->
+  <div class="main-wrapper">
+    <!-- Upcoming Appointments -->
+    <div class="upcoming-appointments">
+      <h2>Upcoming Appointments</h2>
+      <div class="block-container" id="apt-block-container"></div>
 
             <!-- Weekly Calendar -->
             <br />
@@ -154,7 +156,7 @@
         </div>
     </div>
 
-    <script>
+  <script>
     function openNav() {
       document.getElementById("staffdash-sidebar").style.display = "flex";
     }

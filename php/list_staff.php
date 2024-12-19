@@ -13,7 +13,7 @@ if (empty($courseID)) {
 }
 
 $query = "
-    SELECT vu.l_name, vu.f_name 
+    SELECT vu.l_name, vu.f_name, vu.user_id 
     FROM course_list cl 
     INNER JOIN valid_users vu 
     ON cl.staff_id = vu.user_id 
@@ -30,7 +30,8 @@ if ($result->num_rows == 0) {
     echo "<p>No staff associated with this course!</p>";
 } else {
     while ($row = $result->fetch_assoc()) {
-        echo "<div class='staff-card'>";
+        $event = 'redirectToCalendar(\'' . $row['user_id'] . '\');';
+        echo "<div class='staff-card' onclick=\"" . $event . "\">";
         echo "<h3>" . htmlspecialchars($row['f_name']) . " " . htmlspecialchars($row['l_name']) . "</h3>";
         echo "</div>";
     }

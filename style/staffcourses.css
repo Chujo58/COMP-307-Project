@@ -1,0 +1,36 @@
+.staffcourse-container {
+  width: auto;
+}
+
+.staffcourse-block-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #db292f;
+  align-items: center;
+  width: auto;
+}
+
+.staffcourse-course-container {
+  color: black;
+  margin: 3%;
+  min-height: 15rem;
+  height: auto;
+  width: auto;
+}
+
+.addremovebutton {
+  text-align: center;
+  margin: auto;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+}
+
+.addremovebutton a:hover,
+a:focus,
+a:visited {
+  text-decoration: none;
+  color: white;
+}

@@ -45,17 +45,10 @@ button.openbtn {
   }
 }
 
-.staffcourse-block-container {
+.extra-sidebar {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #db292f;
+  flex-direction: row-reverse;
   align-items: center;
-}
-
-.staffcourse-course-container {
-  color: black;
-  margin: 3%;
 }
 
 .no-event-body {
@@ -219,6 +212,7 @@ button.openbtn {
   border: 1px solid var(--box-highlight);
   border-radius: 8px;
   padding: 1rem;
+  width: 100%;
 }
 
 .event_name {

@@ -52,6 +52,11 @@
     /* height: fit-content; */
 }
 
+.add-event.hidden {
+    margin: 0;
+    padding: 0 !important;
+}
+
 #add_event_btn {
     position: absolute;
     font-family: "DM Serif Text", serif;

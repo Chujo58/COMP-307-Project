@@ -305,6 +305,28 @@ function onLoad(){
     renderTimes();
     loadFilters();
     displayFiltered(true);
+    showCreate();
+}
+
+function showCreate(){
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200){
+            if (this.responseText == "Student"){
+                document.getElementById('add_event_btn').style = 'visibility: hidden;';
+                document.getElementById('calendar-add-placeholder').classList.add('hidden');
+            }
+            else {
+                document.getElementById('add_event_btn').style = 'visibility: visible;';
+                document.getElementById('calendar-add-placeholder').classList.remove('hidden');
+            }
+        }
+    }
+
+    xhttp.open("POST", "php/calendar.php");
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();    
 }
 
 function loadCalendarIcons(){
@@ -342,6 +364,21 @@ function addEvent(){
     xhttp.open("POST", "php/calendar.php");
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}`);
+}
+
+function deleteEvent(id){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (){
+        if (this.readyState == 4 && this.status == 200){
+            console.log(this.responseText);
+            window.history.back();
+            toToday();
+        }
+    }
+    
+    xhttp.open("GET", `php/calendar.php?delete=true&event_id=${id}`);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
 }
 
 /**
@@ -416,7 +453,7 @@ function popoutEvent(){
                 results = results[0];
                 results = results.split(',')
                 elem.innerHTML = `
-                <div class='event_inner'>
+                <div class='event_inner' event_id=''>
                     <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
                     <div class='event_name'>
                     ${results[0]}
@@ -436,11 +473,15 @@ function popoutEvent(){
                             ${results[1]}
                         </div>
                         <div class='event_detail'>
+                            <span><img src='icons/pulsar_line_teacher.png'></span>
+                            ${results[6]}
+                        </div>
+                        <div class='event_detail'>
                             <span><img src='icons/pulsar_line_calendar.png'></span>
                             ${results[4]}
                         </div>
                     </div>
-                    <span class='delete_btn'><img src='icons/pulsar_line_trash.png'></span>
+                    <span class='delete_btn' style='visibility: ${results[8] == 'staff' ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
                 </div>`;
             }
         }

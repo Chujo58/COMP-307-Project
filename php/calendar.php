@@ -40,6 +40,12 @@ function showData($query, $conn){
     }
 }
 
+if (isset($_GET['delete'])){
+    $query = "DELETE FROM events WHERE event_id='" . $_GET["event_id"] . "'";
+    $conn->query($query);
+    echo "Deleted event";
+}
+
 if (isset($_GET['loadFilters'])) {
     $user = $_GET['user'] ?? '';
     $query = "SELECT DISTINCT event_filter FROM events";
@@ -105,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         echo "Created event";
     }
     if ($_SESSION['user_type'] == 'student'){
-
+        echo "Student";
     }
     //For staff:
     //Edit event in php get show_event_details.php to show edit form

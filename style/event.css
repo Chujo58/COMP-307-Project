@@ -1,5 +1,11 @@
 @import './constants.css';
 
+@media screen and (max-device-width: 850px), screen and (max-width: 850px) {
+    .event_time_infos {
+        flex-direction: column !important;
+    }
+}
+
 .event-body {
     display: flex;
     flex-direction: column;

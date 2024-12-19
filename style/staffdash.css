@@ -178,8 +178,8 @@ button.openbtn {
 }
 
 .event_time_infos {
-  flex-direction: column !important;
-  justify-content: flex-start !important;
+  /* flex-direction: column !important;
+  justify-content: flex-start !important; */
   padding: 10px;
 }
 

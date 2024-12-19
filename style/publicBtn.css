@@ -1,3 +1,4 @@
+@import './constants.css';
 .public-btn {
     display: flex;
     padding: 20px;
@@ -16,6 +17,7 @@
     font-family: "DM Serif Text", serif;;
     transition-duration: 0.3s;
     box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
 .public-btn button:hover {
@@ -26,5 +28,5 @@
 .public-btn button:active {
     transform: scale(0.95);
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
-    background-color: hsl(358 60% 45%);
+    background-color: var(--title-text);
 }

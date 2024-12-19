@@ -66,6 +66,7 @@ else {
             $eventID = isset($_GET['event_id']) ? $_GET["event_id"] : null;
             if ($eventID){
                 echo "<script>const eventID ='" . $eventID . "'; window.addEventListener('load', popoutEvent);</script>";
+                echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', forceMobile);</script>";
             }
             display('matter/event.htm');
             break;

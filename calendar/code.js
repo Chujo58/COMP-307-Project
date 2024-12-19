@@ -631,3 +631,10 @@ function changeFilter(){
         displayFiltered(false);
     }
 }
+
+function forceMobile(){
+    toggleSidebar();
+    document.getElementById('sidebar-menu').onclick = "";
+    toggleView();
+    document.getElementById('view-selector').onclick = "";
+}

@@ -6,18 +6,36 @@
     }
 }
 
+.event-columns-box{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#event-calendar-holder {
+    width: auto;
+    margin: 20px;
+    .calendar-holder {
+        width: auto;
+    }
+}
+
+.event-column-holder {
+    display: flex;
+    flex-direction: row;
+}
+
 .event-body {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     font-family: 'Outfit';
-    width: 50%;
-    align-self: center;
+    width: auto;
 
     background: white;
     border-radius: 5px;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 .event_inner {
@@ -33,7 +51,7 @@
 .event_time_infos {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: auto;
     align-items: center;
     justify-content: center;
     font-size: smaller;
@@ -86,4 +104,10 @@
 
 .delete_btn {
     top: 30px;
+}
+
+.calendar-sidebar,
+#calendar-in-event > div,
+#calendar-in-event {
+  border-radius: 8px;
 }

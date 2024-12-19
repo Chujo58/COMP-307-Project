@@ -147,7 +147,7 @@ button.openbtn {
   flex-grow: 1; /* Automatically adjust width */
 }
 
-.calendar-body {
+#calendar-in-staff-dash {
   margin: 15px;
 }
 

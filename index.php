@@ -25,8 +25,18 @@ else {
             display("matter/main.htm");
             break;
         case "Dashboard":
-            echo "<script>window.addEventListener('load', loadLevels); window.addEventListener('load', filterCourses);</script>";
-            display("matter/dashboard.htm");
+            
+            if ($_SESSION['user_type'] == 'student'){
+                echo "<script>window.addEventListener('load', loadLevels); window.addEventListener('load', filterCourses);</script>";
+                display("matter/dashboard.htm");
+            }
+            if ($_SESSION['user_type'] == 'staff'){
+                display("matter/staffdash.htm");
+                echo "<script>window.addEventListener('load', fetchApt);</script>";
+            }
+            else {
+                echo "Invalid user type";
+            }
             break;
         case "StaffList":
             $courseID = isset($_GET["course_id"]) ? $_GET["course_id"] : null; //check course_id provided
@@ -59,10 +69,6 @@ else {
             display('matter/event.htm');
             break;
 
-        case "StaffDash":
-            display("matter/staffdash.htm");
-            echo "<script>window.addEventListener('load', fetchApt);</script>";
-            break;
         default:
             echo "<p>Page not found!</p>";
             break;

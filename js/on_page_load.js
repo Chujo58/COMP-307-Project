@@ -1,7 +1,8 @@
 const menu = `<a class="site-navbar" id="navbar-menu"><img src="./icons/icons8-menu-win.svg"></a>`
 const logo = `<a class="site-navbar" href="./index.php?Page=Home" id="logo" onclick="navbarClick('home');"><img src="./icons/307logo_fixed.svg"></a>`
 const home = `<a class="site-navbar nav-item" href="./index.php?Page=Home" id="home" onclick="navbarClick('home');">Home</a>`
-const calendar = `<a class="site-navbar nav-item" href="./index.php?Page=Calendar&session=true" id="calendar" onclick="navbarClick('calendar');">Calendar</a>`
+const calendar = `<a class="site-navbar nav-item" href="./index.php?Page=Calendar" id="calendar" onclick="navbarClick('calendar');">Calendar</a>`
+const calendar_logged = `<a class="site-navbar nav-item" href="./index.php?Page=Calendar&session=true" id="calendar" onclick="navbarClick('calendar');">Calendar</a>`
 const dashboard = `<a class="site-navbar nav-item" href="./index.php?Page=Dashboard" id="dashboard" onclick="navbarClick('dashboard');">Dashboard</a>`
 const signup = `<a class="utility-navbar nav-item"  id="signup" onclick="navbarClick('signup');">Sign Up</a>`
 const login = `<a class="utility-navbar nav-item"  id="login" onclick="navbarClick('login');">Login</a>`
@@ -59,7 +60,7 @@ function loadNavbar(){
                     window.location.href = "./index.php?Page=Home"; 
                 }
             } else {
-                site_navbar.innerHTML = logo + home + calendar + dashboard;
+                site_navbar.innerHTML = logo + home + calendar_logged + dashboard;
                 utility_navbar.innerHTML = `<div id='user_display'>${response.user}</div>` + logout;
                 reloadActive();
             }

@@ -25,7 +25,6 @@ else {
             display("matter/main.htm");
             break;
         case "Dashboard":
-            
             if ($_SESSION['user_type'] == 'student'){
                 echo "<script>window.addEventListener('load', loadLevels); window.addEventListener('load', filterCourses);</script>";
                 display("matter/dashboard.htm");

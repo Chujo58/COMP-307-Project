@@ -19,7 +19,7 @@
     <a href="./index.php?Page=Calendar&session=true" id="aval"
       >Availabilities</a
     >
-    <a href="./index.php?Page=StaffCourses">Courses</a>
+    <a id="staff_course_ln" href="./index.php?Page=StaffCourses">Courses</a>
     <a href="./index.php?Page=PendingRequests" id="pending">Pending Requests</a>
   </div>
 
@@ -56,7 +56,7 @@
           list="course_name"
           name="course_name"
           id="course_name"
-          required
+          
           pattern="[A-Za-z]"
           title="Course names should be a short description."
         />
@@ -88,10 +88,19 @@
       var messageDiv = document.getElementById("message");
       messageDiv.innerHTML = "";
 
-      if (!courseTag || !courseId || !courseName) {
-        messageDiv.style.color = "red";
-        messageDiv.innerHTML = "Please fill in all fields.";
-        return;
+      if (action == 'add'){
+          if (!courseTag || !courseId || !courseName) {
+            messageDiv.style.color = "red";
+            messageDiv.innerHTML = "Please fill in all fields.";
+            return;
+          }
+      }
+      if (action == 'remove'){
+        if (!courseTag || !courseId) {
+            messageDiv.style.color = "red";
+            messageDiv.innerHTML = "Please fill in all fields.";
+            return;
+          }
       }
 
       // Prepare POST data
@@ -119,6 +128,9 @@
               messageDiv.style.color = "red";
               messageDiv.innerHTML = response;
             }
+            setTimeout(function() {
+                document.getElementById('staff_course_ln').click();
+            }, 500);
           } else {
             messageDiv.style.color = "red";
             messageDiv.innerHTML =

@@ -4,7 +4,7 @@
       <img src="icons/pulsar_line_menu.png" />
     </a>
   </div>
-  <div class="logo">Add Course</div>
+  <div class="logo">Add/Remove Course</div>
 </header>
 
 <div class="container">
@@ -38,20 +38,20 @@
         <input list="course_tags" name="course_tag" id="course_tag" required
           style="width: auto; padding: 8px; margin: 8px 0" pattern="[A-Za-z]{4}"
           title="Course tag must be 4 letters." />
-        <datalist id="course_tags">
+        <!-- <datalist id="course_tags">
           <option value="COMP"></option>
           <option value="ATOC"></option>
           <option value="MATH"></option>
-        </datalist>
+        </datalist> -->
 
         <label for="course_id">Course ID</label>
         <input list="course_ids" name="course_id" id="course_id" required
           style="width: auto; padding: 8px; margin: 8px 0" pattern="\d{3}" title="Course ID must be 3 digits." />
-        <datalist id="course_ids">
+        <!-- <datalist id="course_ids">
           <option value="202"></option>
           <option value="183"></option>
           <option value="222"></option>
-        </datalist>
+        </datalist> -->
 
         <div style="
             display: flex;
@@ -98,51 +98,6 @@
       document.getElementById("staffdash-sidebar").style.display = "none";
     }
 
-    // function submitForm(action) {
-    //   var courseTag = document.getElementById("course_tag").value;
-    //   var courseId = document.getElementById("course_id").value;
-
-    //   var messageDiv = document.getElementById("message");
-    //   messageDiv.innerHTML = ""; // Clear any previous message
-
-    //   if (!courseTag || !courseId) {
-    //     messageDiv.style.color = "red";
-    //     messageDiv.innerHTML = "Please fill in all fields.";
-    //     return;
-    //   }
-
-    //   var formData = new FormData();
-    //   formData.append("action", action);
-    //   formData.append("course_tag", courseTag);
-    //   formData.append("course_id", courseId);
-
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open("POST", "php/addcourse.php", true);
-
-    //   xhr.onreadystatechange = function () {
-    //     if (xhr.readyState == 4) {
-    //       if (xhr.status == 200) {
-    //         var response = xhr.responseText;
-    //         if (response.includes("success")) {
-    //           messageDiv.style.color = "green";
-    //           messageDiv.innerHTML =
-    //             "Course " +
-    //             (action === "add" ? "added" : "removed") +
-    //             " successfully.";
-    //         } else {
-    //           messageDiv.style.color = "red";
-    //           messageDiv.innerHTML = response;
-    //         }
-    //       } else {
-    //         messageDiv.style.color = "red";
-    //         messageDiv.innerHTML =
-    //           "An error occurred while processing the request.";
-    //       }
-    //     }
-    //   };
-
-    //   xhr.send(formData);
-    // }
     function submitForm(action) {
       var courseTag = document.getElementById("course_tag").value;
       var courseId = document.getElementById("course_id").value;

@@ -363,15 +363,26 @@ function createBooking(){
     var eventid = window.location.href.split("event_id=")[1];
     var event = document.getElementById(eventid);
     
+    var elem = document.getElementById('event-booking-message');
     if (start >= new Date(Number(event.getAttribute('event_start'))) && stop <= new Date(Number(event.getAttribute('event_stop')))){
         var type = 'booking';
     } else {
         var type = 'pending';
+        if (start.getDate() != stop.getDate()){
+            elem.style.color = 'red';
+            elem.innerHTML = "Cannot create event. Dates aren't in same day.";
+            return;
+        }
+    
+        if (start <= new Date()){
+            elem.style.color = 'red';
+            elem.innerHTML = "Cannot create event. Date before current date and time";
+            return;
+        }
     }
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
-        var elem = document.getElementById('event-booking-message');
         if (this.readyState == 4){
             if (this.status == 200){
                 if (this.responseText == 'Guest'){
@@ -418,13 +429,28 @@ function addEvent(){
     var desc = getValue('event_desc');
     var filter = getValue('event_filter');
 
+    var elem = document.getElementById('calendar-create-error');
+    if (start.getDate() != stop.getDate()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Dates aren't in same day.";
+        return;
+    }
+
+    if (start <= new Date()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Date before current date and time";
+        return;
+    }
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
         if (this.readyState == 4 && this.status == 200){
             console.log(this.responseText);
             document.getElementById('calendar-create-form').reset();
             document.getElementById('calendar-popup').className='calendar-popup';
-            window.location.reload();
+            setTimeout(function(){
+                window.location.reload();
+            }, 1500);
         }
     }
     xhttp.open("POST", "php/calendar.php");

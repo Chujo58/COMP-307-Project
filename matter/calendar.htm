@@ -74,11 +74,12 @@
             </div>
         </div>
         <div class="calendar-popup" id="calendar-popup">
-            <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup';">
+            <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup'; document.getElementById('calendar-create-form').reset();">
             <form id="calendar-create-form" action="php/calendar.php" method="post">
                 <div class="heading-highlight form-heading">
                     Create availability
                 </div>
+                <div id="calendar-create-error"></div>
                 <input type="text" name="event_name" id="event_name" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
                 <div></div>
                 <div class="form-label">Event Start Date</div>

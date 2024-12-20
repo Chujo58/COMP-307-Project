@@ -483,6 +483,7 @@ function addEvent(){
     var stop = new Date(getValue('event_stop'));
     var desc = getValue('event_desc');
     var filter = getValue('event_filter');
+    var recurrence = getValue('recurrence');
 
     var elem = document.getElementById('calendar-create-error');
     if (start.getDate() != stop.getDate()){
@@ -523,7 +524,7 @@ function addEvent(){
     }
     xhttp.open("POST", "php/calendar.php");
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}`);
+    xhttp.send(`name=${name}&start=${start.getTime()}&stop=${stop.getTime()}&desc=${desc}&filter=${filter}&recurrence=${recurrence}`);
 }
 
 function deleteEvent(id){

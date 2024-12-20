@@ -113,7 +113,32 @@ if (isset($_GET['loadFilters'])) {
 if (isset($_GET['start']) && isset($_GET['stop'])){
     $start = $_GET['start'];
     $stop = $_GET['stop'];
-    $query = "SELECT * FROM events WHERE event_start BETWEEN :start AND :stop";
+
+    $query = "SELECT * FROM events WHERE (
+        event_start BETWEEN :start AND :stop
+        OR (
+            recurrence_rule IS NOT NULL
+            AND (
+                -- Weekly recurrence
+                (recurrence_rule = 'weekly' 
+                AND (
+                    julianday(:start) >= julianday(event_start)
+                    AND (CAST((julianday(:start) - julianday(event_start)) / 7 AS INTEGER)) >= 0
+                ))
+                OR
+                -- Daily recurrence
+                (recurrence_rule = 'daily'
+                AND julianday(:start) >= julianday(event_start))
+                OR
+                -- Monthly recurrence
+                (recurrence_rule = 'monthly'
+                AND (
+                    julianday(:start) >= julianday(event_start)
+                    AND strftime('%d', :start) = strftime('%d', event_start)
+                ))
+            )
+        )
+    )";
 
     $filter = $_GET['filter'] ?? '';
     $user = $_GET['user'] ?? '';
@@ -132,6 +157,7 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
     $stmt = $conn->prepare($query);
     $stmt->bindValue(':start', $start, SQLITE3_TEXT);
     $stmt->bindValue(':stop', $stop, SQLITE3_TEXT);
+    
     if (!empty($filter)) {
         $stmt->bindValue(':filter', $filter, SQLITE3_TEXT);
     }
@@ -158,6 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $stop = $_POST['stop'] ?? '';
         $desc = $_POST['desc'] ?? '';
         $filter = $_POST['filter'] ?? '';
+        $recurrence = $_POST['recurrence'] ?? '';
 
         $id = gen_uuid(10);
         $type = 'availability';
@@ -174,15 +201,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             exit();
         }
 
-        $stmt = $conn->prepare("INSERT INTO events (event_name, event_id, event_recurrance, event_type, event_desc, event_start, event_stop, event_filter, staff_id, student_id) VALUES (:name, :id, '', :type, :desc, :start, :stop, :filter, :staff_id, '')");
+        $stmt = $conn->prepare("INSERT INTO events (event_name, event_id, event_recurrance, event_type, event_desc, event_start, event_stop, event_filter, staff_id, student_id) VALUES (:name, :id, :recurrence, :type, :desc, :start, :stop, :filter, :staff_id, '')");
         $stmt->bindValue(':name', $name, SQLITE3_TEXT);
         $stmt->bindValue(':id', $id, SQLITE3_TEXT);
+        $stmt->bindValue(':recurrence', $recurrence, SQLITE3_TEXT);
         $stmt->bindValue(':type', $type, SQLITE3_TEXT);
         $stmt->bindValue(':desc', $desc, SQLITE3_TEXT);
         $stmt->bindValue(':start', $start, SQLITE3_TEXT);
         $stmt->bindValue(':stop', $stop, SQLITE3_TEXT);
         $stmt->bindValue(':filter', $filter, SQLITE3_TEXT);
         $stmt->bindValue(':staff_id', $s_id, SQLITE3_TEXT);
+
 
         $stmt->execute();
         echo "Created event";

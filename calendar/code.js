@@ -553,7 +553,23 @@ function popoutEvent(){
             if (elem != null){
                 results = this.responseText.split('\\n');
                 results = results[0];
-                results = results.split(',')
+                results = results.split(',');
+                var accounts_info = results[9] != 'availability' ? `
+                    <div class='event_detail'>
+                        <span><img src='icons/pulsar_line_account.png'></span>
+                        ${results[7]}
+                    </div>
+                    <div class='event_detail'>
+                        <span><img src='icons/pulsar_line_email.png'></span>
+                        ${results[10]}
+                    </div>
+                ` : `
+                    <div class='event_detail'>
+                        <span><img src='icons/pulsar_line_teacher.png'></span>
+                        ${results[6]}
+                    </div>
+                `;
+
                 elem.innerHTML = `
                 <div class='event_inner' id='${results[5]}' event_start='${results[2]}' event_stop='${results[3]}' event_type='${results[9]}'>
                     <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
@@ -574,10 +590,7 @@ function popoutEvent(){
                             <span><img src='icons/pulsar_line_multitext.png'></span>
                             ${results[1]}
                         </div>
-                        <div class='event_detail'>
-                            <span><img src='icons/pulsar_line_teacher.png'></span>
-                            ${results[6]}
-                        </div>
+                        ${accounts_info}
                         <div class='event_detail'>
                             <span><img src='icons/pulsar_line_calendar.png'></span>
                             ${results[4]}

@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         exit();
     }
 
-    function echoLikeCSV($array, $staff, $student)
+    function echoLikeCSV($array, $staff, $student, $student_email)
     {
-        echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . ',' . $array['event_type'] . '\n';
+        echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . ',' . $array['event_type'] . ',' . $student_email . '\n';
     }
 
     $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_id, staff_id, student_id, event_type FROM events WHERE event_id = :event_id";
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     } else {
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $query_staid = "SELECT f_name, l_name from valid_users WHERE user_id=:staff_id";
-            $query_stud = "SELECT f_name, l_name from valid_users WHERE user_id=:student_id";
+            $query_stud = "SELECT f_name, l_name, user from valid_users WHERE user_id=:student_id";
 
             $stmt_staid = $conn->prepare($query_staid);
             $stmt_staid->bindValue(':staff_id', $row['staff_id'], SQLITE3_TEXT);
@@ -61,11 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
             if ($student_result != null) {
                 $student = $student_result['f_name'] . ' ' . $student_result['l_name'];
+                $student_email = $student_result['user'];
             } else {
                 $student = '';
+                $student_email = '';
             }
 
-            echoLikeCSV($row, $staff, $student);
+            echoLikeCSV($row, $staff, $student, $student_email);
         }
     }
 }

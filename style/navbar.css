@@ -128,6 +128,10 @@
   align-items: center;
 }
 
+
+.active.nav-item{
+  color: black;
+}
 .active.nav-item::before {
   background: linear-gradient(180deg, transparent 50%, var(--active-nav) 50%);
 }

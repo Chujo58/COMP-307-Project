@@ -19,7 +19,6 @@ header.staff-header {
 }
 
 button.openbtn {
-  background-color: var(--title-text-gradient);
   border-radius: 4px;
 }
 
@@ -140,6 +139,7 @@ button.openbtn {
   width: 30px;
   margin-left: auto;
   cursor: pointer;
+  background-color: var(--title-text);
 }
 
 .openbtn:hover {

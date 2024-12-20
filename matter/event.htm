@@ -145,26 +145,20 @@
 </div>
 
 <script>
-    // Fetch event details from the server
-    function fetchEventDetails(eventID) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `php/show_event_details.php?event_id=${eventID}`, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = xhr.responseText.trim().split(',');
-                const eventType = response[4] ?? ''; // Event type is at index 4 in CSV
-                if (eventType === 'availability') {
-                    // Show the form if event type is 'availability'
-                    document.getElementById('booking-form').style.display = 'block';
+    const eventID = new URLSearchParams(window.location.search).get('event_id');
+    
+    if (eventID) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                const response = this.responseText.trim();
+                if (response === 'availability') {
+                    document.getElementById('booking-form').style.display = 'block'; // Show form
                 }
             }
         };
-        xhr.send();
-    }
-
-    // Get event_id from URL and fetch event details
-    const eventID = new URLSearchParams(window.location.search).get('event_id');
-    if (eventID) {
-        fetchEventDetails(eventID);
+        xhttp.open('GET', `php/show_event_details.php?event_id=${eventID}`, true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.send();
     }
 </script>

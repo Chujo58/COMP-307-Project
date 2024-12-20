@@ -185,6 +185,7 @@
     // Function to toggle the booking form based on the event type
     function toggleBookingForm(eventType) {
         const bookingForm = document.getElementById("booking-form");
+        console.log("Event type received:", eventType); // Debug log to ensure we see what type we receive
         if (eventType === "availability") {
             bookingForm.style.display = "block"; // Show the form
         } else {
@@ -198,8 +199,11 @@
         xhr.open("GET", `php/show_event_details.php?event_id=${eventID}`, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = xhr.responseText.trim().split(',');
-                const eventType = response[4] ?? ''; // event_type is at index 4
+                const response = xhr.responseText.trim(); 
+                console.log("Raw server response:", response); // Debug
+                const responseArray = response.split(',');
+                const eventType = responseArray[4]?.trim(); // Get the event_type and remove any extra whitespace
+                console.log("Parsed event type:", eventType); // Debug
                 toggleBookingForm(eventType);
             }
         };

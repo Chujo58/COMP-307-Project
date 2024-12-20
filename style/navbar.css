@@ -1,9 +1,7 @@
 @import "./constants.css";
-/* NAVIGATION BAR */
 .navbar {
   height: 5.875vw;
   background-color: white;
-  /* overflow: hidden; */
   display: flex;
   flex-direction: row;
   align-content: space-between;

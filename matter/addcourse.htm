@@ -27,8 +27,7 @@
     <div class="main-dashboard-container">
       <form id="course-form" method="POST">
         <h2>Course Selection</h2>
-
-        <!-- Message area (for errors or success) -->
+        
         <div id="message"></div>
 
         <label for="course_tag">Course Tag</label>
@@ -107,14 +106,12 @@
           }
       }
 
-      // Prepare POST data
       var formData = new FormData();
       formData.append("action", action);
       formData.append("course_tag", courseTag);
       formData.append("course_id", courseId);
       formData.append("course_name", courseName);
 
-      // Create AJAX request
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "php/addcourse.php", true);
 

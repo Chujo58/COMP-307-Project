@@ -623,6 +623,7 @@ function popoutEvent(){
                             ${formatTimes(new Date(Number(results[2])), new Date(Number(results[3])))}
                         </div>
                     </div>
+                    ${new Date().getTime() > Number(results[3]) ? "<h2 class='event_over'>Event Over</h2>" : ""}
                     <div class='event_details_holder'>
                         <div class='event_detail'>
                             <span><img src='icons/pulsar_line_multitext.png'></span>

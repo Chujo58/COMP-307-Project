@@ -32,11 +32,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     {
         echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_type'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . '\n';
     }
-
+    // HELP for echo above and $query below added event_type
     $query = "SELECT event_name, event_desc, event_start, event_stop, event_type, event_filter, event_id, staff_id, student_id FROM events WHERE event_id = :event_id";
     $stmt = $conn->prepare($query);
     $stmt->bindValue(':event_id', $eventID, SQLITE3_TEXT);
     $result = $stmt->execute();
+
+    //HELP added this check
+    if ($result) {
+        $row = $result->fetchArray(SQLITE3_ASSOC);
+        if ($row && isset($row['event_type'])) {
+            echo $row['event_type']; // Return only the event_type
+        } else {
+            echo "Error: Event not found.";
+        }
+    } else {
+        echo "Error: Query failed.";
+    }
 
     if ($result->numColumns() == 0) {
         echo "<p>The event selected doesn't exist or has been deleted.</p>";

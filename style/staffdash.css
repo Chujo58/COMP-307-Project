@@ -328,3 +328,6 @@ button.openbtn {
   font-size: 1.5rem;
   color: var(--title-text);
 }
+
+.staff-header {
+  background: var(--background);}

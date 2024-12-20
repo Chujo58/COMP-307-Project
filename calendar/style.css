@@ -1,5 +1,6 @@
 :root {
-    --calendar-font-size: clamp(25px, 2.35vw, 2.35vw); /*Basically a 4vh for a 13in screen*/
+    /* --calendar-font-size: clamp(25px, 2.35vw, 2.35vw); Basically a 4vh for a 13in screen */
+    --calendar-font-size: max(25px, 2.35vw);
     --default-padding: calc(0.5 * var(--calendar-font-size));
 
     --box:hsl(358 22% 25% / 50%);

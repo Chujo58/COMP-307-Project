@@ -113,7 +113,7 @@
 .close_btn,
 .delete_btn {
     position: relative;
-    width: 5%;
+    width: max(30px, 5%);
     display: block;
     margin-left: auto;
     cursor: pointer;

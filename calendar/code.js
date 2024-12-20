@@ -808,9 +808,11 @@ function forceMobile(){
     }
     
     sidebar_menu.onclick = "";
-    sidebar_menu.style.cursor = 'not-allowed';
+    // sidebar_menu.style.cursor = 'not-allowed';
     view_selector.onclick = "";
-    view_selector.style.cursor = 'not-allowed';
+    // view_selector.style.cursor = 'not-allowed';
+    sidebar_menu.style.display = 'none';
+    view_selector.style.display = 'none';
 }
 
 function getUserNames(userID){

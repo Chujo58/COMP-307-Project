@@ -30,10 +30,12 @@
 
 .booking {
     background: lightgreen !important;
+    cursor: not-allowed !important;
 }
 
 .pending {
     background: lightcoral !important;
+    cursor: not-allowed !important;
 }
 
 #calendar_user_name {

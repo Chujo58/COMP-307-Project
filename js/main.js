@@ -304,13 +304,13 @@ function toggleNavbar(){
 	var icon = document.getElementById('navbar-menu-icon');
 	if (navbar.classList.contains('hidden')){
 		navbar.classList.remove('hidden');
-		icon.innerHTML = "<img src='icons/icons8-close-win.svg'>";
+		icon.innerHTML = "<img src='icons/pulsar_color_close_nav.png'>";
 		icon.classList.remove('show');
 		return;
 	}
 	else {
 		navbar.classList.add('hidden');
-		icon.innerHTML = "<img src='icons/icons8-menu-win.svg'>";
+		icon.innerHTML = "<img src='icons/pulsar_color_menu_nav.png'>";
 		icon.classList.add('show');
 		return;
 	}

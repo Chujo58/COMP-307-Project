@@ -14,9 +14,9 @@
 @import "./publicBtn.css";
 @import "./pending.css";
 
-html {
+/* html {
   scrollbar-color: var(--scroll-color) var(--navbar-color);
-}
+} */
 
 *::selection {
   background: var(--text-highlight);

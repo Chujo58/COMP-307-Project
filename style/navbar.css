@@ -17,6 +17,10 @@
   margin-top: 0 !important;
 }
 
+#navbar-menu-icon img:hover {
+  filter: brightness(0);
+}
+
 #navbar-menu-icon {
   display: none;
 
@@ -28,6 +32,7 @@
 
   cursor: pointer;
   img {
+    transition: all 0.3s ease-in-out;
     width: 30px;
     height: 30px;
   }
@@ -80,6 +85,8 @@
   font-weight: 400;
   /* font-size: 1.47vw; */
   font-size: clamp(16px, 1.47vw, 1.47vw);
+
+  transition: all 0.3s ease-in-out;
 }
 
 .nav-item::before {
@@ -88,7 +95,7 @@
   height: 50%;
   width: 100%;
   display: block;
-  z-index: 0;
+  z-index: -5;
 
   position: absolute;
   transition: all 0.3s ease;
@@ -99,8 +106,11 @@
   );
 }
 
+.nav-item:hover {
+  color: black;
+}
+
 .nav-item:hover::before {
-  transition: all 0.3s ease;
   height: 100%;
 }
 
@@ -120,7 +130,6 @@
 
 .active.nav-item::before {
   background: linear-gradient(180deg, transparent 50%, var(--active-nav) 50%);
-  z-index: 0;
 }
 
 #logo {
@@ -130,10 +139,16 @@
 
   flex-direction: column;
   align-self: center;
-  /* filter: opacity(0.5) drop-shadow(0 0 0 var(--box-highlight)); */
-  filter: invert();
+  filter: invert() opacity(0.65) drop-shadow(0 0 0 var(--navbar-text));
 
   padding-left: 1vh;
+  padding-right: 1vh;
+  transition: all 0.3s ease-in;
+}
+
+#logo:hover {
+  z-index: 5;
+  filter: none;
 }
 
 #user_display {
@@ -150,7 +165,7 @@
 
   z-index: 5;
   text-decoration: none;
-  color: var(--text);
+  color: var(--navbar-text);
   font-family: "Outfit", sans-serif;
   font-weight: 400;
   /* font-size: 2.5vh; */

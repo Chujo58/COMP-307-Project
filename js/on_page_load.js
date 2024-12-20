@@ -21,6 +21,7 @@ function loadNavbar() {
 
     // Reload active state for public pages
     reloadActive(currentPage);
+    toggleNavbar();
 
     // Check for valid session
     var xhttp = new XMLHttpRequest();

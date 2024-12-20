@@ -20,11 +20,11 @@
 
     --box-background: hsl(358 71% 51% / 5%);
 
-    --inactive-nav: rgba(255, 255, 255, 0.35);
-    --active-nav: hsl(358 71% 51% / 50%);
+    --inactive-nav: hsla(0, 0%, 20%, 0.5);
+    --active-nav: hsla(0, 0%, 40%, 0.5);
 
 
-    --navbar-color: black;
-    --navbar-text: white;
-    --scroll-color: rgba(0, 0, 0, 0.5);
+    --navbar-color: var(--title-text);
+    --navbar-text: #F5F5F5;
+    --scroll-color: var(--navbar-text);
 }

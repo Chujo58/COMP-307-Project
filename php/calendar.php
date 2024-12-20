@@ -120,21 +120,21 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
             recurrence_rule IS NOT NULL
             AND (
                 -- Weekly recurrence
-                (recurrence_rule = 'weekly' 
+                (recurrence_rule = 'weekly'
                 AND (
-                    julianday(:start) >= julianday(event_start)
-                    AND (CAST((julianday(:start) - julianday(event_start)) / 7 AS INTEGER)) >= 0
+                    :start >= event_start
+                    AND ((:start - event_start) % (7 * 24 * 60 * 60) = 0) -- Weekly interval
                 ))
                 OR
                 -- Daily recurrence
                 (recurrence_rule = 'daily'
-                AND julianday(:start) >= julianday(event_start))
+                AND :start >= event_start)
                 OR
                 -- Monthly recurrence
                 (recurrence_rule = 'monthly'
                 AND (
-                    julianday(:start) >= julianday(event_start)
-                    AND strftime('%d', :start) = strftime('%d', event_start)
+                    :start >= event_start
+                    AND strftime('%d', datetime(:start, 'unixepoch')) = strftime('%d', datetime(event_start, 'unixepoch'))
                 ))
             )
         )
@@ -157,7 +157,7 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
     $stmt = $conn->prepare($query);
     $stmt->bindValue(':start', $start, SQLITE3_TEXT);
     $stmt->bindValue(':stop', $stop, SQLITE3_TEXT);
-    
+
     if (!empty($filter)) {
         $stmt->bindValue(':filter', $filter, SQLITE3_TEXT);
     }

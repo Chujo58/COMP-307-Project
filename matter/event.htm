@@ -143,6 +143,7 @@
     </div>
 </div> -->
     <div class="event-columns-box" style="width: 35%;">
+        <!-- Booking form is hidden by default -->
         <form action="php/calendar.php" method="post" id="booking-form" style="display: none;">
             <div class="heading-highlight form-heading">
                 Create booking
@@ -164,6 +165,7 @@
             <input type="text" name="event_filter" id="event_filter_book" placeholder="Course Name"
                 onfocusout="isFieldEmpty('event_filter')">
             <div></div>
+
             <input type="text" class="hidden-form" name="fname" id="fname_book" placeholder="First Name"
                 onfocusout="isFieldEmpty('fname')">
             <div></div>
@@ -173,13 +175,14 @@
             <input type="email" class="hidden-form" name="email" id="email_book" placeholder="Email"
                 onfocusout="isFieldEmpty('email')">
             <div></div>
+
             <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
         </form>
     </div>
 </div>
 
 <script>
-    // Function to toggle the visibility of the booking form
+    // Function to toggle the booking form based on the event type
     function toggleBookingForm(eventType) {
         const bookingForm = document.getElementById("booking-form");
         if (eventType === "availability") {
@@ -189,23 +192,21 @@
         }
     }
 
-    // Fetch event details dynamically and toggle the form based on event type
+    // Fetch event details from the backend and show/hide booking form
     function fetchEventDetails(eventID) {
-        // Example AJAX request to fetch event details
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", `php/get_event.php?event_id=${eventID}`, true);
+        xhr.open("GET", `php/show_event_details.php?event_id=${eventID}`, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                const eventDetails = JSON.parse(xhr.responseText);
-                if (eventDetails && eventDetails.event_type) {
-                    toggleBookingForm(eventDetails.event_type);
-                }
+                const response = xhr.responseText.trim().split(',');
+                const eventType = response[4] ?? ''; // event_type is at index 4
+                toggleBookingForm(eventType);
             }
         };
         xhr.send();
     }
 
-    // Example initialization to fetch event details
+    // Example initialization to fetch event details when the page loads
     const eventID = new URLSearchParams(window.location.search).get("event_id");
     if (eventID) {
         fetchEventDetails(eventID);

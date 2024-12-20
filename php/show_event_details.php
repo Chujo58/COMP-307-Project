@@ -30,10 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     function echoLikeCSV($array, $staff, $student)
     {
-        echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . '\n';
+        echo $array['event_name'] . ',' 
+        . $array['event_desc'] . ',' 
+        . $array['event_start'] . ',' 
+        . $array['event_stop'] . ',' 
+        . $array['event_type'] . ',' //Added event-type for form visibility
+        . $array['event_filter'] . ',' 
+        . $array['event_id'] . ',' 
+        . $staff . ',' 
+        . $student 
+        . ',' . $_SESSION['user_type'] . '\n';
     }
 
-    $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_id, staff_id, student_id FROM events WHERE event_id = :event_id";
+    $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_type, event_id, staff_id, student_id FROM events WHERE event_id = :event_id";
     $stmt = $conn->prepare($query);
     $stmt->bindValue(':event_id', $eventID, SQLITE3_TEXT);
     $result = $stmt->execute();

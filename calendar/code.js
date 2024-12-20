@@ -373,6 +373,11 @@ function createBooking(){
             elem.innerHTML = "Cannot create event. Dates aren't in same day.";
             return;
         }
+
+        if (start >= stop){
+            elem.style.color = 'red'
+            elem.innerHTML = "Cannot create event. End time after start time.";
+        }
     
         if (start <= new Date()){
             elem.style.color = 'red';
@@ -434,6 +439,11 @@ function addEvent(){
         elem.style.color = 'red';
         elem.innerHTML = "Cannot create event. Dates aren't in same day.";
         return;
+    }
+
+    if (start >= stop){
+        elem.style.color = 'red'
+        elem.innerHTML = "Cannot create event. End time after start time.";
     }
 
     if (start <= new Date()){

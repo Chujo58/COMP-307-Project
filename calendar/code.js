@@ -4,6 +4,7 @@ currMonth = date.getMonth();
 
 let selectedDate = date;
 let displayedDates = null;
+let loadedInMobile = false;
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const short_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -258,6 +259,9 @@ function renderTimes(){
  * On window load function.
  */
 function onLoad(){
+    if (loadedInMobile){
+        return;
+    }
     prevNextIcons = document.querySelectorAll(".icons span");
     prevNextIcons.forEach(icon => {
         if (!icon.id.includes("week")){
@@ -834,6 +838,7 @@ function getUserNames(userID){
 
 function turnMobile(x, daily, sidebar_check=true){
     if (x.matches){
+        onLoad();
         var sidebar = document.getElementById("sidebar");
         if (!sidebar.classList.contains('hidden') && sidebar_check){
             document.getElementById("sidebar-menu").click();
@@ -843,14 +848,19 @@ function turnMobile(x, daily, sidebar_check=true){
         } else if (!daily && document.getElementById('view-selector').innerHTML.includes('Day')) {
             document.getElementById('view-selector').click();
         }
+        loadedInMobile = true;
     }
 }
 
-var mediaUnder750 = window.matchMedia('screen and (max-device-width: 900px), screen and (max-width: 900px)');
+var mediaUnder750 = window.matchMedia('screen and (min-device-width: 551px), screen and (min-width: 551px)');
 var mediaUnder500 = window.matchMedia('screen and (max-device-width: 550px), screen and (max-width: 550px)');
 
 mediaUnder750.addEventListener("change", function(){ turnMobile(mediaUnder750, false); })
 mediaUnder500.addEventListener("change", function(){ turnMobile(mediaUnder500, true); })
 
-window.addEventListener('load', function(){ turnMobile(mediaUnder750, false); })
-window.addEventListener('load', function(){ turnMobile(mediaUnder500, true); })
+window.addEventListener('load', function(){ 
+    turnMobile(mediaUnder750, false); 
+});
+window.addEventListener('load', function(){ 
+    turnMobile(mediaUnder500, true); 
+});

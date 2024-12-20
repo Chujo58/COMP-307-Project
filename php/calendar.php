@@ -70,7 +70,7 @@ if (isset($_GET['loadFilters'])) {
     $user = $_GET['user'] ?? '';
     $query = "SELECT DISTINCT event_filter FROM events";
     if (!empty($user)) {
-        $query .= " WHERE (staff_id = :user OR student_id = :user)";
+        $query .= " WHERE staff_id = :user OR student_id = :user";
     }
     $query .= " ORDER BY event_filter";
 

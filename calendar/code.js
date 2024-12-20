@@ -363,15 +363,32 @@ function createBooking(){
     var eventid = window.location.href.split("event_id=")[1];
     var event = document.getElementById(eventid);
     
+    var elem = document.getElementById('event-booking-message');
     if (start >= new Date(Number(event.getAttribute('event_start'))) && stop <= new Date(Number(event.getAttribute('event_stop')))){
         var type = 'booking';
     } else {
         var type = 'pending';
+        if (start.getDate() != stop.getDate()){
+            elem.style.color = 'red';
+            elem.innerHTML = "Cannot create event. Dates aren't in same day.";
+            return;
+        }
+
+        if (start >= stop){
+            elem.style.color = 'red'
+            elem.innerHTML = "Cannot create event. End time after start time.";
+            return;
+        }
+    
+        if (start <= new Date()){
+            elem.style.color = 'red';
+            elem.innerHTML = "Cannot create event. Date before current date and time";
+            return;
+        }
     }
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
-        var elem = document.getElementById('event-booking-message');
         if (this.readyState == 4){
             if (this.status == 200){
                 if (this.responseText == 'Guest'){
@@ -418,13 +435,33 @@ function addEvent(){
     var desc = getValue('event_desc');
     var filter = getValue('event_filter');
 
+    var elem = document.getElementById('calendar-create-error');
+    if (start.getDate() != stop.getDate()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Dates aren't in same day.";
+        return;
+    }
+
+    if (start >= stop){
+        elem.style.color = 'red'
+        elem.innerHTML = "Cannot create event. End time after start time.";
+    }
+
+    if (start <= new Date()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Date before current date and time";
+        return;
+    }
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
         if (this.readyState == 4 && this.status == 200){
             console.log(this.responseText);
             document.getElementById('calendar-create-form').reset();
             document.getElementById('calendar-popup').className='calendar-popup';
-            window.location.reload();
+            setTimeout(function(){
+                window.location.reload();
+            }, 1500);
         }
     }
     xhttp.open("POST", "php/calendar.php");
@@ -451,7 +488,7 @@ function deleteEvent(id){
  * @param {Date} day Day to show events
  * @param {boolean} weeklyView Is weekly view toggled on.
  */
-function showEvents(day, weeklyView, filter, user){
+function showEvents(day, weeklyView, filter, user, type){
     var weekday_index = weeklyView ? day.getDay() : 0;
     var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
     var stop_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()+1).getTime();
@@ -473,7 +510,7 @@ function showEvents(day, weeklyView, filter, user){
         }
     }
 
-    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}`, 'true');
+    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}&type=${type}`, 'true');
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
@@ -570,7 +607,8 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     if (!column) {
         return;
     }
-    var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
+    // var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
+    var redirect_data = `redirectToEvent("${eventID}");`
 
     column.innerHTML += `<div class='event ${eventType}' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
 }
@@ -593,16 +631,16 @@ function generateTimeCols(numCols){
     }
 }
 
-function displayEventForCurrView(weeklyView, filter, user){
+function displayEventForCurrView(weeklyView, filter, user, type){
     if (weeklyView){
         var i = 0;
         while (i < 7){
             new_date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay() + i);
-            showEvents(new_date, true, filter, user);
+            showEvents(new_date, true, filter, user, type);
             i++;
         }
     } else {
-        showEvents(selectedDate, false, filter, user);
+        showEvents(selectedDate, false, filter, user, type);
     }
 }
 
@@ -668,12 +706,9 @@ function loadFilters(){
 }
 
 function displayFiltered(weekly){
-    var user = "";
-    if (typeof userID === 'undefined' || !userID){
-        user = "";
-    } else {
-        user = userID;
-    }
+    var user = (typeof userID === 'undefined' || !userID) ? '' : userID;
+    var type = (typeof eventType === 'undefined' || !eventType) ? '' : eventType;
+    
     var filters = document.querySelectorAll('div.filter');
     var clicked_filters = [];
     filters.forEach(filter => {
@@ -685,7 +720,7 @@ function displayFiltered(weekly){
 
     clearView();
     clicked_filters.forEach(filter_id => {
-        displayEventForCurrView(weekly, filter_id, user);       
+        displayEventForCurrView(weekly, filter_id, user, type);       
     });
 }
 

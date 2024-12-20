@@ -6,7 +6,7 @@
 }
 
 .calendar-sidebar,
-#calendar-in-staff-dash > div,
+#calendar-in-staff-dash>div,
 #calendar-in-staff-dash {
   border-radius: 8px;
 }
@@ -19,7 +19,6 @@ header.staff-header {
 }
 
 button.openbtn {
-  background-color: var(--title-text-gradient);
   border-radius: 4px;
 }
 
@@ -37,11 +36,23 @@ button.openbtn {
   align-items: center;
   justify-content: center;
 
-  .event-body {
+  .staff-event-body {
     align-self: flex-start !important;
-    width: auto;
+    width: 100%;
     margin: 0 2% 0 2%;
   }
+}
+
+.staff-event-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: 'Outfit';
+
+  background: white;
+  border-radius: 5px;
+  /* margin: 20px; */
 }
 
 .extra-sidebar {
@@ -114,7 +125,7 @@ button.openbtn {
   margin-left: auto;
 }
 
-.closebtn > img {
+.closebtn>img {
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -123,7 +134,7 @@ button.openbtn {
   filter: opacity(0.4) drop-shadow(0 0 0 var(--title-text));
 }
 
-.closebtn:hover > img {
+.closebtn:hover>img {
   filter: invert();
 }
 
@@ -140,17 +151,33 @@ button.openbtn {
   width: 30px;
   margin-left: auto;
   cursor: pointer;
+  background-color: var(--title-text);
+}
+
+.openbtn.none {
+  text-decoration: none;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  height: 30px;
+  width: 30px;
+  cursor: default !important;
+  background: none !important;
+}
+
+.none:hover {
+  background: none;
 }
 
 .openbtn:hover {
   background-color: black;
   color: #fff;
+
   img {
     filter: invert();
   }
 }
 
-.openbtn > img {
+.openbtn>img {
   width: 100%;
   height: 100%;
   align-self: center;
@@ -215,8 +242,8 @@ button.openbtn {
 }
 
 .event_time_infos {
-  padding-right: 35px;
-  padding-left: 5px;
+  /* padding-right: 35px;
+  padding-left: 5px; */
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -245,11 +272,12 @@ button.openbtn {
     width: auto;
     padding: 0rem !important;
   }
+
   .main-wrapper {
     width: auto;
   }
 
-  .event-body {
+  .staff-event-body {
     margin: 2% 0 2% 0 !important;
   }
 
@@ -265,6 +293,7 @@ button.openbtn {
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    width: 100%;
   }
 
   .staffcourse-block-container {
@@ -299,3 +328,6 @@ button.openbtn {
   font-size: 1.5rem;
   color: var(--title-text);
 }
+
+.staff-header {
+  background: var(--background);}

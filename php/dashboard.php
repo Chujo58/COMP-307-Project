@@ -32,7 +32,7 @@ $nameFilter = $_POST['course-name'] ?? '';
 $idFilter = $_POST['course-id'] ?? '';
 $levelFilter = $_POST['course-level'] ?? '';
 
-$query = "SELECT course_name, course_id FROM course_list WHERE 1";
+$query = "SELECT course_name, course_id, course_tag FROM course_list WHERE 1";
 $count_query = "SELECT COUNT(*) FROM course_list WHERE 1";
 
 // Apply filters if provided
@@ -73,9 +73,9 @@ if ($conn->query($count_query)->fetchArray(SQLITE3_NUM)[0] == 0) {
         }
 
         // Make the course block clickable with a link to `list_staff.htm`
-        echo "<div class='box course-block' onclick=\"redirectToStaffList({$row['course_id']})\">";
-        echo "<h3 class='heading-higlight'>" . htmlspecialchars($row['course_name']) . "</h3>";
-        echo "<p>Course ID: " . htmlspecialchars($row['course_id']) . "</p>";
+        echo "<div class='course-block' onclick=\"redirectToStaffList({$row['course_id']})\">";
+        echo "<h3>" . htmlspecialchars($row['course_name']) . "</h3>";
+        echo "<div class='course_inner'>Course reference: " . '<div class="course_tag">' . htmlspecialchars($row['course_tag']) . '</div>' . '<div class="course_id">' . htmlspecialchars($row['course_id']) . '</div>' . "</div>";
         echo "</div>";
 
         $index++;

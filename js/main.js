@@ -253,6 +253,14 @@ function filterCourses() {
     const courseID = document.getElementById('course-id').value;
     const courseLevel = document.getElementById('course-level').value;
 
+    const patternID = /^\d{3}([A-Z]\d)?$/;
+    if (!patternID.test(courseID) && courseID != ''){
+        document.getElementById('course-id-error-dashboard').style.color = 'red';
+        document.getElementById('course-id-error-dashboard').innerHTML = 'Invalid format. Should match 3 digits, or 3 digits followed by one uppercase letter and one digit.';   
+        return;
+    }
+    document.getElementById('course-id-error-dashboard').innerHTML = '';
+
     const queryParams = `course-name=${encodeURIComponent(courseName)}&course-id=${encodeURIComponent(courseID)}&course-level=${encodeURIComponent(courseLevel)}`;
 
     const xhttp = new XMLHttpRequest();
@@ -304,13 +312,13 @@ function toggleNavbar(){
 	var icon = document.getElementById('navbar-menu-icon');
 	if (navbar.classList.contains('hidden')){
 		navbar.classList.remove('hidden');
-		icon.innerHTML = "<img src='icons/icons8-close-win.svg'>";
+		icon.innerHTML = "<img src='icons/pulsar_color_close_nav.png'>";
 		icon.classList.remove('show');
 		return;
 	}
 	else {
 		navbar.classList.add('hidden');
-		icon.innerHTML = "<img src='icons/icons8-menu-win.svg'>";
+		icon.innerHTML = "<img src='icons/pulsar_color_menu_nav.png'>";
 		icon.classList.add('show');
 		return;
 	}

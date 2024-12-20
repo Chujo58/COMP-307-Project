@@ -24,6 +24,11 @@
     --text-highlight: hsl(2 47% 74%);
 }
 
+#calendar-create-error {
+    font-size: calc(0.5 * var(--calendar-font-size));
+    font-family: 'Outfit';
+}
+
 .availability {
     background: lightblue !important;
 }

@@ -26,7 +26,8 @@ form {
     display: none;
 }
 
-form > input {
+form > input, 
+form > select {
     font-family: 'Parkinsans', sans-serif;
     font-weight: 300;
     font-style: normal;

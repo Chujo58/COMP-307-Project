@@ -5,7 +5,7 @@ function isEventOverlapping($db, $newEventStart, $newEventStop) {
     $query = "
         SELECT event_id 
         FROM events 
-        WHERE (event_start < :new_event_stop AND event_stop > :new_event_start)
+        WHERE (event_start <= :new_event_stop AND event_stop >= :new_event_start) AND event_type='booking'
     ";
 
     $stmt = $db->prepare($query);

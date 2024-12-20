@@ -207,15 +207,9 @@
         }
       };
 
-      var tempDate = new Date();
-
       xhttp.open(
         "GET",
-        `php/get_apt.php?date=${new Date(
-          tempDate.getFullYear(),
-          tempDate.getMonth(),
-          tempDate.getDate()
-        ).getTime()}`,
+        `php/get_apt.php?date=${new Date().getTime()}`,
         true
       );
       xhttp.setRequestHeader(

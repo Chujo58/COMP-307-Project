@@ -75,6 +75,7 @@ else {
             if ($userID){
                 echo "<script>const userID ='" . $userID . "'; const eventType='availability';</script>";
             }
+            echo "<script>const eventType='availability';</script>";
             echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', function(){ getUserNames('$userID'); });</script>";
             display('matter/calendar.htm');
             break;

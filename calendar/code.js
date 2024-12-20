@@ -852,7 +852,7 @@ function turnMobile(x, daily, sidebar_check=true){
     }
 }
 
-var mediaUnder750 = window.matchMedia('screen and (min-device-width: 551px), screen and (min-width: 551px)');
+var mediaUnder750 = window.matchMedia('screen and (max-device-width: 900px), screen and (max-width: 900px)');
 var mediaUnder500 = window.matchMedia('screen and (max-device-width: 550px), screen and (max-width: 550px)');
 
 mediaUnder750.addEventListener("change", function(){ turnMobile(mediaUnder750, false); })

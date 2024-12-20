@@ -708,7 +708,14 @@ header .current-month {
     gap: 50px;
     font-size: 12px;
     width: 100%;
-    margin: 20px;
+    margin: 20px 0;
+}
+
+#recurrence div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
 }
 
 @media (max-width: 750px) {

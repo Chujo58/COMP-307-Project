@@ -145,19 +145,26 @@
 </div>
 
 <script>
-    function createBooking() {
-        const form = document.getElementById('booking-form');
-        const formData = new FormData(form);
+    // Fetch event details from the server
+    function fetchEventDetails(eventID) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `php/show_event_details.php?event_id=${eventID}`, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = xhr.responseText.trim().split(',');
+                const eventType = response[4] ?? ''; // Event type is at index 4 in CSV
+                if (eventType === 'availability') {
+                    // Show the form if event type is 'availability'
+                    document.getElementById('booking-form').style.display = 'block';
+                }
+            }
+        };
+        xhr.send();
+    }
 
-        fetch('php/calendar.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(result => {
-            alert(result);
-            location.reload();
-        })
-        .catch(error => console.error('Error:', error));
+    // Get event_id from URL and fetch event details
+    const eventID = new URLSearchParams(window.location.search).get('event_id');
+    if (eventID) {
+        fetchEventDetails(eventID);
     }
 </script>

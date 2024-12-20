@@ -1,11 +1,10 @@
 <?php
 session_start();
 
-function gen_uuid($len = 8)
-{
+function gen_uuid($len=8) {
     $hex = md5("yourSaltHere" . uniqid("", true));
     $pack = pack('H*', $hex);
-    $tmp = base64_encode($pack);
+    $tmp =  base64_encode($pack);
     $uid = preg_replace("#(*UTF8)[^A-Za-z0-9]#", "", $tmp);
     $len = max(4, min(128, $len));
 
@@ -28,25 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         echo "<p>No event selected.</p>";
         exit();
     }
-    // Default to hide the form
-    $showBookingForm = false;
 
-    // Check the event type in the database
-    if ($eventID) {
-        $query = "SELECT event_type FROM events WHERE event_id = :event_id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindValue(':event_id', $eventID, SQLITE3_TEXT);
-        $result = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
-        $event_type = $result['event_type'] ?? '';
-
-        // Show the form only if the event type is 'availability'
-        if ($event_type === 'availability') {
-            $showBookingForm = true;
-        }
-    }
     function echoLikeCSV($array, $staff, $student)
-    { //HELP added event_type to csv ',' . $array['event_type']. 
-        echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . '\n';
+    { //HELP added event_type to csv
+        echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_type']. ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . '\n';
     }
 
     $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_id, staff_id, student_id FROM events WHERE event_id = :event_id";
@@ -104,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $id = gen_uuid(10);
 
-    if (empty($name) || empty($start) || empty($stop) || empty($desc) || empty($filter) || empty($type) || empty($s_id)) {
+    if (empty($name) || empty($start) || empty($stop) || empty($desc) || empty($filter) || empty($type) || empty($s_id)){
         echo "Missing data";
         exit();
     }
@@ -114,14 +98,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'] ?? '';
 
     // Check responseText and see if Guest or not and add stuff to form if yes
-    if (empty($f_name) || empty($l_name) || empty($email)) {
-        if (!($_SESSION['user_type'] == 'staff' || $_SESSION['user_type'] == 'student')) {
+    if (empty($f_name) || empty($l_name) || empty($email)){
+        if (!($_SESSION['user_type'] == 'staff' || $_SESSION['user_type'] == 'student')){
             echo 'Guest';
             exit();
         }
     }
 
-    if ($_SESSION['user_type'] == 'staff' || $_SESSION['user_type'] == 'student') {
+    if ($_SESSION['user_type'] == 'staff' || $_SESSION['user_type'] == 'student'){
         $other_id = $_SESSION['user_id'];
     } else {
         $other_id = gen_uuid(10);

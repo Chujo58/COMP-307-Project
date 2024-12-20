@@ -134,26 +134,23 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
     $query = "SELECT * FROM events WHERE (
         event_start BETWEEN :start AND :stop
         OR (
-            recurrence_rule IS NOT NULL
+            event_recurrence IS NOT NULL
             AND (
                 -- Weekly recurrence
-                (recurrence_rule = 'weekly'
-                AND (
-                    :start >= event_start
-                    AND ((:start - event_start) % (7 * 24 * 60 * 60) = 0) -- Weekly interval
-                ))
+                (event_recurrence = 'weekly'
+                AND :start >= event_start
+                AND ((:start - event_start) % (7 * 24 * 60 * 60 * 1000) = 0))
                 OR
                 -- Daily recurrence
-                (recurrence_rule = 'daily'
+                (event_recurrence = 'daily'
                 AND :start >= event_start)
                 OR
                 -- Monthly recurrence
-                (recurrence_rule = 'monthly'
-                AND (
-                    :start >= event_start
-                    AND strftime('%d', datetime(:start, 'unixepoch')) = strftime('%d', datetime(event_start, 'unixepoch'))
-                ))
+                (event_recurrence = 'monthly'
+                AND :start >= event_start
+                AND strftime('%d', datetime(:start / 1000, 'unixepoch')) = strftime('%d', datetime(event_start / 1000, 'unixepoch')))
             )
+            AND (:start <= event_end OR event_end IS NULL)
         )
     )";
 

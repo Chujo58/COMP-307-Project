@@ -74,7 +74,10 @@ if (sizeof($_GET) == 0) {
                     echo "<script>const userID ='" . $userID . "'; const eventType='availability';</script>";
                 }
             }
-            echo "<script>const eventType='availability';</script>";
+            if ($_SESSION["user_type"] != "student" || $_SESSION["user_type"] != "staff"){
+                echo "<script>const eventType='availability';</script>";
+            }
+            
             echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', function(){ getUserNames('$userID'); });</script>";
             display('matter/calendar.htm');
             break;

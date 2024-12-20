@@ -73,8 +73,7 @@ if (sizeof($_GET) == 0) {
                 if ($use_session && $_SESSION["user_type"] == "student") {
                     echo "<script>const userID ='" . $userID . "'; const eventType='availability';</script>";
                 }
-            }
-            if ($_SESSION["user_type"] != "student" || $_SESSION["user_type"] != "staff"){
+            } else {
                 echo "<script>const eventType='availability';</script>";
             }
             

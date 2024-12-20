@@ -377,6 +377,7 @@ function createBooking(){
         if (start >= stop){
             elem.style.color = 'red'
             elem.innerHTML = "Cannot create event. End time after start time.";
+            return;
         }
     
         if (start <= new Date()){

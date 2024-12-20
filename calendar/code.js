@@ -319,10 +319,33 @@ function showCreate(){
             if (this.responseText !== "Staff"){
                 document.getElementById('add_event_btn').style = 'display: none;';
                 document.getElementById('calendar-add-placeholder').classList.add('hidden');
+                document.getElementById('calendar-popup').innerHTML = '';
             }
             else {
                 document.getElementById('add_event_btn').style = 'display: flex;';
                 document.getElementById('calendar-add-placeholder').classList.remove('hidden');
+                document.getElementById('calendar-popup').innerHTML = `
+                    <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup'; document.getElementById('calendar-create-form').reset(); document.getElementById('calendar-create-error').innerHTML='';">
+                    <form id="calendar-create-form" action="php/calendar.php" method="post">
+                        <div class="heading-highlight form-heading">
+                            Create availability
+                        </div>
+                        <div id="calendar-create-error"></div>
+                        <input type="text" name="event_name" id="event_name" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
+                        <div></div>
+                        <div class="form-label">Event Start Date</div>
+                        <input type="datetime-local" name="event_start" id="event_start" onfocusout="isFieldEmpty('event_start')">
+                        <div></div>
+                        <div class="form-label">Event Stop Date</div>
+                        <input type="datetime-local" name="event_stop" id="event_stop" onfocusout="isFieldEmpty('event_stop')">
+                        <div></div>
+                        <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
+                        <div></div>
+                        <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+                        <div></div>
+                        <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
+                    </form>
+            `;
             }
         }
     }
@@ -463,12 +486,20 @@ function addEvent(){
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
         if (this.readyState == 4 && this.status == 200){
-            console.log(this.responseText);
-            document.getElementById('calendar-create-form').reset();
-            document.getElementById('calendar-popup').className='calendar-popup';
-            setTimeout(function(){
-                window.location.reload();
-            }, 1500);
+            if (this.responseText.includes("Event overlaps")){
+                elem.style.color = 'red';
+                elem.innerHTML = this.responseText;
+            }
+            if (this.responseText == 'Created booking'){
+                elem.style.color = 'green';
+                elem.innerHTML = 'Booking created.';
+                document.getElementById('calendar-create-form').reset();
+                document.getElementById('calendar-popup').className='calendar-popup';
+                
+                setTimeout(function(){
+                    window.location.reload();
+                }, 1500);
+            }
         }
     }
     xhttp.open("POST", "php/calendar.php");

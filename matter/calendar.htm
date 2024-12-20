@@ -74,26 +74,7 @@
             </div>
         </div>
         <div class="calendar-popup" id="calendar-popup">
-            <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup'; document.getElementById('calendar-create-form').reset();">
-            <form id="calendar-create-form" action="php/calendar.php" method="post">
-                <div class="heading-highlight form-heading">
-                    Create availability
-                </div>
-                <div id="calendar-create-error"></div>
-                <input type="text" name="event_name" id="event_name" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
-                <div></div>
-                <div class="form-label">Event Start Date</div>
-                <input type="datetime-local" name="event_start" id="event_start" onfocusout="isFieldEmpty('event_start')">
-                <div></div>
-                <div class="form-label">Event Stop Date</div>
-                <input type="datetime-local" name="event_stop" id="event_stop" onfocusout="isFieldEmpty('event_stop')">
-                <div></div>
-                <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
-                <div></div>
-                <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
-                <div></div>
-                <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
-            </form>
+            
         </div>
         <div class="calendar" id="weekly-calendar">
             <ul class="weekday" id="weekly-calendar-label"></ul>

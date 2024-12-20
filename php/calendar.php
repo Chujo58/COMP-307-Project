@@ -1,5 +1,25 @@
 <?php
 //Id generating from here: https://stackoverflow.com/questions/307486/short-unique-id-in-php
+function isEventOverlapping($db, $newEventStart, $newEventStop) {
+    $query = "
+        SELECT event_id 
+        FROM events 
+        WHERE (event_start < :new_event_stop AND event_stop > :new_event_start)
+    ";
+
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':new_event_start', $newEventStart);
+    $stmt->bindParam(':new_event_stop', $newEventStop);
+
+    $result = $stmt->execute();
+    $overlappingEvents = [];
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $overlappingEvents[] = $row;
+    }
+
+    return $overlappingEvents;
+}
+
 function gen_uuid($len=8) {
 
     $hex = md5("yourSaltHere" . uniqid("", true));
@@ -144,6 +164,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         if (empty($name) || empty($start) || empty($stop) || empty($desc) || empty($filter)){
             echo "Cannot add empty event";
+            exit();
+        }
+
+        $overlappingEvents = isEventOverlapping($conn, $start, $stop);
+        if (!empty($overlappingEvents)){
+            echo "Event overlaps with an existing event.";
             exit();
         }
 

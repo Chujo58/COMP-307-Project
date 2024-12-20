@@ -1,7 +1,7 @@
 @import "./constants.css";
 .navbar {
   height: 5.875vw;
-  background-color: white;
+  background-color: var(--navbar-color);
   display: flex;
   flex-direction: row;
   align-content: space-between;
@@ -75,7 +75,7 @@
 
   z-index: 5;
   text-decoration: none;
-  color: var(--text);
+  color: var(--navbar-text);
   font-family: "DM Serif Text", serif;
   font-weight: 400;
   /* font-size: 1.47vw; */
@@ -95,7 +95,7 @@
   background: linear-gradient(
     180deg,
     transparent 50%,
-    var(--box-highlight) 50%
+    var(--inactive-nav) 50%
   );
 }
 
@@ -130,7 +130,8 @@
 
   flex-direction: column;
   align-self: center;
-  filter: opacity(0.5) drop-shadow(0 0 0 var(--box-highlight));
+  /* filter: opacity(0.5) drop-shadow(0 0 0 var(--box-highlight)); */
+  filter: invert();
 
   padding-left: 1vh;
 }

@@ -70,8 +70,9 @@ if (sizeof($_GET) == 0) {
                 $userID = $_SESSION['user_id'];
             }
             if ($userID) {
+                echo "<script>const userID ='" . $userID . "';</script>";
                 if ($_SESSION["user_type"] == "student") {
-                    echo "<script>const userID ='" . $userID . "'; const eventType='availability';</script>";
+                    echo "<script>const eventType='availability';</script>";
                 }
             } else {
                 echo "<script>const eventType='availability';</script>";
@@ -84,8 +85,18 @@ if (sizeof($_GET) == 0) {
         case "Event":
             $eventID = isset($_GET['event_id']) ? $_GET["event_id"] : null;
             if ($eventID) {
-                echo "<script>const eventID ='" . $eventID . "'; window.addEventListener('load', popoutEvent);</script>";
+                //Go get the event filter:
+                $conn = new SQLite3('comp307project.db');
+                if (!$conn) {
+                    die("Connection failed: " . $conn->lastErrorMsg());
+                }
+                $stmt = $conn->prepare("SELECT event_filter from events WHERE event_id = :id");
+                $stmt->bindValue(':id', $eventID, SQLITE3_TEXT);
+                $eventFilter = $stmt->execute()->fetchArray(SQLITE3_ASSOC)['event_filter'];
+
+                //Filter calendar:
                 echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', forceMobile);</script>";
+                echo "<script>const eventID ='$eventID'; const eventType='booking'; const eventFilter='$eventFilter'; window.addEventListener('load', popoutEvent);</script>";
             }
             display('matter/event.htm');
             break;

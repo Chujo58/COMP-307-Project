@@ -300,12 +300,11 @@ function onLoad(){
         }
     });
     renderCalender();
-    clickDate(`curr_${date.getDate()}`);
     loadCalendarIcons();
     renderTimes();
     loadFilters();
-    displayFiltered(true);
     showCreate();
+    clickDate(`curr_${date.getDate()}`);
 }
 
 function showCreate(){
@@ -510,7 +509,7 @@ function showEvents(day, weeklyView, filter, user, type){
         }
     }
 
-    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}&type=${type}`, 'true');
+    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}&type=${type}`, false);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
@@ -598,6 +597,8 @@ function popoutEvent(){
                     </div>
                     <span class='delete_btn' style='visibility: ${results[8] == 'staff' ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
                 </div>`;
+
+                clickDate(`curr_${new Date(Number(results[2])).getDate()}`);
 
                 var form_holder = document.getElementById('booking-form-holder');
                 if (results[9] == 'availability'){
@@ -759,6 +760,7 @@ function loadFilters(){
 function displayFiltered(weekly){
     var user = (typeof userID === 'undefined' || !userID) ? '' : userID;
     var type = (typeof eventType === 'undefined' || !eventType) ? '' : eventType;
+    var filter = (typeof eventFilter === 'undefined' || !eventFilter) ? '' : eventFilter;
     
     var filters = document.querySelectorAll('div.filter');
     var clicked_filters = [];
@@ -770,6 +772,10 @@ function displayFiltered(weekly){
     });
 
     clearView();
+    if (filter) {
+        displayEventForCurrView(weekly, filter, user, type);
+        return;
+    }
     clicked_filters.forEach(filter_id => {
         displayEventForCurrView(weekly, filter_id, user, type);       
     });
@@ -788,8 +794,10 @@ function changeFilter(){
 function forceMobile(){
     toggleSidebar();
     document.getElementById('sidebar-menu').onclick = "";
+    document.getElementById('sidebar-menu').style.cursor = 'not-allowed';
     toggleView();
     document.getElementById('view-selector').onclick = "";
+    document.getElementById('view-selector').style.cursor = 'not-allowed';
 }
 
 function getUserNames(userID){

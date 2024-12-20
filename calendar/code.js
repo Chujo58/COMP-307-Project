@@ -343,6 +343,25 @@ function showCreate(){
                         <div></div>
                         <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
                         <div></div>
+                        <p>Recurrence</p>
+                        <div id="recurrence">
+                            <div>
+                                <input type="radio" id="recurrence0" name="recurrence" value="never" checked="checked">
+                                <label for="recurrence0">Only Once</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="recurrence1" name="recurrence" value="daily">
+                                <label for="recurrence1">Daily</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="recurrence2" name="recurrence" value="weekly">
+                                <label for="recurrence2">Weekly</label>  
+                            </div>
+                            <div>
+                                <input type="radio" id="recurrence3" name="recurrence" value="montly">
+                                <label for="recurrence3">Montly</label>
+                            </div>
+                        </div>
                         <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
                     </form>
             `;

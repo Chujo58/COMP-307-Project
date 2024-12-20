@@ -706,3 +706,25 @@ header .current-month {
     transition: all .3s ease;
     height: 100%;   
 }
+
+#recurrence {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    font-size: 12px;
+    width: 100%;
+    margin: 20px;
+}
+
+@media (max-width: 750px) {
+    #recurrence {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+#calendar-create-form p {
+    margin-top: 10px;
+    font-size: 14px;
+}

@@ -143,6 +143,22 @@
         </form>
     </div>
 </div>
-<script>
+<!-- <script>
     
+</script> -->
+<!-- Pass the event type from backend to frontend -->
+<script>
+    // Replace 'availability' with the dynamically retrieved event type
+    const eventType = '<?php echo $eventType; ?>'; 
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const bookingFormContainer = document.getElementById("booking-form-container");
+
+        // Show or hide the booking form based on event type
+        if (eventType === 'availability') {
+            bookingFormContainer.style.display = 'block';
+        } else {
+            bookingFormContainer.style.display = 'none';
+        }
+    });
 </script>

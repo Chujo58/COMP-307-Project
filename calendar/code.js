@@ -555,7 +555,7 @@ function popoutEvent(){
                 results = results[0];
                 results = results.split(',')
                 elem.innerHTML = `
-                <div class='event_inner' id='${results[5]}' event_start='${results[2]}' event_stop='${results[3]}'>
+                <div class='event_inner' id='${results[5]}' event_start='${results[2]}' event_stop='${results[3]}' event_type='${results[9]}'>
                     <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
                     <div class='event_name'>
                     ${results[0]}
@@ -585,6 +585,43 @@ function popoutEvent(){
                     </div>
                     <span class='delete_btn' style='visibility: ${results[8] == 'staff' ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
                 </div>`;
+
+                var form_holder = document.getElementById('booking-form-holder');
+                if (results[9] == 'availability'){
+                    form_holder.innerHTML = `
+                        <form action="php/calendar.php" method="post" id="booking-form">
+                            <div class="heading-highlight form-heading">
+                                Create booking
+                            </div>
+                            <div id="event-booking-message"></div>
+                            <input type="text" name="event_name" id="event_name_book" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
+                            <div></div>
+                            <div class="form-label">Event Start Date</div>
+                            <input type="datetime-local" name="event_start" id="event_start_book" onfocusout="isFieldEmpty('event_start')">
+                            <div></div>
+                            <div class="form-label">Event Stop Date</div>
+                            <input type="datetime-local" name="event_stop" id="event_stop_book" onfocusout="isFieldEmpty('event_stop')">
+                            <div></div>
+                            <input type="text" name="event_desc" id="event_desc_book" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
+                            <div></div>
+                            <input type="text" name="event_filter" id="event_filter_book" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+                            <div></div>
+
+                            <input type="text" class="hidden-form" name="fname" id="fname_book" placeholder="First Name" onfocusout="isFieldEmpty('fname')">
+                            <div></div>
+                            <input type="text" class="hidden-form" name="lname" id="lname_book" placeholder="Last Name" onfocusout="isFieldEmpty('lname')">
+                            <div></div>
+                            <input type="email" class="hidden-form" name="email" id="email_book" placeholder="Email" onfocusout="isFieldEmpty('email')">
+                            <div></div>
+
+                            <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
+                        </form>
+                    `;
+                    form_holder.style.width = '35%';
+                    document.getElementById('event-informations').style.width = '65%';
+                } else {
+                    form_holder.style.display = 'none';
+                }
             }
         }
     }
@@ -609,8 +646,9 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     }
     // var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
     var redirect_data = `redirectToEvent("${eventID}");`
+    var eventPast = eventStopTime <= new Date();
 
-    column.innerHTML += `<div class='event ${eventType}' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''}' style='top:${eventTop}; height: ${eventHeight}; cursor: ${eventPast ? 'not-allowed' : 'pointer'};' event_id='${eventID}' onclick='${eventPast ? '' : redirect_data}'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){

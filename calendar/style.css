@@ -33,12 +33,24 @@
     background: lightblue !important;
 }
 
+.availability.past-event {
+    background: color-mix(in srgb, lightblue 50%, gray 50%) !important;
+}
+
 .booking {
     background: lightgreen !important;
 }
 
+.booking.past-event {
+    background: color-mix(in srgb, lightgreen 50%, gray 50%) !important;
+}
+
 .pending {
     background: lightcoral !important;
+}
+
+.pending.past-event {
+    background: color-mix(in srgb, lightcoral 50%, gray 50%) !important;
 }
 
 #calendar_user_name {

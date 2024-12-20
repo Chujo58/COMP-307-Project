@@ -70,7 +70,7 @@ if (sizeof($_GET) == 0) {
                 $userID = $_SESSION['user_id'];
             }
             if ($userID) {
-                if ($use_session && $_SESSION["user_type"] == "student") {
+                if ($_SESSION["user_type"] == "student") {
                     echo "<script>const userID ='" . $userID . "'; const eventType='availability';</script>";
                 }
             } else {

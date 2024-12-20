@@ -2,7 +2,7 @@
     <img src="icons/pulsar_line_close.png" id="close" onclick="closePopup();">
 </div>
 <div class="event-column-holder">
-    <div id="event-informations" class="event-columns-box" style="width: 65%;">
+    <div id="event-informations" class="event-columns-box">
         <div id="event-body" class="event-body">
 
         </div>
@@ -113,34 +113,8 @@
             </div>
         </div>
     </div>
-    <div class="event-columns-box" style="width: 35%;">
-        <form action="php/calendar.php" method="post" id="booking-form">
-            <div class="heading-highlight form-heading">
-                Create booking
-            </div>
-            <div id="event-booking-message"></div>
-            <input type="text" name="event_name" id="event_name_book" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
-            <div></div>
-            <div class="form-label">Event Start Date</div>
-            <input type="datetime-local" name="event_start" id="event_start_book" onfocusout="isFieldEmpty('event_start')">
-            <div></div>
-            <div class="form-label">Event Stop Date</div>
-            <input type="datetime-local" name="event_stop" id="event_stop_book" onfocusout="isFieldEmpty('event_stop')">
-            <div></div>
-            <input type="text" name="event_desc" id="event_desc_book" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
-            <div></div>
-            <input type="text" name="event_filter" id="event_filter_book" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
-            <div></div>
-
-            <input type="text" class="hidden-form" name="fname" id="fname_book" placeholder="First Name" onfocusout="isFieldEmpty('fname')">
-            <div></div>
-            <input type="text" class="hidden-form" name="lname" id="lname_book" placeholder="Last Name" onfocusout="isFieldEmpty('lname')">
-            <div></div>
-            <input type="email" class="hidden-form" name="email" id="email_book" placeholder="Email" onfocusout="isFieldEmpty('email')">
-            <div></div>
-
-            <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
-        </form>
+    <div class="event-columns-box" id="booking-form-holder">
+        
     </div>
 </div>
 <script>

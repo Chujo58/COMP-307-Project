@@ -20,112 +20,65 @@ if (!$conn) {
     die("Connection failed: " . $conn->lastErrorMsg());
 }
 
-// if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-//     $eventID = $_GET['event_id'] ?? '';
-
-//     if (empty($eventID)) {
-//         echo "<p>No event selected.</p>";
-//         exit();
-//     }
-
-//     function echoLikeCSV($array, $staff, $student)
-//     {
-//         echo $array['event_name'] . ',' 
-//         . $array['event_desc'] . ',' 
-//         . $array['event_start'] . ',' 
-//         . $array['event_stop'] . ',' 
-//         . $array['event_type'] . ',' //Added event-type for form visibility
-//         . $array['event_filter'] . ',' 
-//         . $array['event_id'] . ',' 
-//         . $staff . ',' 
-//         . $student 
-//         . ',' . $_SESSION['user_type'] . '\n';
-//     }
-
-//     $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_type, event_id, staff_id, student_id FROM events WHERE event_id = :event_id";
-//     $stmt = $conn->prepare($query);
-//     $stmt->bindValue(':event_id', $eventID, SQLITE3_TEXT);
-//     $result = $stmt->execute();
-
-//     if ($result->numColumns() == 0) {
-//         echo "<p>The event selected doesn't exist or has been deleted.</p>";
-//     } else {
-//         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-//             $query_staid = "SELECT f_name, l_name from valid_users WHERE user_id=:staff_id";
-//             $query_stud = "SELECT f_name, l_name from valid_users WHERE user_id=:student_id";
-
-//             $stmt_staid = $conn->prepare($query_staid);
-//             $stmt_staid->bindValue(':staff_id', $row['staff_id'], SQLITE3_TEXT);
-//             $staff_result = $stmt_staid->execute()->fetchArray(SQLITE3_ASSOC);
-
-//             if ($staff_result != null) {
-//                 $staff = $staff_result['f_name'] . ' ' . $staff_result['l_name'];
-//             } else {
-//                 $staff = '';
-//             }
-
-//             $stmt_stud = $conn->prepare($query_stud);
-//             $stmt_stud->bindValue(':student_id', $row['student_id'], SQLITE3_TEXT);
-//             $student_result = $stmt_stud->execute()->fetchArray(SQLITE3_ASSOC);
-
-//             if ($student_result != null) {
-//                 $student = $student_result['f_name'] . ' ' . $student_result['l_name'];
-//             } else {
-//                 $student = '';
-//             }
-
-//             echoLikeCSV($row, $staff, $student);
-//         }
-//     }
-// }
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $eventID = $_GET['event_id'] ?? '';
 
     if (empty($eventID)) {
-        echo "No event selected.";
+        echo "<p>No event selected.</p>";
         exit();
     }
 
-    function echoLikeCSV($array, $staff, $student) {
-        $cleaned_event_type = trim($array['event_type']); // Remove any surrounding whitespace or newlines
-        echo $array['event_name'] . ',' 
-            . $array['event_desc'] . ',' 
-            . $array['event_start'] . ',' 
-            . $array['event_stop'] . ',' 
-            . $cleaned_event_type . ','  // Clean and properly format event_type
-            . $array['event_filter'] . ',' 
-            . $array['event_id'] . ',' 
-            . $staff . ',' 
-            . $student . ',' 
-            . $_SESSION['user_type'];
+    function echoLikeCSV($array, $staff, $student)
+    {
+        echo $array['event_name'] 
+        . ',' . $array['event_desc'] 
+        . ',' . $array['event_start'] 
+        . ',' . $array['event_stop'] 
+        . ',' . $array['event_type']
+        . ',' . $array['event_filter'] 
+        . ',' . $array['event_id'] 
+        . ',' . $staff 
+        . ',' . $student 
+        . ',' 
+        . $_SESSION['user_type'] . '\n';
     }
 
-    $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_type, event_id, staff_id, student_id FROM events WHERE event_id = :event_id";
+    $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_id, staff_id, student_id FROM events WHERE event_id = :event_id";
     $stmt = $conn->prepare($query);
     $stmt->bindValue(':event_id', $eventID, SQLITE3_TEXT);
     $result = $stmt->execute();
 
     if ($result->numColumns() == 0) {
-        echo "The event selected doesn't exist or has been deleted.";
+        echo "<p>The event selected doesn't exist or has been deleted.</p>";
     } else {
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $query_staid = "SELECT f_name, l_name FROM valid_users WHERE user_id=:staff_id";
-            $query_stud = "SELECT f_name, l_name FROM valid_users WHERE user_id=:student_id";
+            $query_staid = "SELECT f_name, l_name from valid_users WHERE user_id=:staff_id";
+            $query_stud = "SELECT f_name, l_name from valid_users WHERE user_id=:student_id";
 
             $stmt_staid = $conn->prepare($query_staid);
             $stmt_staid->bindValue(':staff_id', $row['staff_id'], SQLITE3_TEXT);
             $staff_result = $stmt_staid->execute()->fetchArray(SQLITE3_ASSOC);
-            $staff = $staff_result ? $staff_result['f_name'] . ' ' . $staff_result['l_name'] : '';
+
+            if ($staff_result != null) {
+                $staff = $staff_result['f_name'] . ' ' . $staff_result['l_name'];
+            } else {
+                $staff = '';
+            }
 
             $stmt_stud = $conn->prepare($query_stud);
             $stmt_stud->bindValue(':student_id', $row['student_id'], SQLITE3_TEXT);
             $student_result = $stmt_stud->execute()->fetchArray(SQLITE3_ASSOC);
-            $student = $student_result ? $student_result['f_name'] . ' ' . $student_result['l_name'] : '';
+
+            if ($student_result != null) {
+                $student = $student_result['f_name'] . ' ' . $student_result['l_name'];
+            } else {
+                $student = '';
+            }
 
             echoLikeCSV($row, $staff, $student);
         }
     }
-
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'] ?? '';

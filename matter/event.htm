@@ -13,22 +13,25 @@
                         <img src="icons/pulsar_line_close.svg">
                     </a>
                     <div id="calendar-page-icon">
-
+            
                     </div>
                     <a onclick="toToday();">
                         Today
                     </a>
                     <div class="icons" id="week_btns">
-                        <span id="prev_week" class="material-symbols-rounded">chevron_left</span>
-                        <span id="next_week" class="material-symbols-rounded">chevron_right</span>
+                        <span id="prev_week"
+                            class="material-symbols-rounded">chevron_left</span>
+                        <span id="next_week"
+                            class="material-symbols-rounded">chevron_right</span>
                     </div>
-                    <p class="current-month calendar-heading-highlight" id="current-week"></p>
-                    <a style="margin-left: auto;" onclick="toggleView();" id="view-selector">
+                    <p class="current-month calendar-heading-highlight"
+                        id="current-week"></p>
+                    <a style="margin-left: auto;" onclick="toggleView();"
+                        id="view-selector">
                         Week
                     </a>
                 </div>
-                <div class="add-event" id="add_event_btn" style="display: none;"
-                    onclick="document.getElementById('calendar-popup').className += ' active';">
+                <div class="add-event" id="add_event_btn" style="display: none;" onclick="document.getElementById('calendar-popup').className += ' active';">
                     <span>
                         <img src="icons/pulsar_line_add.png">
                     </span>
@@ -41,10 +44,13 @@
                         <div class="add-event hidden" id="calendar-add-placeholder"></div>
                         <div class="wrapper">
                             <header class="calendar-header">
-                                <p class="current-month calendar-heading-highlight" id="current-month"></p>
+                                <p class="current-month calendar-heading-highlight"
+                                    id="current-month"></p>
                                 <div class="icons">
-                                    <span id="prev" class="material-symbols-rounded">chevron_left</span>
-                                    <span id="next" class="material-symbols-rounded">chevron_right</span>
+                                    <span id="prev"
+                                        class="material-symbols-rounded">chevron_left</span>
+                                    <span id="next"
+                                        class="material-symbols-rounded">chevron_right</span>
                                 </div>
                             </header>
                             <div class="calendar">
@@ -69,30 +75,24 @@
                                     Calendars
                                 </div>
                             </div>
-                            <div id="filters"></div>
+                                <div id="filters"></div>
                         </div>
                     </div>
                     <div class="calendar-popup" id="calendar-popup">
-                        <img src="icons/pulsar_line_close.png"
-                            onclick="document.getElementById('calendar-popup').className='calendar-popup';">
+                        <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup';">
                         <form id="calendar-create-form" action="php/calendar.php" method="post">
                             <div class="heading-highlight form-heading">
                                 Create availability
                             </div>
-                            <input type="text" name="event_name" id="event_name" placeholder="Event Name"
-                                onfocusout="isFieldEmpty('event_name')">
+                            <input type="text" name="event_name" id="event_name" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
                             <div></div>
-                            <input type="datetime-local" name="event_start" id="event_start"
-                                onfocusout="isFieldEmpty('event_start')">
+                            <input type="datetime-local" name="event_start" id="event_start" onfocusout="isFieldEmpty('event_start')">
                             <div></div>
-                            <input type="datetime-local" name="event_stop" id="event_stop"
-                                onfocusout="isFieldEmpty('event_stop')">
+                            <input type="datetime-local" name="event_stop" id="event_stop" onfocusout="isFieldEmpty('event_stop')">
                             <div></div>
-                            <input type="text" name="event_desc" id="event_desc" placeholder="Description"
-                                onfocusout="isFieldEmpty('event_desc')">
+                            <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
                             <div></div>
-                            <input type="text" name="event_filter" id="event_filter" placeholder="Course Name"
-                                onfocusout="isFieldEmpty('event_filter')">
+                            <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
                             <div></div>
                             <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
                         </form>
@@ -102,7 +102,8 @@
                         <ul class="days" id="weekly-days"></ul>
                         <div class="timetable-wrapper">
                             <div class="timetable" id="timetable">
-                                <div class="times" id="timestamps" aria-hidden="true" tabindex="-1"></div>
+                                <div class="times" id="timestamps" aria-hidden="true"
+                                    tabindex="-1"></div>
                                 <div id="time-sep"></div>
                                 <div class="time-row" id="time-row" role="row"></div>
                             </div>
@@ -112,8 +113,8 @@
             </div>
         </div>
     </div>
-    <!-- <div class="event-columns-box" style="width: 35%;">
-        <form action="php/calendar.php" method="post" id="booking-form">
+    <div class="event-columns-box" style="width: 35%;">
+        <form action="php/calendar.php" method="post" id="booking-form" style="display: none;">
             <div class="heading-highlight form-heading">
                 Create booking
             </div>
@@ -141,76 +142,33 @@
             <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
         </form>
     </div>
-</div> -->
-    <div class="event-columns-box" style="width: 35%;">
-        <!-- Booking form is hidden by default -->
-        <form action="php/calendar.php" method="post" id="booking-form" style="display: none;">
-            <div class="heading-highlight form-heading">
-                Create booking
-            </div>
-            <div id="event-booking-message"></div>
-            <input type="text" name="event_name" id="event_name_book" placeholder="Event Name"
-                onfocusout="isFieldEmpty('event_name')">
-            <div></div>
-            <div class="form-label">Event Start Date</div>
-            <input type="datetime-local" name="event_start" id="event_start_book"
-                onfocusout="isFieldEmpty('event_start')">
-            <div></div>
-            <div class="form-label">Event Stop Date</div>
-            <input type="datetime-local" name="event_stop" id="event_stop_book" onfocusout="isFieldEmpty('event_stop')">
-            <div></div>
-            <input type="text" name="event_desc" id="event_desc_book" placeholder="Description"
-                onfocusout="isFieldEmpty('event_desc')">
-            <div></div>
-            <input type="text" name="event_filter" id="event_filter_book" placeholder="Course Name"
-                onfocusout="isFieldEmpty('event_filter')">
-            <div></div>
-
-            <input type="text" class="hidden-form" name="fname" id="fname_book" placeholder="First Name"
-                onfocusout="isFieldEmpty('fname')">
-            <div></div>
-            <input type="text" class="hidden-form" name="lname" id="lname_book" placeholder="Last Name"
-                onfocusout="isFieldEmpty('lname')">
-            <div></div>
-            <input type="email" class="hidden-form" name="email" id="email_book" placeholder="Email"
-                onfocusout="isFieldEmpty('email')">
-            <div></div>
-
-            <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
-        </form>
-    </div>
 </div>
 
 <script>
-    // Function to toggle the booking form based on the event type
     function toggleBookingForm(eventType) {
         const bookingForm = document.getElementById("booking-form");
-        console.log("Event type received:", eventType); // Debug log to ensure we see what type we receive
-        if (eventType === "availability") {
+        if (eventType.toLowerCase() === "availability") {
             bookingForm.style.display = "block"; // Show the form
         } else {
             bookingForm.style.display = "none"; // Hide the form
         }
     }
 
-    // Fetch event details from the backend and show/hide booking form
     function fetchEventDetails(eventID) {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", `php/show_event_details.php?event_id=${eventID}`, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = xhr.responseText.trim(); 
-                console.log("Raw server response:", response); // Debug
+                const response = xhr.responseText.trim();
                 const responseArray = response.split(',');
-                const eventType = responseArray[4]?.trim(); // Get the event_type and remove any extra whitespace
-                console.log("Parsed event type:", eventType); // Debug
+                const eventType = responseArray[4]?.trim().toLowerCase(); // event_type is in position 4
+                console.log("Received event type: ", eventType);
                 toggleBookingForm(eventType);
             }
         };
         xhr.send();
     }
 
-    // Example initialization to fetch event details when the page loads
     const eventID = new URLSearchParams(window.location.search).get("event_id");
     if (eventID) {
         fetchEventDetails(eventID);

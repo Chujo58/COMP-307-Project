@@ -131,27 +131,28 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
     $start = $_GET['start'];
     $stop = $_GET['stop'];
 
-    $query = "SELECT * FROM events WHERE (event_start BETWEEN :start AND :stop)
+    $query = "SELECT * FROM events WHERE (
+        CAST(event_start AS INTEGER) BETWEEN :start AND :stop
         OR (
             event_recurrence IS NOT NULL
             AND (
                 -- Weekly recurrence
                 (event_recurrence = 'weekly'
-                AND :start >= event_start
-                AND ((:start - event_start) % (7 * 24 * 60 * 60 * 1000) = 0))
+                AND CAST(:start AS INTEGER) >= CAST(event_start AS INTEGER)
+                AND ((CAST(:start AS INTEGER) - CAST(event_start AS INTEGER)) % (7 * 24 * 60 * 60 * 1000) = 0))
                 OR
                 -- Daily recurrence
                 (event_recurrence = 'daily'
-                AND :start >= event_start)
+                AND CAST(:start AS INTEGER) >= CAST(event_start AS INTEGER))
                 OR
                 -- Monthly recurrence
                 (event_recurrence = 'monthly'
-                AND :start >= event_start
-                AND strftime('%d', datetime(:start / 1000, 'unixepoch')) = strftime('%d', datetime(event_start / 1000, 'unixepoch')))
+                AND CAST(:start AS INTEGER) >= CAST(event_start AS INTEGER)
+                AND strftime('%d', datetime(CAST(:start AS INTEGER) / 1000, 'unixepoch')) = strftime('%d', datetime(CAST(event_start AS INTEGER) / 1000, 'unixepoch')))
             )
-            AND (:start <= event_end OR event_end IS NULL)
+            AND (CAST(:start AS INTEGER) <= CAST(event_end AS INTEGER) OR event_end IS NULL) -- Optional end date check
         )
-    ";
+    )";
 
     $filter = $_GET['filter'] ?? '';
     $user = $_GET['user'] ?? '';

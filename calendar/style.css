@@ -23,6 +23,9 @@
     --week-font-size: var(--calendar-font-size);
 
     --text-highlight: hsl(2 47% 74%);
+    --availability: lightblue;
+    --booking: lightgreen;
+    --pending: lightcoral;
 }
 
 #calendar-create-error {
@@ -31,27 +34,27 @@
 }
 
 .availability {
-    background: lightblue !important;
+    background: var(--availability) !important;
 }
 
 .availability.past-event {
-    background: color-mix(in srgb, lightblue 50%, gray 50%) !important;
+    background: color-mix(in srgb, var(--availability) 50%, gray 50%) !important;
 }
 
 .booking {
-    background: lightgreen !important;
+    background: var(--booking) !important;
 }
 
 .booking.past-event {
-    background: color-mix(in srgb, lightgreen 50%, gray 50%) !important;
+    background: color-mix(in srgb, var(--booking) 50%, gray 50%) !important;
 }
 
 .pending {
-    background: lightcoral !important;
+    background: var(--pending) !important;
 }
 
 .pending.past-event {
-    background: color-mix(in srgb, lightcoral 50%, gray 50%) !important;
+    background: color-mix(in srgb, var(--pending) 50%, gray 50%) !important;
 }
 
 #calendar_user_name {

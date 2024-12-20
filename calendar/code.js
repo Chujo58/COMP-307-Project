@@ -575,7 +575,7 @@ function popoutEvent(){
 
                 elem.innerHTML = `
                 <div class='event_inner' id='${results[5]}' event_start='${results[2]}' event_stop='${results[3]}' event_type='${results[9]}'>
-                    <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.png'></span>
+                    <span class='close_btn' onclick='window.history.back();'><img src='icons/pulsar_line_close.svg'></span>
                     <div class='event_name'>
                     ${results[0]}
                     </div>
@@ -603,11 +603,12 @@ function popoutEvent(){
                 </div>`;
 
                 var form_holder = document.getElementById('booking-form-holder');
-                if (results[9] == 'availability'){
-                    form_holder.innerHTML = `
+                if (new Date(Number(results[3])) >= new Date()){
+                    if (results[9] == 'availability'){
+                        form_holder.innerHTML = `
                         <form action="php/calendar.php" method="post" id="booking-form">
                             <div class="heading-highlight form-heading">
-                                Create booking
+                            Create booking
                             </div>
                             <div id="event-booking-message"></div>
                             <input type="text" name="event_name" id="event_name_book" placeholder="Event Name" onfocusout="isFieldEmpty('event_name')">
@@ -620,24 +621,24 @@ function popoutEvent(){
                             <div></div>
                             <input type="text" name="event_desc" id="event_desc_book" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
                             <div></div>
-                            <input type="text" readonly name="event_filter" id="event_filter_book" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+                            <input type="text" readonly value=${results[4]} name="event_filter" id="event_filter_book" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
                             <div></div>
-
+                            
                             <input type="text" class="hidden-form" name="fname" id="fname_book" placeholder="First Name" onfocusout="isFieldEmpty('fname')">
                             <div></div>
                             <input type="text" class="hidden-form" name="lname" id="lname_book" placeholder="Last Name" onfocusout="isFieldEmpty('lname')">
                             <div></div>
                             <input type="email" class="hidden-form" name="email" id="email_book" placeholder="Email" onfocusout="isFieldEmpty('email')">
                             <div></div>
-
+                            
                             <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
                         </form>
-                    `;
-                    // form_holder.style.width = '35%';
-                    // document.getElementById('event-informations').style.width = '65%';
-                } else {
-                    form_holder.style.display = 'none';
+                        `;
+                        // form_holder.style.width = '35%';
+                        // document.getElementById('event-informations').style.width = '65%';
+                    }
                 }
+                form_holder.style.display = 'none';
                 clickDate(`curr_${new Date(Number(results[2])).getDate()}`);
                 forceMobile();
             }
@@ -666,7 +667,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     var redirect_data = `redirectToEvent("${eventID}");`
     var eventPast = eventStopTime <= new Date();
 
-    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''}' style='top:${eventTop}; height: ${eventHeight}; cursor: ${eventPast ? 'not-allowed' : 'pointer'};' event_id='${eventID}' onclick='${eventPast ? '' : redirect_data}'><span>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''}' style='top:${eventTop}; height: ${eventHeight};' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){
@@ -806,13 +807,10 @@ function forceMobile(){
     if (view_selector.innerHTML.includes('Week')){
         document.getElementById('view-selector').click();
     }
-    
     sidebar_menu.onclick = "";
-    // sidebar_menu.style.cursor = 'not-allowed';
     view_selector.onclick = "";
-    // view_selector.style.cursor = 'not-allowed';
-    sidebar_menu.style.display = 'none';
     view_selector.style.display = 'none';
+    sidebar_menu.style.cursor = 'not-allowed';
 }
 
 function getUserNames(userID){

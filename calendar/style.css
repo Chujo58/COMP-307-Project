@@ -721,7 +721,9 @@ header .current-month {
 @media (max-width: 750px) {
     #recurrence {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        align-self: center;
+        width: auto !important;
         gap: 20px;
     }
 }

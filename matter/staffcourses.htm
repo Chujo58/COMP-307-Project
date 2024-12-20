@@ -4,7 +4,10 @@
         <img src="icons/pulsar_line_menu.png" />
       </a>
     </div>
-    <div class="logo">Course</div>
+    <div class="logo">Course List</div>
+    <div class="left-h">
+      <a class="openbtn none"></a>
+    </div>
   </header>
   
   <div class="container">
@@ -24,7 +27,8 @@
     </div>
     <div class="staffcourse-wrapper">
       <div class="staffcourse-container">
-        <div class="staffcourse-block-container"><h2>Course List</h2>
+        <div class="staffcourse-block-container">
+          <!-- <h2>Course List</h2> -->
             <div class="staffcourse-course-container"><div id="course-list"></div></div>
             <div class="addremovebutton">
             
@@ -59,7 +63,11 @@
                             var data = row.split(",");
                             courseContainer.innerHTML += `
                                 <div class='course-body'>
+                                    <h3 class='course_name'>
+                                        ${data[2]}
+                                    </h3>
                                     <div class="course_inner">
+                                        Course reference:
                                         <div class='course_tag'>
                                             ${data[0]}
                                         </div>

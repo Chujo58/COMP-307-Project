@@ -154,6 +154,20 @@ button.openbtn {
   background-color: var(--title-text);
 }
 
+.openbtn.none {
+  text-decoration: none;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  height: 30px;
+  width: 30px;
+  cursor: default !important;
+  background: none !important;
+}
+
+.none:hover {
+  background: none;
+}
+
 .openbtn:hover {
   background-color: black;
   color: #fff;

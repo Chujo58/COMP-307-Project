@@ -253,6 +253,14 @@ function filterCourses() {
     const courseID = document.getElementById('course-id').value;
     const courseLevel = document.getElementById('course-level').value;
 
+    const patternID = /^\d{3}([A-Z]\d)?$/;
+    if (!patternID.test(courseID) && courseID != ''){
+        document.getElementById('course-id-error-dashboard').style.color = 'red';
+        document.getElementById('course-id-error-dashboard').innerHTML = 'Invalid format. Should match 3 digits, or 3 digits followed by one uppercase letter and one digit.';   
+        return;
+    }
+    document.getElementById('course-id-error-dashboard').innerHTML = '';
+
     const queryParams = `course-name=${encodeURIComponent(courseName)}&course-id=${encodeURIComponent(courseID)}&course-level=${encodeURIComponent(courseLevel)}`;
 
     const xhttp = new XMLHttpRequest();

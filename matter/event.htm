@@ -114,7 +114,7 @@
         </div>
     </div>
     <div class="event-columns-box" style="width: 35%;">
-        <form action="php/calendar.php" method="post" id="booking-form" style="display: none;">
+        <form action="php/calendar.php" method="post" id="booking-form">
             <div class="heading-highlight form-heading">
                 Create booking
             </div>
@@ -145,32 +145,19 @@
 </div>
 
 <script>
-    function toggleBookingForm(eventType) {
-        const bookingForm = document.getElementById("booking-form");
-        if (eventType.toLowerCase() === "availability") {
-            bookingForm.style.display = "block"; // Show the form
-        } else {
-            bookingForm.style.display = "none"; // Hide the form
-        }
-    }
+    function createBooking() {
+        const form = document.getElementById('booking-form');
+        const formData = new FormData(form);
 
-    function fetchEventDetails(eventID) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", `php/show_event_details.php?event_id=${eventID}`, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = xhr.responseText.trim();
-                const responseArray = response.split(',');
-                const eventType = responseArray[4]?.trim().toLowerCase(); // event_type is in position 4
-                console.log("Received event type: ", eventType);
-                toggleBookingForm(eventType);
-            }
-        };
-        xhr.send();
-    }
-
-    const eventID = new URLSearchParams(window.location.search).get("event_id");
-    if (eventID) {
-        fetchEventDetails(eventID);
+        fetch('php/calendar.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert(result);
+            location.reload();
+        })
+        .catch(error => console.error('Error:', error));
     }
 </script>

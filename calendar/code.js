@@ -701,8 +701,9 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     // var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
     var redirect_data = `redirectToEvent("${eventID}");`
     var eventPast = eventStopTime <= new Date();
+    var eventCurrent = eventStartTime <= new Date() && new Date() <= eventStopTime;
 
-    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''}' style='top:${eventTop}; height: ${eventHeight};' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''} ${eventCurrent ? 'current-event': ''}' style='top:${eventTop}; height: ${eventHeight};' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){

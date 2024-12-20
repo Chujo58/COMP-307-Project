@@ -23,9 +23,13 @@
     --week-font-size: var(--calendar-font-size);
 
     --text-highlight: hsl(2 47% 74%);
-    --availability: lightblue;
-    --booking: lightgreen;
-    --pending: lightcoral;
+    --red: 200;
+    --green: 100;
+    --blue: 250;
+    --threshold: 0.5;
+    
+    --mix-past: rgba(0,0,0,0.7);
+    --mix-current: white;
 }
 
 #calendar-create-error {
@@ -33,28 +37,80 @@
     font-family: 'Outfit';
 }
 
+.event {
+    --r: calc(var(--red) * 0.299);
+    --g: calc(var(--green) * 0.587);
+    --b: calc(var(--blue) * 0.114);    
+
+    --sum: calc(var(--r) + var(--g) + var(--b));
+    --perceived-lightness: calc(var(--sum) / 255);
+    color: hsl(0, 0%, calc((var(--perceived-lightness) - var(--threshold)) * -10000000%)) !important;
+}
+
 .availability {
+    --red: 100;
+    --green: 100;
+    --blue: 205;
+    --availability: rgb(var(--red),var(--green),var(--blue));
     background: var(--availability) !important;
 }
 
 .availability.past-event {
-    background: color-mix(in srgb, var(--availability) 50%, gray 50%) !important;
+    --red: 88;
+    --green: 88;
+    --blue: 140; 
+    background: color-mix(in srgb, var(--availability) 50%, var(--mix-past) 50%) !important;
+}
+
+.availability.current-event {
+    --red: 177;
+    --green: 177;
+    --blue: 230; 
+    background: color-mix(in srgb, var(--availability) 50%, var(--mix-current) 50%) !important;
 }
 
 .booking {
+    --red: 43;
+    --green: 167;
+    --blue: 80;
+    --booking: rgb(var(--red),var(--green),var(--blue));
     background: var(--booking) !important;
 }
 
 .booking.past-event {
-    background: color-mix(in srgb, var(--booking) 50%, gray 50%) !important;
+    --red: 60;
+    --green: 122;
+    --blue: 79;
+    background: color-mix(in srgb, var(--booking) 50%, var(--mix-past) 50%) !important;
+}
+
+.booking.current-event {
+    --red: 149;
+    --green: 211;
+    --blue: 167;
+    background: color-mix(in srgb, var(--booking) 50%, var(--mix-current) 50%) !important;
 }
 
 .pending {
+    --red: 255;
+    --green: 191;
+    --blue: 80;
+    --pending: rgb(var(--red),var(--green),var(--blue));
     background: var(--pending) !important;
 }
 
 .pending.past-event {
-    background: color-mix(in srgb, var(--pending) 50%, gray 50%) !important;
+    --red: 165;
+    --green: 134;
+    --blue: 79;
+    background: color-mix(in srgb, var(--pending) 50%, var(--mix-past) 50%) !important;
+}
+
+.pending.current-event {
+    --red: 255;
+    --green: 223;
+    --blue: 167;
+    background: color-mix(in srgb, var(--pending) 50%, var(--mix-current) 50%) !important;
 }
 
 #calendar_user_name {

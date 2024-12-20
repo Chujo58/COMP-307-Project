@@ -1,15 +1,16 @@
 <?php
 //Id generating from here: https://stackoverflow.com/questions/307486/short-unique-id-in-php
-function isEventOverlapping($db, $newEventStart, $newEventStop) {
+function isEventOverlapping($db, $newEventStart, $newEventStop, $userID) {
     $query = "
         SELECT event_id 
         FROM events 
-        WHERE (event_start < :new_event_stop AND event_stop > :new_event_start)
+        WHERE (event_start < :new_event_stop AND event_stop > :new_event_start) AND (staff_id = :user OR student_id = :user) AND event_type='availability'
     ";
 
     $stmt = $db->prepare($query);
     $stmt->bindParam(':new_event_start', $newEventStart);
     $stmt->bindParam(':new_event_stop', $newEventStop);
+    $stmt->bindParam(':user', $userID);
 
     $result = $stmt->execute();
     $overlappingEvents = [];
@@ -167,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             exit();
         }
 
-        $overlappingEvents = isEventOverlapping($conn, $start, $stop);
+        $overlappingEvents = isEventOverlapping($conn, $start, $stop, $s_id);
         if (!empty($overlappingEvents)){
             echo "Event overlaps with an existing event.";
             exit();

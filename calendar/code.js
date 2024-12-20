@@ -607,7 +607,8 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     if (!column) {
         return;
     }
-    var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
+    // var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
+    var redirect_data = `redirectToEvent("${eventID}");`
 
     column.innerHTML += `<div class='event ${eventType}' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
 }

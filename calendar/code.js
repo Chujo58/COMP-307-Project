@@ -471,7 +471,8 @@ function createBooking(){
                 if (this.responseText.includes("Event overlaps")){
                     elem.style.color = 'red';
                     elem.innerHTML = this.responseText;
-                } else {
+                } 
+                if (this.responseText == '') {
                     elem.style.color = 'red';
                     elem.innerHTML = 'Need additional information';
                 }
@@ -732,6 +733,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     timeDiff = (eventStopTime - eventStartTime)/1000/60;
     eventTop = `calc(${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes())/ 60})`;
     eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
+    forcePadding = timeDiff < 30;
 
     var column = document.getElementById(`time-col-${columnid}`);
     if (!column) {
@@ -742,7 +744,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     var eventPast = eventStopTime <= new Date();
     var eventCurrent = eventStartTime <= new Date() && new Date() <= eventStopTime;
 
-    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''} ${eventCurrent ? 'current-event': ''}' style='top:${eventTop}; height: ${eventHeight};' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''} ${eventCurrent ? 'current-event': ''}' style='top:${eventTop}; height: ${eventHeight};' event_id='${eventID}' onclick='${redirect_data}'><span style='padding: ${forcePadding ? '2px 10px !important;' : ''};'>${eventTitle}</span></div>`
 }
 
 function clearView(){

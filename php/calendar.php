@@ -131,8 +131,7 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
     $start = $_GET['start'];
     $stop = $_GET['stop'];
 
-    $query = "SELECT * FROM events WHERE (
-        event_start BETWEEN :start AND :stop
+    $query = "SELECT * FROM events WHERE (event_start BETWEEN :start AND :stop)
         OR (
             event_recurrence IS NOT NULL
             AND (
@@ -152,7 +151,7 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
             )
             AND (:start <= event_end OR event_end IS NULL)
         )
-    )";
+    ";
 
     $filter = $_GET['filter'] ?? '';
     $user = $_GET['user'] ?? '';

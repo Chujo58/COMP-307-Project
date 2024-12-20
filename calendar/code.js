@@ -602,8 +602,6 @@ function popoutEvent(){
                     <span class='delete_btn' style='visibility: ${results[8] == 'staff' ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
                 </div>`;
 
-                clickDate(`curr_${new Date(Number(results[2])).getDate()}`);
-
                 var form_holder = document.getElementById('booking-form-holder');
                 if (results[9] == 'availability'){
                     form_holder.innerHTML = `
@@ -622,7 +620,7 @@ function popoutEvent(){
                             <div></div>
                             <input type="text" name="event_desc" id="event_desc_book" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
                             <div></div>
-                            <input type="text" name="event_filter" id="event_filter_book" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+                            <input type="text" readonly name="event_filter" id="event_filter_book" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
                             <div></div>
 
                             <input type="text" class="hidden-form" name="fname" id="fname_book" placeholder="First Name" onfocusout="isFieldEmpty('fname')">
@@ -635,11 +633,13 @@ function popoutEvent(){
                             <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
                         </form>
                     `;
-                    form_holder.style.width = '35%';
-                    document.getElementById('event-informations').style.width = '65%';
+                    // form_holder.style.width = '35%';
+                    // document.getElementById('event-informations').style.width = '65%';
                 } else {
                     form_holder.style.display = 'none';
                 }
+                clickDate(`curr_${new Date(Number(results[2])).getDate()}`);
+                forceMobile();
             }
         }
     }
@@ -796,12 +796,21 @@ function changeFilter(){
 }
 
 function forceMobile(){
-    toggleSidebar();
-    document.getElementById('sidebar-menu').onclick = "";
-    document.getElementById('sidebar-menu').style.cursor = 'not-allowed';
-    toggleView();
-    document.getElementById('view-selector').onclick = "";
-    document.getElementById('view-selector').style.cursor = 'not-allowed';
+    var sidebar = document.getElementById("sidebar");
+    var sidebar_menu = document.getElementById("sidebar-menu");
+    var view_selector = document.getElementById('view-selector');
+    if (!sidebar.classList.contains('hidden')){
+        sidebar_menu.click();
+    }
+
+    if (view_selector.innerHTML.includes('Week')){
+        document.getElementById('view-selector').click();
+    }
+    
+    sidebar_menu.onclick = "";
+    sidebar_menu.style.cursor = 'not-allowed';
+    view_selector.onclick = "";
+    view_selector.style.cursor = 'not-allowed';
 }
 
 function getUserNames(userID){

@@ -8,12 +8,20 @@
         flex-direction: column !important;
     }
 
+    #booking-form {
+        margin: 0 20px 20px 20px !important;
+    }
+
+    #event-body{
+        margin-bottom: 0 !important;
+    }
+
 }
 
 #booking-form {
     background: white;
     border-radius: 5px;
-    margin-right: 20px;
+    margin: 20px 20px 0 0;
 }
 
 #booking-form:hover > .heading-highlight::before {

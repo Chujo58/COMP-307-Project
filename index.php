@@ -95,7 +95,7 @@ if (sizeof($_GET) == 0) {
                 $eventFilter = $stmt->execute()->fetchArray(SQLITE3_ASSOC)['event_filter'];
 
                 //Filter calendar:
-                echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', forceMobile);</script>";
+                echo "<script>window.addEventListener('load', onLoad);</script>";
                 echo "<script>const eventID ='$eventID'; const eventType='booking'; const eventFilter='$eventFilter'; window.addEventListener('load', popoutEvent);</script>";
             }
             display('matter/event.htm');

@@ -211,8 +211,10 @@
           results = this.responseText.split("\n");
           results = results.slice(0, results.length - 1);
 
-          if (results.length === 0 ||
-            (results.length === 1 && results[0] === "")) {
+          if (
+            results.length === 0 ||
+            (results.length === 1 && results[0] === "")
+          ) {
             apt_container.innerHTML =
               "<div class='no-event-body'>There are currently no upcoming appointments.</div>";
           } else {

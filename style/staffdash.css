@@ -79,6 +79,7 @@ button.openbtn {
   border: 1px solid var(--box-highlight);
   border-radius: 8px;
   padding: 1rem;
+  display: none;
   /* height: calc(100vh - 2rem); */
   /*flex-direction: column;*/
   /*position: relative;*/
@@ -247,7 +248,7 @@ button.openbtn {
 /* Responsive Design */
 @media screen and (max-width: 750px) {
   .container {
-    display: flex;
+    display: grid;
     flex-direction: column !important;
     width: auto;
     padding: 0rem !important;
@@ -259,6 +260,7 @@ button.openbtn {
   .event-body {
     margin: 2% 0 2% 0 !important;
   }
+
   .main-dashboard-container h2 {
     display: flex !important;
     justify-content: center;
@@ -269,7 +271,8 @@ button.openbtn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .staffcourse-block-container {
@@ -283,6 +286,7 @@ button.openbtn {
     width: auto;
     height: auto;
     position: relative;
+    display: none;
     /* transform: translateX(-100%); */
   }
 

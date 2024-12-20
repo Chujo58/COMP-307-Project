@@ -4,7 +4,7 @@ function isEventOverlapping($db, $newEventStart, $newEventStop, $userID) {
     $query = "
         SELECT event_id 
         FROM events 
-        WHERE (event_start < :new_event_stop AND event_stop > :new_event_start) AND (staff_id = :user OR student_id = :user) AND event_type='availability'
+        WHERE (event_start <= :new_event_stop AND event_stop >= :new_event_start) AND (staff_id = :user OR student_id = :user) AND event_type='availability'
     ";
 
     $stmt = $db->prepare($query);
@@ -109,6 +109,23 @@ if (isset($_GET['loadFilters'])) {
     exit();
 }
 
+if (isset($_GET['loadCourses'])){
+    $user = $_GET['user'] ?? '';
+    $query = $conn->prepare("SELECT DISTINCT course_id, course_tag, course_name FROM course_list WHERE staff_id=:staff_id");
+    $query->bindValue(':staff_id', $user, SQLITE3_TEXT);
+
+    $result = $query->execute();
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $id = $row['course_id'];
+        $tag = $row['course_tag'];
+        $name = $row['course_name'];
+        echo "<option value='$tag $id'>$tag $id: $name</option>";
+    }
+    $conn->close();
+    exit();
+}
+
 
 if (isset($_GET['start']) && isset($_GET['stop'])){
     $start = $_GET['start'];
@@ -187,16 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $stmt->execute();
         echo "Created event";
     }
-    
-    //For staff:
-    //Edit event in php get show_event_details.php to show edit form
-    
-    //only show availabilities on calendar for staff
-
-    //For student:
-    //Show booking form with get show_event_details.php
-    //auto complete all aside start, stop
-
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {

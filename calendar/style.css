@@ -675,7 +675,7 @@ header .current-month {
     z-index: -10;
 
     img {
-        width: clamp(30px, 5%, 5%);
+        width: calc(0.5* var(--height-topbar));
         cursor: pointer;
     }
 }
@@ -684,11 +684,14 @@ header .current-month {
     font-size: var(--calendar-font-size) !important;
 }
 
-.calendar-popup > form > input {
+.calendar-popup > form > input,
+.calendar-popup > form > select {
     font-family: 'Outfit';
     padding: 1%;
     margin: 1%;
 }
+
+
 
 .calendar-popup.active{
     z-index: 10;
@@ -708,7 +711,8 @@ header .current-month {
     gap: 50px;
     font-size: 12px;
     width: 100%;
-    margin: 20px 0;
+    margin: 10px 0;
+    font-family: 'Outfit';
 }
 
 #recurrence div {
@@ -730,5 +734,7 @@ header .current-month {
 
 #calendar-create-form p {
     margin-top: 10px;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Outfit';
 }

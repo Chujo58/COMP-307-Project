@@ -299,7 +299,7 @@ function onLoad(){
 
                 renderCalender();
                 clickDate(`curr_${selectedDate.getDate()}`);
-                displayFiltered(weeklyViewToggled);
+                // displayFiltered(weeklyViewToggled);
             });
         }
     });
@@ -325,7 +325,7 @@ function showCreate(){
                 document.getElementById('add_event_btn').style = 'display: flex;';
                 document.getElementById('calendar-add-placeholder').classList.remove('hidden');
                 document.getElementById('calendar-popup').innerHTML = `
-                    <img src="icons/pulsar_line_close.png" onclick="document.getElementById('calendar-popup').className='calendar-popup'; document.getElementById('calendar-create-form').reset(); document.getElementById('calendar-create-error').innerHTML='';">
+                    <img src="icons/pulsar_line_close.svg" onclick="document.getElementById('calendar-popup').className='calendar-popup'; document.getElementById('calendar-create-form').reset(); document.getElementById('calendar-create-error').innerHTML='';">
                     <form id="calendar-create-form" action="php/calendar.php" method="post">
                         <div class="heading-highlight form-heading">
                             Create availability
@@ -341,7 +341,9 @@ function showCreate(){
                         <div></div>
                         <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
                         <div></div>
-                        <input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+                        <select id='course-select-create'>
+                            
+                        </select>
                         <div></div>
                         <p>Recurrence</p>
                         <div id="recurrence">
@@ -365,6 +367,9 @@ function showCreate(){
                         <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
                     </form>
             `;
+
+            //<input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
+            loadCourse();
             }
         }
     }
@@ -372,6 +377,20 @@ function showCreate(){
     xhttp.open("GET", "php/calendar.php");
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();    
+}
+
+function loadCourse(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200){
+            console.log(this.responseText);
+            document.getElementById('course-select-create').innerHTML = this.responseText;
+        }
+    }
+
+    xhttp.open("GET", `php/calendar.php?loadCourses=true&user=${userID}`, false);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send();
 }
 
 function loadCalendarIcons(){

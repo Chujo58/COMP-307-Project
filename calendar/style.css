@@ -59,14 +59,12 @@
     --red: 88;
     --green: 88;
     --blue: 140; 
-    background: color-mix(in srgb, var(--availability) 50%, var(--mix-past) 50%) !important;
 }
 
 .availability.current-event {
     --red: 177;
     --green: 177;
     --blue: 230; 
-    background: color-mix(in srgb, var(--availability) 50%, var(--mix-current) 50%) !important;
 }
 
 .booking {
@@ -81,14 +79,12 @@
     --red: 60;
     --green: 122;
     --blue: 79;
-    background: color-mix(in srgb, var(--booking) 50%, var(--mix-past) 50%) !important;
 }
 
 .booking.current-event {
     --red: 149;
     --green: 211;
     --blue: 167;
-    background: color-mix(in srgb, var(--booking) 50%, var(--mix-current) 50%) !important;
 }
 
 .pending {
@@ -103,14 +99,12 @@
     --red: 165;
     --green: 134;
     --blue: 79;
-    background: color-mix(in srgb, var(--pending) 50%, var(--mix-past) 50%) !important;
 }
 
 .pending.current-event {
     --red: 255;
     --green: 223;
     --blue: 167;
-    background: color-mix(in srgb, var(--pending) 50%, var(--mix-current) 50%) !important;
 }
 
 #calendar_user_name {

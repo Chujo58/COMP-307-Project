@@ -75,15 +75,14 @@ header('Content-Type: application/json');
 
 session_start();
 
-// Connect to SQLite database
-$conn = new SQLite3('../comp307project.db'); // Assuming the database file is named 'comp307project.db'
+
+$conn = new SQLite3('../comp307project.db');
 if (!$conn) {
     die("Internal Server Error");
 }
 
 $current_date = $_GET['date'];
 
-// Fetch Upcoming Appointments
 $current_staff_id = $_SESSION["user_id"] ?? null;
 
 if ($_SESSION['user_type'] != 'staff') {
@@ -111,15 +110,12 @@ $query = "
     ORDER BY e.event_start ASC LIMIT 3
 ";
 
-// Prepare and bind parameters
 $stmt = $conn->prepare($query);
-$stmt->bindValue(':staff_id', $current_staff_id, SQLITE3_INTEGER);
+$stmt->bindValue(':staff_id', $current_staff_id, SQLITE3_TEXT);
 $stmt->bindValue(':current_date', $current_date, SQLITE3_TEXT);
 
-// Execute the query
 $result = $stmt->execute();
 
-// Function to echo the data in CSV format
 function echoLikeCSV($array){
     $e_name = $array['event_name'];
     $start = $array['event_start'];
@@ -132,12 +128,11 @@ function echoLikeCSV($array){
     echo "$e_name,$start,$stop,$fname,$lname,$filter,$desc,$user\n";
 }
 
-// Fetch and output events
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     echoLikeCSV($row);
 }
 
-// Close the database connection
+
 $conn->close();
 exit();
 ?>

@@ -26,7 +26,7 @@
 
 
 
-    $conn = new SQLite3('comp307project.db');  // Replace with the actual path to your SQLite3 database file
+    $conn = new SQLite3('../comp307project.db');  // Replace with the actual path to your SQLite3 database file
     if (!$conn) {
         die("Internal Server Error");
     }

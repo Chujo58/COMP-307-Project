@@ -464,7 +464,7 @@ function showEvents(day, weeklyView, filter, user){
                 results = results.slice(0,results.length - 1);
                 results.forEach(row => {
                     var data = row.split(',');
-                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4], data[5]);
+                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
                 });
             }
             else {
@@ -556,7 +556,7 @@ function popoutEvent(){
 	xhttp.send();
 }
 
-function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID){
+function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID, eventType){
     var timeHeight = getCSSvariable('--time-height');
 
     var eventStartTime = new Date(Number(eventStartTimestamp));
@@ -570,7 +570,9 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     if (!column) {
         return;
     }
-    column.innerHTML += `<div class='event' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='redirectToEvent("${eventID}");'><span>${eventTitle}</span></div>`
+    var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
+
+    column.innerHTML += `<div class='event ${eventType}' style='top:${eventTop}; height: ${eventHeight}' event_id='${eventID}' onclick='${redirect_data}'><span>${eventTitle}</span></div>`
 }
 
 function clearView(){

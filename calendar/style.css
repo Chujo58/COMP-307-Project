@@ -24,6 +24,18 @@
     --text-highlight: hsl(2 47% 74%);
 }
 
+.availability {
+    background: lightblue !important;
+}
+
+.booking {
+    background: lightgreen !important;
+}
+
+.pending {
+    background: lightcoral !important;
+}
+
 #calendar_user_name {
     display: flex;
     justify-content: center;

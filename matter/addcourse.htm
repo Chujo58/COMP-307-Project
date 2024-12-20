@@ -27,8 +27,7 @@
     <div class="main-dashboard-container">
       <form id="course-form" method="POST">
         <h2>Course Selection</h2>
-
-        <!-- Message area (for errors or success) -->
+        
         <div id="message"></div>
 
         <label for="course_tag">Course Tag</label>
@@ -37,8 +36,10 @@
           name="course_tag"
           id="course_tag"
           required
-          pattern="[A-Za-z]"
+          pattern="[A-Z0-9]{1,5}"
           title="Course tags should be 4 letters."
+          maxlength="6"
+          oninput="this.value = this.value.replace(/\s/g, '')"
         />
 
         <label for="course_id">Course ID</label>
@@ -47,8 +48,10 @@
           name="course_id"
           id="course_id"
           required
-          pattern="\d"
+          pattern="\d{1,3}"
           title="Course IDs should be 3 digits."
+          maxlength="3"
+          oninput="this.value = this.value.replace(/\s/g, '')"
         />
 
         <label for="course_name">Course Name</label>
@@ -56,9 +59,9 @@
           list="course_name"
           name="course_name"
           id="course_name"
-          
-          pattern="[A-Za-z]"
+          pattern="[A-Za-z0-9]"
           title="Course names should be a short description."
+          maxlength="50"
         />
 
         <div class="buttons">
@@ -103,14 +106,12 @@
           }
       }
 
-      // Prepare POST data
       var formData = new FormData();
       formData.append("action", action);
       formData.append("course_tag", courseTag);
       formData.append("course_id", courseId);
       formData.append("course_name", courseName);
 
-      // Create AJAX request
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "php/addcourse.php", true);
 

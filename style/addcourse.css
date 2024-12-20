@@ -1,6 +1,5 @@
 @import "./constants.css";
 
-/* Container for the page */
 .container {
   display: flex;
   flex-direction: row;
@@ -73,7 +72,6 @@
   margin-bottom: 1rem;
 }
 
-/* Form inputs */
 #course-form label {
   display: block;
   font-family: "Parkinsans", sans-serif;

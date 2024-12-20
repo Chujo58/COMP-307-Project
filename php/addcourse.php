@@ -3,7 +3,6 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Ensure user is logged in (session should be set)
 if (!isset($_SESSION["user_id"])) {
     echo "User is not logged in.";
     exit();
@@ -11,7 +10,6 @@ if (!isset($_SESSION["user_id"])) {
 
 $user_id = $_SESSION["user_id"];
 
-// Check if required POST data is available
 if (!isset($_POST['course_tag']) || !isset($_POST['course_id']) || !isset($_POST['action']) || !isset($_POST['course_name'])) {
     echo "Missing required data.";
     exit();
@@ -20,9 +18,8 @@ if (!isset($_POST['course_tag']) || !isset($_POST['course_id']) || !isset($_POST
 $course_tag = $_POST['course_tag'];
 $course_id = $_POST['course_id'];
 $course_name = $_POST['course_name'];
-$action = $_POST['action'];  // action could be 'add' or 'remove'
+$action = $_POST['action'];  // 'add' or 'remove'
 
-// Create DB connection
 try {
     $conn = new SQLite3('../comp307project.db');
 } catch (Exception $e) {
@@ -31,6 +28,7 @@ try {
 }
 
 if ($action === 'add') {
+    //check if tuple exists (tag, id, staff id), ignoring name
     $query = "SELECT * FROM course_list WHERE course_tag = :course_tag AND course_id = :course_id AND staff_id = :staff_id";
     $stmt = $conn->prepare($query);
     $stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);
@@ -41,6 +39,7 @@ if ($action === 'add') {
     if ($result->fetchArray(SQLITE3_ASSOC)) {
         echo "This course is already added.";
     } else {
+        //add tuple (tag, id, staff id, name)
         $insert_query = "INSERT INTO course_list (course_tag, course_id, staff_id, course_name) VALUES (:course_tag, :course_id, :staff_id, :course_name)";
         $insert_stmt = $conn->prepare($insert_query);
         $insert_stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);
@@ -56,7 +55,7 @@ if ($action === 'add') {
     }
 
 } elseif ($action === 'remove') {
-    // Check if the course exists for this staff before trying to delete it
+    //check if course tuple (tag, id, staff id) exists, ignore name
     $check_query = "SELECT * FROM course_list WHERE course_tag = :course_tag AND course_id = :course_id AND staff_id = :staff_id";
     $check_stmt = $conn->prepare($check_query);
     $check_stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);
@@ -67,6 +66,7 @@ if ($action === 'add') {
     if (!$check_result->fetchArray(SQLITE3_ASSOC)) {
         echo "This course is not in your list.";
     } else {
+        //delete corresponding record
         $delete_query = "DELETE FROM course_list WHERE course_tag = :course_tag AND course_id = :course_id AND staff_id = :staff_id";
         $delete_stmt = $conn->prepare($delete_query);
         $delete_stmt->bindValue(':course_tag', $course_tag, SQLITE3_TEXT);

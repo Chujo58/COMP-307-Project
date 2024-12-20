@@ -142,8 +142,9 @@
         </form>
     </div>
 </div> -->
+
     <!-- Booking Form -->
-    <div class="event-columns-box" style="width: 35%; display: none;" id="booking-form-holder">
+    <div class="event-columns-box" style="width: 35%;" id="booking-form-holder">
         <form action="php/calendar.php" method="post" id="booking-form">
             <div class="heading-highlight form-heading">Create booking</div>
             <div id="event-booking-message"></div>
@@ -177,19 +178,15 @@
     </div>
 </div>
 
-<!-- <script>
-    
-</script> -->
-<!-- Pass the event type from backend to frontend -->
 <script>
-    // Assuming PHP echoes `eventType` from the backend
+    // Pass the event type from the PHP backend to the JavaScript front end
     const eventType = "<?php echo isset($event_type) ? $event_type : ''; ?>";
 
-    // Check the event type and toggle the booking form visibility
     document.addEventListener('DOMContentLoaded', () => {
         const bookingFormHolder = document.getElementById('booking-form-holder');
 
-        if (eventType === 'availability') {
+        // If eventType is 'availability', show the form. Otherwise, hide it.
+        if (eventType.trim() === 'availability') {
             bookingFormHolder.style.display = 'block';
         } else {
             bookingFormHolder.style.display = 'none';

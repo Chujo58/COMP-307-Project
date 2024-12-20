@@ -406,6 +406,10 @@ function createBooking(){
                     setTimeout(function(){
                         document.getElementById('calendar').click();
                     }, 1500);
+                } 
+                if (this.responseText.includes("Event overlaps")){
+                    elem.style.color = 'red';
+                    elem.innerHTML = this.responseText;
                 } else {
                     elem.style.color = 'red';
                     elem.innerHTML = 'Need additional information';
@@ -603,8 +607,7 @@ function popoutEvent(){
                 </div>`;
 
                 var form_holder = document.getElementById('booking-form-holder');
-                if (new Date(Number(results[3])) >= new Date()){
-                    if (results[9] == 'availability'){
+                if (new Date(Number(results[3])) >= new Date() && results[9] == 'availability'){
                         form_holder.innerHTML = `
                         <form action="php/calendar.php" method="post" id="booking-form">
                             <div class="heading-highlight form-heading">
@@ -635,10 +638,10 @@ function popoutEvent(){
                         </form>
                         `;
                         // form_holder.style.width = '35%';
-                        // document.getElementById('event-informations').style.width = '65%';
-                    }
+                        // document.getElementById('event-informations').style.width = '65%'
+                } else {
+                    form_holder.style.display = 'none';
                 }
-                form_holder.style.display = 'none';
                 clickDate(`curr_${new Date(Number(results[2])).getDate()}`);
                 forceMobile();
             }

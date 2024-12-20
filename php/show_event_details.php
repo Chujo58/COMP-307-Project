@@ -1,6 +1,26 @@
 <?php
 session_start();
 
+function isEventOverlapping($db, $newEventStart, $newEventStop) {
+    $query = "
+        SELECT event_id 
+        FROM events 
+        WHERE (event_start < :new_event_stop AND event_stop > :new_event_start)
+    ";
+
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':new_event_start', $newEventStart);
+    $stmt->bindParam(':new_event_stop', $newEventStop);
+
+    $result = $stmt->execute();
+    $overlappingEvents = [];
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $overlappingEvents[] = $row;
+    }
+
+    return $overlappingEvents;
+}
+
 function gen_uuid($len=8) {
     $hex = md5("yourSaltHere" . uniqid("", true));
     $pack = pack('H*', $hex);
@@ -117,6 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindValue(':l_name', $l_name, SQLITE3_TEXT);
         $stmt->bindValue(':user_id', $other_id, SQLITE3_TEXT);
         $stmt->execute();
+    }
+
+    $overlappingEvents = isEventOverlapping($conn, $start, $stop);
+    if (!empty($overlappingEvents)){
+        echo "Event overlaps with an existing event.";
+        exit();
     }
 
     $stmt = $conn->prepare("INSERT INTO events (event_name, event_id, event_type, event_desc, event_start, event_stop, event_filter, staff_id, student_id) VALUES (:name, :event_id, :event_type, :event_desc, :event_start, :event_stop, :event_filter, :staff_id, :student_id)");

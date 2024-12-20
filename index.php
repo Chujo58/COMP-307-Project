@@ -71,11 +71,14 @@ if (sizeof($_GET) == 0) {
             }
             if ($userID) {
                 echo "<script>const userID ='" . $userID . "';</script>";
-                if ($_SESSION["user_type"] == "student") {
-                    echo "<script>const eventType='availability';</script>";
-                }
             } else {
                 echo "<script>const eventType='availability';</script>";
+            }
+
+            if ($user_ID && $_SESSION["user_type"] == "student") {
+                echo "<script>const eventType='availability';</script>";
+            } else {
+                echo "";
             }
             
             echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', function(){ getUserNames('$userID'); });</script>";

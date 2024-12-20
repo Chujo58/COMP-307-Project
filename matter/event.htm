@@ -143,22 +143,6 @@
         </form>
     </div>
 </div>
-
-<!-- <script>
-    const eventID = new URLSearchParams(window.location.search).get('event_id');
+<script>
     
-    if (eventID) {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                const response = this.responseText.trim();
-                if (response === 'availability') {
-                    document.getElementById('booking-form').style.display = 'block'; // Show form
-                }
-            }
-        };
-        xhttp.open('GET', `php/show_event_details.php?event_id=${eventID}`, true);
-        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhttp.send();
-    }
-</script> -->
+</script>

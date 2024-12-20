@@ -451,7 +451,7 @@ function deleteEvent(id){
  * @param {Date} day Day to show events
  * @param {boolean} weeklyView Is weekly view toggled on.
  */
-function showEvents(day, weeklyView, filter, user){
+function showEvents(day, weeklyView, filter, user, type){
     var weekday_index = weeklyView ? day.getDay() : 0;
     var start_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
     var stop_timestamp = new Date(day.getFullYear(), day.getMonth(), day.getDate()+1).getTime();
@@ -473,7 +473,7 @@ function showEvents(day, weeklyView, filter, user){
         }
     }
 
-    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}`, 'true');
+    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}&type=${type}`, 'true');
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
@@ -593,16 +593,16 @@ function generateTimeCols(numCols){
     }
 }
 
-function displayEventForCurrView(weeklyView, filter, user){
+function displayEventForCurrView(weeklyView, filter, user, type){
     if (weeklyView){
         var i = 0;
         while (i < 7){
             new_date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - selectedDate.getDay() + i);
-            showEvents(new_date, true, filter, user);
+            showEvents(new_date, true, filter, user, type);
             i++;
         }
     } else {
-        showEvents(selectedDate, false, filter, user);
+        showEvents(selectedDate, false, filter, user, type);
     }
 }
 
@@ -668,12 +668,9 @@ function loadFilters(){
 }
 
 function displayFiltered(weekly){
-    var user = "";
-    if (typeof userID === 'undefined' || !userID){
-        user = "";
-    } else {
-        user = userID;
-    }
+    var user = (typeof userID === 'undefined' || !userID) ? '' : userID;
+    var type = (typeof eventType === 'undefined' || !eventType) ? '' : eventType;
+    
     var filters = document.querySelectorAll('div.filter');
     var clicked_filters = [];
     filters.forEach(filter => {
@@ -685,7 +682,7 @@ function displayFiltered(weekly){
 
     clearView();
     clicked_filters.forEach(filter_id => {
-        displayEventForCurrView(weekly, filter_id, user);       
+        displayEventForCurrView(weekly, filter_id, user, type);       
     });
 }
 

@@ -69,11 +69,11 @@ else {
         case "Calendar":
             $userID = isset($_GET['user_id']) ? $_GET["user_id"] : null;
             $use_session = isset($_GET['session']) ? $_GET['session'] : null;
-            if ($use_session){
+            if ($use_session && !$userID){
                 $userID = $_SESSION['user_id'];
             }
             if ($userID){
-                echo "<script>const userID ='" . $userID . "';</script>";
+                echo "<script>const userID ='" . $userID . "'; const eventType='availability';</script>";
             }
             echo "<script>window.addEventListener('load', onLoad); window.addEventListener('load', function(){ getUserNames('$userID'); });</script>";
             display('matter/calendar.htm');

@@ -341,7 +341,7 @@ function showCreate(){
                         <div></div>
                         <input type="text" name="event_desc" id="event_desc" placeholder="Description" onfocusout="isFieldEmpty('event_desc')">
                         <div></div>
-                        <select id='course-select-create'>
+                        <select id='event_filter'>
                             
                         </select>
                         <div></div>
@@ -384,7 +384,7 @@ function loadCourse(){
     xhttp.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200){
             console.log(this.responseText);
-            document.getElementById('course-select-create').innerHTML = this.responseText;
+            document.getElementById('event_filter').innerHTML = this.responseText;
         }
     }
 

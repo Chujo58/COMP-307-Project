@@ -120,7 +120,7 @@ if (isset($_GET['loadCourses'])){
         $id = $row['course_id'];
         $tag = $row['course_tag'];
         $name = $row['course_name'];
-        echo "<option value='$tag $id'>$tag $id: $name</option>";
+        echo "<option value='$tag$id'>$tag $id: $name</option>";
     }
     $conn->close();
     exit();

@@ -179,14 +179,14 @@
 </div>
 
 <script>
-    // Pass the event type from the PHP backend to the JavaScript front end
-    const eventType = "<?php echo isset($event_type) ? $event_type : ''; ?>";
+    // 1️⃣ Pass the event type from the PHP backend to the JavaScript front end
+    const eventType = <? php echo json_encode($event_type ?? ''); ?>;
 
     document.addEventListener('DOMContentLoaded', () => {
         const bookingFormHolder = document.getElementById('booking-form-holder');
 
-        // If eventType is 'availability', show the form. Otherwise, hide it.
-        if (eventType.trim() === 'availability') {
+        // 2️⃣ If eventType is 'availability', show the form. Otherwise, hide it.
+        if (eventType === 'availability') {
             bookingFormHolder.style.display = 'block';
         } else {
             bookingFormHolder.style.display = 'none';

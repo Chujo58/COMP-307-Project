@@ -394,3 +394,14 @@ function denyRequest(eventID) {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(`event_id=${eventID}`);
 }
+
+function toggleStaffNav(){
+    if (document.getElementById("staffdash-sidebar").style.display == 'flex'){
+      document.getElementById("staffdash-sidebar").style.display = 'none';
+      document.getElementById('openbtn').innerHTML = '<img src="icons/pulsar_line_menu.png">';
+      return;
+    } else {
+      document.getElementById("staffdash-sidebar").style.display = 'flex';
+      document.getElementById('openbtn').innerHTML = '<img src="icons/pulsar_line_close.png">';
+    }
+}

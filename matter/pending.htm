@@ -1,7 +1,7 @@
 <!-- Sophia Zhou -->
 <header class="staff-header">
   <div class="left-h">
-    <a class="openbtn" onclick="openNav()">
+    <a class="openbtn" id="openbtn" onclick="toggleStaffNav()">
       <img src="icons/pulsar_line_menu.png" />
     </a>
   </div>
@@ -10,12 +10,12 @@
 
 <div class="container">
   <div id="staffdash-sidebar" class="sidebar">
-    <div class="extra-sidebar">
+    <!-- <div class="extra-sidebar">
       <a class="closebtn" onclick="closeNav()">
         <img src="icons/pulsar_line_close.png" />
-      </a>
+      </a> -->
       <a href="./index.php?Page=Dashboard">Main</a>
-    </div>
+    <!-- </div> -->
     <a href="./index.php?Page=Calendar&session=true" id="aval"
       >Availabilities</a
     >
@@ -31,6 +31,16 @@
   </div>
 
   <script>
+    function toggleStaffNav(){
+      if (document.getElementById("staffdash-sidebar").style.display == 'flex'){
+        document.getElementById("staffdash-sidebar").style.display = 'none';
+        document.getElementById('openbtn').innerHTML = '<img src="icons/pulsar_line_menu.png">';
+        return;
+      } else {
+        document.getElementById("staffdash-sidebar").style.display = 'flex';
+        document.getElementById('openbtn').innerHTML = '<img src="icons/pulsar_line_close.png">';
+      }
+    }
     function openNav() {
       document.getElementById("staffdash-sidebar").style.display = "flex";
     }

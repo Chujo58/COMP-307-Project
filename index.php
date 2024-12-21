@@ -17,6 +17,11 @@ function display($path)
 
 display("matter/top.htm");
 
+$conn = new SQLite3('comp307project.db');
+if (!$conn) {
+    die("Connection failed: " . $conn->lastErrorMsg());
+}
+
 if (sizeof($_GET) == 0) {
     display("matter/main.htm");
 } else {
@@ -75,7 +80,11 @@ if (sizeof($_GET) == 0) {
                 echo "<script>const eventType='availability';</script>";
             }
 
-            if ($user_ID && $_SESSION["user_type"] == "student") {
+            $stmt = $conn->prepare("SELECT user_type from valid_users where user_id= :id");
+            $stmt->bindValue(':id',$userID);
+            $user_type = $stmt->execute()->fetchArray(SQLITE3_ASSOC)['user_type'];
+            
+            if ($user_ID && $_SESSION["user_type"] == "student" && $user_type == 'staff') {
                 echo "<script>const eventType='availability';</script>";
             } else {
                 echo "";
@@ -89,10 +98,7 @@ if (sizeof($_GET) == 0) {
             $eventID = isset($_GET['event_id']) ? $_GET["event_id"] : null;
             if ($eventID) {
                 //Go get the event filter:
-                $conn = new SQLite3('comp307project.db');
-                if (!$conn) {
-                    die("Connection failed: " . $conn->lastErrorMsg());
-                }
+                
                 $stmt = $conn->prepare("SELECT event_filter from events WHERE event_id = :id");
                 $stmt->bindValue(':id', $eventID, SQLITE3_TEXT);
                 $eventFilter = $stmt->execute()->fetchArray(SQLITE3_ASSOC)['event_filter'];
@@ -121,5 +127,5 @@ if (sizeof($_GET) == 0) {
 }
 
 display("matter/bot.htm");
-
+$conn->close();
 ?>

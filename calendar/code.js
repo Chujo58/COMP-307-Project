@@ -351,11 +351,7 @@ function showCreate(){
                             <div>
                                 <input type="radio" id="recurrence0" name="recurrence" value="never" checked="checked">
                                 <label for="recurrence0">Only Once</label>
-                            </div>
-                            <div>
-                                <input type="radio" id="recurrence1" name="recurrence" value="daily">
-                                <label for="recurrence1">Daily</label>
-                            </div>
+                            </div>                            
                             <div>
                                 <input type="radio" id="recurrence2" name="recurrence" value="weekly">
                                 <label for="recurrence2">Weekly</label>  
@@ -587,7 +583,7 @@ function showEvents(day, weeklyView, filter, user, type){
                 results = results.slice(0,results.length - 1);
                 results.forEach(row => {
                     var data = row.split(',');
-                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
+                    addEventToCalendar(weekday_index, data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
                 });
             }
             else {
@@ -733,7 +729,7 @@ function popoutEvent(){
 	xhttp.send();
 }
 
-function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID, eventType){
+function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID, eventType, eventRecurrance){
     var timeHeight = getCSSvariable('--time-height');
 
     var eventStartTime = new Date(Number(eventStartTimestamp));
@@ -745,6 +741,13 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     forcePadding = timeDiff < 30;
 
     var column = document.getElementById(`time-col-${columnid}`);
+    if (eventRecurrance == 'weekly'){
+        column = document.getElementById(`time-col-${eventStartTime.getDay()}`);
+    } 
+    // if (eventRecurrance == 'monthly'){
+    //     addmonth = eventStartTime.getMonth() != currMonth ? 1 : 0;
+    //     column = document.getElementById(`time-col-${new Date(eventStartTime.getFullYear(), eventStartTime.getMonth() + addmonth, eventStartTime.getDate()).getDay()}`);
+    // }
     if (!column) {
         return;
     }

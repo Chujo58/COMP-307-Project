@@ -46,7 +46,7 @@ if (!$conn) {
 }
 
 function echoLikeCSV($array){
-    echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id']  . ',' . $array['event_type'] . '\n';
+    echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id']  . ',' . $array['event_type'] . ',' . $array['event_recurrance'] . '\n';
 }
 
 function showData($result) {

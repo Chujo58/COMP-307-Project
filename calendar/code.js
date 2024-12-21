@@ -724,27 +724,29 @@ function popoutEvent(){
 	xhttp.send();
 }
 
-function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID, eventType){
+function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp, eventStopTimestamp, eventFilter, eventID, eventType) {
     var timeHeight = getCSSvariable('--time-height');
 
     var eventStartTime = new Date(Number(eventStartTimestamp));
     var eventStopTime = new Date(Number(eventStopTimestamp));
 
-    timeDiff = (eventStopTime - eventStartTime)/1000/60;
-    eventTop = `calc(${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes())/ 60})`;
-    eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
-    forcePadding = timeDiff < 30;
-
+    var columnid = eventStartTime.getDay(); // Correctly determine the column based on weekday
     var column = document.getElementById(`time-col-${columnid}`);
     if (!column) {
+        console.error(`Column ${columnid} not found for event ${eventID}`);
         return;
     }
-    // var redirect_data = eventType == 'availability' ? `redirectToEvent("${eventID}");` : '';
-    var redirect_data = `redirectToEvent("${eventID}");`
+
+    var timeDiff = (eventStopTime - eventStartTime) / 1000 / 60; // Duration in minutes
+    var eventTop = `calc(${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes()) / 60})`;
+    var eventHeight = `calc(${timeHeight} * ${timeDiff / 60})`;
+    var forcePadding = timeDiff < 30;
+
+    var redirect_data = `redirectToEvent("${eventID}");`;
     var eventPast = eventStopTime <= new Date();
     var eventCurrent = eventStartTime <= new Date() && new Date() <= eventStopTime;
 
-    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''} ${eventCurrent ? 'current-event': ''}' style='top:${eventTop}; height: ${eventHeight};' event_id='${eventID}' onclick='${redirect_data}'><span style='padding: ${forcePadding ? '2px 10px !important;' : ''};'>${eventTitle}</span></div>`
+    column.innerHTML += `<div class='event ${eventType} ${eventPast ? 'past-event' : ''} ${eventCurrent ? 'current-event': ''}' style='top:${eventTop}; height: ${eventHeight};' event_id='${eventID}' onclick='${redirect_data}'><span style='padding: ${forcePadding ? '2px 10px !important;' : ''};'>${eventTitle}</span></div>`;
 }
 
 function clearView(){

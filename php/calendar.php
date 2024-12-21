@@ -128,29 +128,44 @@ if (isset($_GET['loadCourses'])){
 
 
 if (isset($_GET['start']) && isset($_GET['stop'])){
-    $start = $_GET['start'];
-    $stop = $_GET['stop'];
+    $start = (int) $_GET['start'];
+    $stop = (int) $_GET['stop'];
 
-    $query = "SELECT * FROM events WHERE (
+    $query = "SELECT * FROM events
+    WHERE (
+        -- Non-recurring events within the range
         CAST(event_start AS INTEGER) BETWEEN :start AND :stop
-        OR (
+
+        OR
+        -- Recurring events
+        (
             event_recurrence IS NOT NULL
+            AND CAST(event_start AS INTEGER) <= :stop -- Recurring events must start before the range ends
             AND (
+                -- Daily recurrence
+                (event_recurrence = 'daily')
+
+                OR
                 -- Weekly recurrence
                 (event_recurrence = 'weekly'
-                AND CAST(:start AS INTEGER) >= CAST(event_start AS INTEGER)
-                AND ((CAST(:start AS INTEGER) - CAST(event_start AS INTEGER)) % (7 * 24 * 60 * 60 * 1000) = 0))
-                OR
-                -- Daily recurrence
-                (event_recurrence = 'daily'
-                AND CAST(:start AS INTEGER) >= CAST(event_start AS INTEGER))
+                AND (
+                    julianday(datetime(:stop / 1000, 'unixepoch')) >= julianday(datetime(event_start / 1000, 'unixepoch'))
+                    AND (
+                        (julianday(datetime(:start / 1000, 'unixepoch')) - julianday(datetime(event_start / 1000, 'unixepoch'))) % 7 = 0
+                    )
+                ))
+
                 OR
                 -- Monthly recurrence
                 (event_recurrence = 'monthly'
-                AND CAST(:start AS INTEGER) >= CAST(event_start AS INTEGER)
-                AND strftime('%d', datetime(CAST(:start AS INTEGER) / 1000, 'unixepoch')) = strftime('%d', datetime(CAST(event_start AS INTEGER) / 1000, 'unixepoch')))
+                AND (
+                    strftime('%d', datetime(:start / 1000, 'unixepoch')) = strftime('%d', datetime(event_start / 1000, 'unixepoch'))
+                    OR (
+                        strftime('%d', datetime(event_start / 1000, 'unixepoch')) > strftime('%d', datetime(:start / 1000, 'unixepoch'))
+                        AND strftime('%m', datetime(event_start / 1000, 'unixepoch')) != strftime('%m', datetime(:start / 1000, 'unixepoch'))
+                    )
+                ))
             )
-            AND (CAST(:start AS INTEGER) <= CAST(event_end AS INTEGER) OR event_end IS NULL) -- Optional end date check
         )
     )";
 

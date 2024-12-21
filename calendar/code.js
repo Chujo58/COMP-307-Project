@@ -731,8 +731,8 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     var eventStopTime = new Date(Number(eventStopTimestamp));
 
     timeDiff = (eventStopTime - eventStartTime)/1000/60;
-    eventTop = calc(`${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes())/ 60}`);
-    eventHeight = calc(`${timeHeight} * ${timeDiff / 60}`);
+    eventTop = `calc(${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes())/ 60});`
+    eventHeight = `calc(${timeHeight} * ${timeDiff / 60});`
     forcePadding = timeDiff < 30;
 
     var column = document.getElementById(`time-col-${columnid}`);
@@ -740,7 +740,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
         return;
     }
     // var redirect_data = eventType == 'availability' ? redirectToEvent("${eventID}"); : '';
-    var redirect_data = redirectToEvent("${eventID}");
+    var redirect_data = `redirectToEvent("${eventID}");`
     var eventPast = eventStopTime <= new Date();
     var eventCurrent = eventStartTime <= new Date() && new Date() <= eventStopTime;
 

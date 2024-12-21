@@ -361,7 +361,7 @@ function showCreate(){
                             </div>
                             <div>
                                 <input type="radio" id="recurrence3" name="recurrence" value="monthly">
-                                <label for="recurrence3">Montly</label>
+                                <label for="recurrence3">Monthly</label>
                             </div>
                         </div>
                         <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">

@@ -1,4 +1,5 @@
 <?php
+// Ling Jie Chen
 session_start();
 
 if (isset($_COOKIE['ticket_id'])) {

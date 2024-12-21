@@ -84,7 +84,7 @@ if (sizeof($_GET) == 0) {
             $stmt->bindValue(':id',$userID);
             $user_type = $stmt->execute()->fetchArray(SQLITE3_ASSOC)['user_type'];
             
-            if ($user_ID && $_SESSION["user_type"] == "student" && $user_type == 'staff') {
+            if ($_SESSION["user_type"] == "student" && $user_type == 'staff') {
                 echo "<script>const eventType='availability';</script>";
             } else {
                 echo "";

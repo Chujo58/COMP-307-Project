@@ -1,4 +1,5 @@
 <?php
+// Ling Jie Chen
 session_start();
 
 function authenticate($conn) {

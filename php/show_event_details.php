@@ -1,4 +1,5 @@
 <?php
+// Chloe Legué
 session_start();
 
 function isEventOverlapping($db, $newEventStart, $newEventStop) {

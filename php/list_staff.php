@@ -1,5 +1,5 @@
 <?php
-// Database Connection using SQLite3
+// Sophia Zhou
 $conn = new SQLite3('../comp307project.db');
 
 if (!$conn) {
@@ -14,7 +14,6 @@ if (empty($courseID)) {
 }
 
 // Prepare the query
-// $query = "SELECT staff_id, course_name FROM course_list WHERE course_id = ?";
 $query = "SELECT DISTINCT vu.l_name, vu.f_name, vu.user_id FROM course_list cl INNER JOIN valid_users vu ON cl.staff_id = vu.user_id WHERE cl.course_id = :course_id";
 $stmt = $conn->prepare($query);
 $stmt->bindValue(':course_id', $courseID, SQLITE3_TEXT);

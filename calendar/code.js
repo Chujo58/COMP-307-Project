@@ -386,7 +386,7 @@ function loadCourse(){
         }
     }
 
-    xhttp.open("GET", `php/calendar.php?loadCourses=true&user=${userID}`, false);
+    xhttp.open("GET", `php/calendar.php?loadCourses=true&user=${userID}`, true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
@@ -592,7 +592,7 @@ function showEvents(day, weeklyView, filter, user, type){
         }
     }
 
-    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}&type=${type}`, false);
+    xhttp.open("GET", `php/calendar.php?start=${start_timestamp}&stop=${stop_timestamp}&filter=${filter}&user=${user}&type=${type}`, true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
@@ -724,7 +724,7 @@ function popoutEvent(){
             }
         }
     }
-    xhttp.open('GET', `php/show_event_details.php?event_id=${event}`, false);
+    xhttp.open('GET', `php/show_event_details.php?event_id=${event}`, true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send();
 }
@@ -846,7 +846,7 @@ function loadFilters(){
         }
     };
 
-    xhttp.open('GET', `php/calendar.php?loadFilters=true&user=${user}`, false);
+    xhttp.open('GET', `php/calendar.php?loadFilters=true&user=${user}`, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }
@@ -928,7 +928,7 @@ function getUserNames(userID){
             }
         };
 
-        xhttp.open('GET', `php/calendar.php?get_name_id=${user}`, false);
+        xhttp.open('GET', `php/calendar.php?get_name_id=${user}`, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send();
     }

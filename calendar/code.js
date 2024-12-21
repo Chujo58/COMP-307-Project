@@ -1,3 +1,4 @@
+// Chloé Legué & Ling Jie Chen
 let date = new Date(),
 currYear = date.getFullYear(),
 currMonth = date.getMonth();

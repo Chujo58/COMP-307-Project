@@ -846,7 +846,7 @@ function loadFilters(){
         }
     };
 
-    xhttp.open('GET', `php/calendar.php?loadFilters=true&user=${user}`, true);
+    xhttp.open('GET', `php/calendar.php?loadFilters=true&user=${user}`, false);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send();
 }

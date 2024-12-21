@@ -139,15 +139,15 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
         OR
         -- Recurring events
         (
-            event_recurrence IS NOT NULL
+            event_recurrance IS NOT NULL
             AND CAST(event_start AS INTEGER) <= :stop -- Recurring events must start before the range ends
             AND (
                 -- Daily recurrence
-                (event_recurrence = 'daily')
+                (event_recurrance = 'daily')
 
                 OR
                 -- Weekly recurrence
-                (event_recurrence = 'weekly'
+                (event_recurrance = 'weekly'
                 AND (
                     julianday(datetime(:stop / 1000, 'unixepoch')) >= julianday(datetime(event_start / 1000, 'unixepoch'))
                     AND (
@@ -158,7 +158,7 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
 
                 OR
                 -- Monthly recurrence
-                (event_recurrence = 'monthly'
+                (event_recurrance = 'monthly'
                 AND (
                     strftime('%d', datetime(:start / 1000, 'unixepoch')) = strftime('%d', datetime(event_start / 1000, 'unixepoch'))
                     OR (

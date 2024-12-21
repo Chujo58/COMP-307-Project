@@ -432,23 +432,23 @@ function createBooking(){
         var type = 'booking';
     } else {
         var type = 'pending';
-        if (start.getDate() != stop.getDate()){
-            elem.style.color = 'red';
-            elem.innerHTML = "Cannot create event. Dates aren't in same day.";
-            return;
-        }
+    }
+    if (start.getDate() != stop.getDate()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Dates aren't in same day.";
+        return;
+    }
 
-        if (start >= stop){
-            elem.style.color = 'red'
-            elem.innerHTML = "Cannot create event. End time after start time.";
-            return;
-        }
-    
-        if (start <= new Date()){
-            elem.style.color = 'red';
-            elem.innerHTML = "Cannot create event. Date before current date and time";
-            return;
-        }
+    if (start >= stop){
+        elem.style.color = 'red'
+        elem.innerHTML = "Cannot create event. End time after start time.";
+        return;
+    }
+
+    if (start <= new Date()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Date before current date and time";
+        return;
     }
 
     var xhttp = new XMLHttpRequest();

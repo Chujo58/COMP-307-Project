@@ -360,7 +360,7 @@ function showCreate(){
                                 <label for="recurrence2">Weekly</label>  
                             </div>
                             <div>
-                                <input type="radio" id="recurrence3" name="recurrence" value="montly">
+                                <input type="radio" id="recurrence3" name="recurrence" value="monthly">
                                 <label for="recurrence3">Montly</label>
                             </div>
                         </div>

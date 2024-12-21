@@ -149,11 +149,12 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
                 OR
                 -- Weekly recurrence
                 (event_recurrance = 'weekly'
-                                AND (
+                AND (
                     julianday(datetime(:stop / 1000, 'unixepoch')) >= julianday(datetime(event_start / 1000, 'unixepoch'))
                     AND (
-                        julianday(datetime(:start / 1000, 'unixepoch')) - julianday(datetime(event_start / 1000, 'unixepoch')) >= 0
+                        (julianday(datetime(:start / 1000, 'unixepoch')) - julianday(datetime(event_start / 1000, 'unixepoch'))) >= 0
                         AND (julianday(datetime(:start / 1000, 'unixepoch')) - julianday(datetime(event_start / 1000, 'unixepoch'))) % 7 = 0
+                        AND strftime('%w', datetime(:start / 1000, 'unixepoch')) = strftime('%w', datetime(event_start / 1000, 'unixepoch'))
                     )
                 ))
     

@@ -69,6 +69,7 @@
 }
 
 .booking {
+    z-index: 10;
     --red: 43;
     --green: 167;
     --blue: 80;
@@ -89,6 +90,7 @@
 }
 
 .pending {
+    z-index: 10;
     --red: 255;
     --green: 191;
     --blue: 80;

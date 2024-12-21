@@ -735,7 +735,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     eventHeight = calc(`${timeHeight} * ${timeDiff / 60}`);
     forcePadding = timeDiff < 30;
 
-    var column = document.getElementById(time-col-${columnid});
+    var column = document.getElementById(`time-col-${columnid}`);
     if (!column) {
         return;
     }

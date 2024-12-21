@@ -135,19 +135,19 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
     WHERE (
         -- Non-recurring events within the range
         CAST(event_start AS INTEGER) BETWEEN :start AND :stop
-
+    
         OR
         -- Recurring events
         (
-            event_recurrance IS NOT NULL
+            event_recurrence IS NOT NULL
             AND CAST(event_start AS INTEGER) <= :stop -- Recurring events must start before the range ends
             AND (
                 -- Daily recurrence
-                (event_recurrance = 'daily')
-
+                (event_recurrence = 'daily')
+    
                 OR
                 -- Weekly recurrence
-                (event_recurrance = 'weekly'
+                (event_recurrence = 'weekly'
                 AND (
                     julianday(datetime(:stop / 1000, 'unixepoch')) >= julianday(datetime(event_start / 1000, 'unixepoch'))
                     AND (
@@ -155,15 +155,15 @@ if (isset($_GET['start']) && isset($_GET['stop'])){
                         AND (julianday(datetime(:start / 1000, 'unixepoch')) - julianday(datetime(event_start / 1000, 'unixepoch'))) % 7 = 0
                     )
                 ))
-
+    
                 OR
-                -- Monthly recurrence
-                (event_recurrance = 'monthly'
+                -- Monthly recurrence (every 28 days)
+                (event_recurrence = 'monthly'
                 AND (
-                    strftime('%d', datetime(:start / 1000, 'unixepoch')) = strftime('%d', datetime(event_start / 1000, 'unixepoch'))
-                    OR (
-                        strftime('%d', datetime(event_start / 1000, 'unixepoch')) > strftime('%d', datetime(:start / 1000, 'unixepoch'))
-                        AND strftime('%m', datetime(event_start / 1000, 'unixepoch')) != strftime('%m', datetime(:start / 1000, 'unixepoch'))
+                    julianday(datetime(:stop / 1000, 'unixepoch')) >= julianday(datetime(event_start / 1000, 'unixepoch'))
+                    AND (
+                        julianday(datetime(:start / 1000, 'unixepoch')) - julianday(datetime(event_start / 1000, 'unixepoch')) >= 0
+                        AND (julianday(datetime(:start / 1000, 'unixepoch')) - julianday(datetime(event_start / 1000, 'unixepoch'))) % 28 = 0
                     )
                 ))
             )

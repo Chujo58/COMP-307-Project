@@ -1,3 +1,4 @@
+// Chloé Legué
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 // const elem_id = "demo";
 

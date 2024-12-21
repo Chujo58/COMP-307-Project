@@ -1,4 +1,5 @@
 <?php 
+// Chloé Legué & Ling Jie Chen
 function readHTMLfile($filename) {
     $fp = fopen($filename,"r");
     while (($data = fgets($fp)) !== false) {

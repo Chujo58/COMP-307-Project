@@ -1,5 +1,5 @@
 <?php
-// Chloe Legué
+// Chloé Legué
 session_start();
 
 function isEventOverlapping($db, $newEventStart, $newEventStop) {

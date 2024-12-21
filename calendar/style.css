@@ -126,7 +126,6 @@
     #calendar-page-icon {
         display: none !important;
     }
-
 }
 
 .calendar-body {
@@ -674,6 +673,7 @@ header .current-month {
     width: calc(100% - var(--sidebar-width));
     display: flex;
     flex-direction: column;
+    visibility: hidden;
 
     z-index: -10;
 
@@ -697,6 +697,7 @@ header .current-month {
 
 
 .calendar-popup.active{
+    visibility:visible !important;
     z-index: 100;
     background-color: white;
     border-radius: 8px;

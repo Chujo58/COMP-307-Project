@@ -1,4 +1,5 @@
 <?php
+// Sophia Zhou
 // Database Connection using SQLite3
 $conn = new SQLite3('../comp307project.db');
 
@@ -7,8 +8,7 @@ if (!$conn) {
 }
 
 // Handle Loading Course Levels
-if (isset($_GET['loadLevels'])) {
-    // SQLite3 does not support FLOOR with divisions directly like MySQL. 
+if (isset($_GET['loadLevels'])) { 
     // We can perform the level calculation with a simple approach.
     $query = "SELECT DISTINCT CAST(course_id AS INTEGER) / 100 * 100 AS level FROM course_list ORDER BY level";
     $result = $conn->query($query);

@@ -1,4 +1,5 @@
-<?php 
+<?php
+// Ling Jien Chen 
 //Id generating from here: https://stackoverflow.com/questions/307486/short-unique-id-in-php
 function gen_uuid($len=8) {
 

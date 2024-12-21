@@ -432,23 +432,23 @@ function createBooking(){
         var type = 'booking';
     } else {
         var type = 'pending';
-        if (start.getDate() != stop.getDate()){
-            elem.style.color = 'red';
-            elem.innerHTML = "Cannot create event. Dates aren't in same day.";
-            return;
-        }
+    }
+    if (start.getDate() != stop.getDate()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Dates aren't in same day.";
+        return;
+    }
 
-        if (start >= stop){
-            elem.style.color = 'red'
-            elem.innerHTML = "Cannot create event. End time after start time.";
-            return;
-        }
-    
-        if (start <= new Date()){
-            elem.style.color = 'red';
-            elem.innerHTML = "Cannot create event. Date before current date and time";
-            return;
-        }
+    if (start >= stop){
+        elem.style.color = 'red'
+        elem.innerHTML = "Cannot create event. End time after start time.";
+        return;
+    }
+
+    if (start <= new Date()){
+        elem.style.color = 'red';
+        elem.innerHTML = "Cannot create event. Date before current date and time";
+        return;
     }
 
     var xhttp = new XMLHttpRequest();
@@ -503,7 +503,13 @@ function addEvent(){
     var stop = new Date(getValue('event_stop'));
     var desc = getValue('event_desc');
     var filter = getValue('event_filter');
-    var recurrence = getValue('recurrence');
+    var recurrence_inputs = document.getElementById('recurrence').querySelectorAll('input');
+    var recurrence = '';
+    recurrence_inputs.forEach(element => {
+        if (element.checked){
+            recurrence = element.value;
+        }
+    });
 
     var elem = document.getElementById('calendar-create-error');
     if (start.getDate() != stop.getDate()){
@@ -530,7 +536,7 @@ function addEvent(){
                 elem.style.color = 'red';
                 elem.innerHTML = this.responseText;
             }
-            if (this.responseText == 'Created booking'){
+            if (this.responseText.includes('Created')){
                 elem.style.color = 'green';
                 elem.innerHTML = 'Booking created.';
                 document.getElementById('calendar-create-form').reset();
@@ -675,7 +681,7 @@ function popoutEvent(){
                             ${results[4]}
                         </div>
                     </div>
-                    <span class='delete_btn' style='visibility: ${results[8] == 'staff' ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
+                    <span class='delete_btn' style='visibility: ${results[8] == 'staff' || results[11] ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
                 </div>`;
 
                 var form_holder = document.getElementById('booking-form-holder');
@@ -731,8 +737,8 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
     var eventStopTime = new Date(Number(eventStopTimestamp));
 
     timeDiff = (eventStopTime - eventStartTime)/1000/60;
-    eventTop = calc(`${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes())/ 60}`);
-    eventHeight = calc(`${timeHeight} * ${timeDiff / 60}`);
+    eventTop = `calc(${timeHeight} * ${(eventStartTime.getHours() * 60 + eventStartTime.getMinutes())/ 60});`
+    eventHeight = `calc(${timeHeight} * ${timeDiff / 60});`
     forcePadding = timeDiff < 30;
 
     var column = document.getElementById(`time-col-${columnid}`);
@@ -740,7 +746,7 @@ function addEventToCalendar(columnid, eventTitle, eventDesc, eventStartTimestamp
         return;
     }
     // var redirect_data = eventType == 'availability' ? redirectToEvent("${eventID}"); : '';
-    var redirect_data = redirectToEvent("${eventID}");
+    var redirect_data = `redirectToEvent("${eventID}");`
     var eventPast = eventStopTime <= new Date();
     var eventCurrent = eventStartTime <= new Date() && new Date() <= eventStopTime;
 

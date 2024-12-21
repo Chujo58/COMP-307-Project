@@ -1,3 +1,4 @@
+// Chloé Legué, Ling Jie Chen, Rachel Shi, Sophia Zhou
 //NAVBAR FUNCTIONS
 var popup_default_inner = '';
 var navbarIds = ['home','signup','login', 'logout', 'dashboard', 'calendar'];

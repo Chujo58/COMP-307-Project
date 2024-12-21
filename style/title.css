@@ -2,7 +2,7 @@
 :root {
     --title-img-height: 50vh;
 }
-
+/* Chloé Legué */
 @media screen and (max-device-width: 750px), screen and (max-width: 750px) {
     .page-title{
         left: 45% !important;

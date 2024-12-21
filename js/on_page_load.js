@@ -1,3 +1,4 @@
+// Chloé Legué
 const menu = `<a class="site-navbar" id="navbar-menu"><img src="./icons/icons8-menu-win.svg"></a>`
 const logo = `<a class="site-navbar" href="./index.php?Page=Home" id="logo" onclick="navbarClick('home');"><img src="./icons/307logo_fixed.svg"></a>`
 const home = `<a class="site-navbar nav-item" href="./index.php?Page=Home" id="home" onclick="navbarClick('home');">Home</a>`

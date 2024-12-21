@@ -1,4 +1,5 @@
 <?php
+// Chloe Legué
 session_start();
 
 function isEventOverlapping($db, $newEventStart, $newEventStop) {
@@ -48,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         exit();
     }
 
-    function echoLikeCSV($array, $staff, $student, $student_email)
+    function echoLikeCSV($array, $staff, $student, $student_email, $isStudentWhoCreatedEvent)
     {
-        echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . ',' . $array['event_type'] . ',' . $student_email . '\n';
+        echo $array['event_name'] . ',' . $array['event_desc'] . ',' . $array['event_start'] . ',' . $array['event_stop'] . ',' . $array['event_filter'] . ',' . $array['event_id'] . ',' . $staff . ',' . $student . ',' . $_SESSION['user_type'] . ',' . $array['event_type'] . ',' . $student_email . ',' . $isStudentWhoCreatedEvent .'\n';
     }
 
     $query = "SELECT event_name, event_desc, event_start, event_stop, event_filter, event_id, staff_id, student_id, event_type FROM events WHERE event_id = :event_id";
@@ -87,7 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $student_email = '';
             }
 
-            echoLikeCSV($row, $staff, $student, $student_email);
+            $isStudent = $_SESSION['user_id'] == $row['student_id'];
+
+            echoLikeCSV($row, $staff, $student, $student_email, $isStudent);
         }
     }
 }

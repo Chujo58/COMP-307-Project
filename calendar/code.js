@@ -679,7 +679,7 @@ function popoutEvent(){
                             ${results[4]}
                         </div>
                     </div>
-                    <span class='delete_btn' style='visibility: ${results[8] == 'staff' || results[11] ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
+                    <span class='delete_btn' style='visibility: ${results[8] == 'staff' || (results[8] == 'student' && results[11]) ? 'visible' : 'hidden'}' onclick='deleteEvent("${results[5]}");'><img src='icons/pulsar_line_trash.png'></span>
                 </div>`;
 
                 var form_holder = document.getElementById('booking-form-holder');

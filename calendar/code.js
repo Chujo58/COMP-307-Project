@@ -365,9 +365,10 @@ function showCreate(){
                                 <label for="recurrence3">Monthly</label>
                             </div>
                         </div>
-                        <input type="button" value="Create" style="cursor: pointer;" onclick="addEvent();">
+                        <input type="button" id='form_button' value="Create" style="cursor: pointer;" onclick="addEvent();">
                     </form>
             `;
+            setEvent(document.getElementById('calendar-create-form'));
 
             //<input type="text" name="event_filter" id="event_filter" placeholder="Course Name" onfocusout="isFieldEmpty('event_filter')">
             loadCourse();
@@ -713,9 +714,10 @@ function popoutEvent(){
                             <input type="email" class="hidden-form" name="email" id="email_book" placeholder="Email" onfocusout="isFieldEmpty('email')">
                             <div></div>
                             
-                            <input type="button" value="Create" style="cursor: pointer;" onclick="createBooking();">
+                            <input type="button" id='form_button' value="Create" style="cursor: pointer;" onclick="createBooking();">
                         </form>
                         `;
+                        setEvent(document.getElementById("booking-form"));
                         // form_holder.style.width = '35%';
                         // document.getElementById('event-informations').style.width = '65%'
                 } else {
